@@ -13,6 +13,8 @@ SmartThings
 
 Smart Block
 -------------
+What is Smart Block? https://www.youtube.com/watch?v=htfYUPXLYIA
+
 Users can have difficulty in writing SmartApp in Groovy code textually.
 
 Smart Block which is a visual block language can help users develop SmartApp easily by building blocks graphically.
