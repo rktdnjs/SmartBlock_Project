@@ -11,12 +11,12 @@ SmartThings
 **SmartApp** is a Groovy-based program that allows developers to create automation for users to tap into the capabilities of SmartDevice.
 
 
-What is Smart Block
+What is Smart Block?
 -------------
 What is Smart Block? See this video: https://www.youtube.com/watch?v=htfYUPXLYIA
 
 
-Why do users need Smart Block?
+Why Smart Block?
 -------------
 Users can have difficulty in writing SmartApp in Groovy code textually.
 
