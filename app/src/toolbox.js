@@ -1,6 +1,9 @@
 Blockly.devicesFlyoutCallback_event = function(workspace) {
+	// xmlList를 초기화
 	var xmlList = [];
 	
+	// 선택한 장치 selected_dev의 각 이벤트 항목 item에 대하여
+	// 적절한 속성의 블록을 만들어 xmlList에 추가
 	selected_dev.forEach(function(itme){
 		var device = itme
 	   if(attrMap.makeBlock(device)){
@@ -9,7 +12,12 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 				var id = attr.id
 				var type = attr.type
 	
+				// block/event.js의 event_block 함수 호출하여
+				// 이벤트 블록을 만들어 리턴하는 함수를
+				// Blockly.SmartThings 배열에 등록
 				event_block(device, "Single", type, id);
+
+				// xmlList에 위 이벤트 블록과 동일 이름의 xml을 만들어 추가
 				xmlList.push(addXml("e_"+device+"Single"+type+id))
 			}else if(attrMap.isMultiple(device)){
 				var attr_map = attrMap.getMultiple(device)
@@ -96,6 +104,8 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 		 xmlList.push(block)
 	} 
 		 
+	// 추가된 블록들을 포함하는 xmlList를 리턴하면
+	// Blockly에서 이를 모두 메뉴로 보여줌
 	return xmlList;
 };
 
