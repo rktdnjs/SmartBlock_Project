@@ -21,6 +21,8 @@ Blockly.SmartThings['ea'] = function(block) {
 	return rule;
 };
 
+// [Structure]
+//  - Page = { name, option, section }
 function Page(){
   this.name;
   this.option;
@@ -28,19 +30,32 @@ function Page(){
 }
 
 
-
+// [Structure]
+//  - (simple) ECA = { event, condition, action }
+//           Todo: rename condition2 by something better?
 function simpleECA(statements_event, value_condition,statements_action) {
 		this.event = statements_event;
 		this.condition = value_condition;
 		this.action = statements_action;
 		this.condition2 = null
 }
+
+// [Structure]
+//  - ECA_flow is for verification only used in verification.js
+// 
 function simpleECA_flow(statements_event, value_condition, value_condition2, statements_action) {
 		this.event = statements_event;
 		this.condition = value_condition;
 		this.action = statements_action;
 		this.condition2 = value_condition2
 }
+
+// [Structure]
+//  - ECA = { event, condition, actionList, 
+//            input_e_make : array of Inpute,
+//            input_a_make : array of Inputa, 
+//            intput_c_make  : array of ???
+//          }
 function ECA(statements_event, value_condition, statements_action) {
 	this.event = statements_event;
     this.condition = value_condition;
@@ -329,6 +344,14 @@ function Inpute(e) {
 	}
 }
 
+// [Structure]
+//   Event = { device, devname, abstract_,
+//             attr, event_handler, 
+//             from, to, 
+//             initmethod,
+//             time, timehandler, timevar
+//           }
+//  Todo: can the structure be refined more?
 function Event() {
 	this.device;
 	this.devname;
@@ -347,6 +370,8 @@ function Event() {
 	this.timevar;
 }
 
+// [Structure]
+//   Condition = { right, left, operator, result, functionhandler }
 function Condition(){
 	this.right;
 	this.left;
@@ -356,6 +381,13 @@ function Condition(){
 	this.functionhandler;
 }
 
+// [Structure]
+//   Action = { devname, device, 
+//              command, command_part,
+//              time, timerhandler,
+//              method, arginput : array of ???,
+//              functionhandler
+//              state, state_command, valueinput : array of ???}
 function Action() {
 	this.devname;
 	this.device;
@@ -377,6 +409,8 @@ function Action() {
 
 }
 
+// [Structure]
+//   Grouping = { type, p, list }
 
 function Grouping() {
 	this.type;
@@ -385,9 +419,18 @@ function Grouping() {
 }
 
 
+/* Unused ???
 function Condition_devs() {
 	this.list = new Array();
 }
+*/
+
+// [Structure]
+// Inputa = { this.devname,
+//            this.device, 
+//            this.input
+//           }
+
 function Inputa(a) {
 	this.devname
 	this.device 
