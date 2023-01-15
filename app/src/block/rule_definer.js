@@ -1,4 +1,7 @@
 
+// rule_definer.js defines blockly blocks and 
+// rule_generator.js defines how to generate SmartThings codes
+
 Blockly.Blocks['eca'] = {
 	init: function() {
 		this.appendValueInput("Event")
