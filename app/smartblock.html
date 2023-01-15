@@ -205,6 +205,8 @@
      
 	function click3(){
 
+		// Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
+		// 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
 		var ecaList = Blockly.SmartThings.workspaceToCode(workspace);
 		if(ecaList != null){
 			var result_verification = verification(ecaList);
