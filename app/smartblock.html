@@ -149,6 +149,7 @@
 				</pre>
 
 				<button id="save_but" onClick="saveCode()">SaveCode</button>
+				<button id="save_block_but" onClick="saveBlock()">SaveBlock</button>
 			</div>
 		</div>
 		<!-- Rule, Preferences, Code 탭 버튼 -->
@@ -223,6 +224,8 @@
 				_("in_box2").style.display = "none"
 				_("in_box3").style.display = ""
 				_("save_but").style.visibility  = "visible"
+				_("save_block_but").style.visibility  = "visible"
+
 			
 				_("click1").style.background = "#fff"
 				_("click2").style.background = "#fff"
@@ -255,12 +258,33 @@
 		}
 	}
 
+
+	function saveBlock() {
+		try{
+			var fileName = document.getElementById("name").value;
+			if(fileName){
+				// var block = Blockly.serialization.ISerializer.save(workspace);
+				var blockArr = workspace.getAllBlocks();
+
+				console.log(blockArr[0]);
+				
+				var blob = new Blob([blockArr], {type: "text/plain;charset=utf-8"});
+				saveAs(blob, fileName+".block");
+			}else{
+				alert("plz write the App name");
+			}
+		}catch(e){
+			alert(e);
+		}
+	}	
+
 	function click2(){
 
 		_("in_box1").style.display = "none"
 		_("in_box2").style.display = ""
 		_("in_box3").style.display = "none"
 		_("save_but").style.visibility  = "hidden"
+		_("save_block_but").style.visibility  = "hidden"
 		
 		_("click1").style.background = "#f8f8f8"
 		_("click2").style.background = "#f2fbfc"
@@ -281,6 +305,7 @@
 		_("in_box2").style.display = "none"
 		_("in_box3").style.display = "none"
 		_("save_but").style.visibility  = "hidden"
+		_("save_block_but").style.visibility  = "hidden"
 		
 		_("click1").style.background = "#f2fbfc"
 		_("click2").style.background = "#f8f8f8"

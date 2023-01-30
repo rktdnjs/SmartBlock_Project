@@ -311,6 +311,27 @@ button{
     background-color: #eee;
 
 }
+#save_block_but{
+	visibility: hidden;
+	position:absolute;
+	top:50px;
+	left:1100px;
+	font-family: NotoSansCJKkr-Thin;
+	width: 80px;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;
+    color: #999;
+    background-color: #fff;
+	border:none;
+    box-shadow: 0 3px 5px #ddd;
+	outline: none;
+	transition: all 0.25s ease-in-out;
+}
+#save_block_but:hover{
+    background-color: #eee;
+
+}
 #smartApp_code{
 	position:absolute;
 width: 1180px;
