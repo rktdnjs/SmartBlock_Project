@@ -39,6 +39,11 @@ VerificationMap.prototype = {
 	}
 };  
 
+// 장치 목록 deviceSet에 장치를 추가하는 함수
+//     setDeivce를 호출하는 함수 
+//       * AttibuteMap의 putSingle, putMultiple
+//       * CommandMap의 putCommand, putMethod, putMethods
+
 function setDevice(device){
 		deviceCount.set(device, parseInt("1"))
 		deviceSet.add(device)

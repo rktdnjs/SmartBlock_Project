@@ -64,18 +64,19 @@
 
 [Event]------------------------------------------
 
- Event : e_installed
-         inpute_data
-	 specific_event
-	 e_location
-         e_app
-	 any
-	 e_time
-         e_day
-	 e_week
-	 input_time
-	 e_timer
-	 e_updated
+ Event :
+   e_installed
+   inpute_data
+   specific_event
+   e_location
+   e_app
+   any
+   e_time
+   e_day
+   e_week
+   input_time
+   e_timer
+   e_updated
 
 ---(Timer events)---------------------------------
 
@@ -216,11 +217,95 @@ Blockly.Blocks['any'] = {
    * ./src/block/grouping.js
 
 
+[Condition]---------------------------------------
+
+Condition:
+
+  *선택한 디바이스들 목록에서 조건*
+
+  operation
+  negate
+  boolean
+  compare
+  dev_attr
+  device_list
+
+  inputc_data
+  datac
+  condition_state
+  math_condition
+  is_null
+  last_event_data
+  already_enum
+  already_num
+  happen_enum_dropdown
+  now_c
+  function_invocation_c
+  getsunrise_c
+  getsunset_c
+  getlocation_c
+  getlocationmode_c
+  getweatherfeature_c
+
+  all
+  exists
+
+ - Block index : 
+
+   1) Dummy input : device
+      Field : type
+      Field : any
+      
+   2) Statement input : group
+      Check : group
+      Output : Event
+
+   * ./src/block/grouping.js
+
 
 [Action]------------------------------------------
 
+Action:
+
+  *선택한 디바이스들 목록에서 액션*
+
+  action_group
+  inputa_data
+  dataa
+  action_state
+  action_state_def
+  math_action
+  send
+  sendpush
+  sendsms
+  sendnotification
+
+  a_timer_after
+  a_timer_every
+  a_time
+  a_day
+  a_week
+  a_stop
+  
+  *map group 액션 
+
+  now_a
+  function_invocation_a
+  subscribe_method
+  location_a
+  app_a
+  getlocation_a
+  getsunrise_a
+  getsunset_a
+  getweatherfeature_a
+  setlocationmode_a
+
+--------------------------------------------------
+SmartBlock에 사용한 장치 목록
+  * ./src/cap/cap.js
 
 
+--------------------------------------------------
 
 ./src/block/action_device.js
 	Blockly.Blocks['a_'+device+type] = {

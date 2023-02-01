@@ -112,6 +112,9 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 
 Blockly.devicesFlyoutCallback_condition = function(workspace) {
 	var xmlList = [];
+
+	// 선택한 장치 selected_dev의 각 이벤트 항목 item에 대하여
+	// 적절한 속성의 블록을 만들어 xmlList에 추가
 	selected_dev.forEach(function(itme){
 		var device = itme;
 
