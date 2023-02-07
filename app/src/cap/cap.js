@@ -1,5 +1,9 @@
 function mapInit(){ 
-    try{ //ÇÑ µğ¹ÙÀÌ½º´ç attrMapÀÇ enum°ú number´Â 1°³¾¿
+	// Attributes (id, type, value)
+	// putSingle(device, attributes)
+	// putMultiple(device, attributes1)
+	// putMultiple(device, attributes2)
+    try{ //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ attrMapï¿½ï¿½ enumï¿½ï¿½ numberï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½
         attrMap.putSingle("accelerationSensor", new Attributes("acceleration", "ENUM", ["active", "inactive"])); 
 		//actuator
         attrMap.putSingle("airConditionerMode", new Attributes("airConditionerMode",  "ENUM", ["auto", "cool", "dry", "coolClean", "dryClean", "fanOnly", "heat", "heatClean", "notSupported"])); 
@@ -119,9 +123,10 @@ function mapInit(){
 		attrMap.putSingle("windowShade", new Attributes("windowShade", "ENUM", ["closed", "closing", "open", "opening", "unknown"])); 
 		//69
 
-        //putCommand
-		//putMethod
-		//ÇÑ µğ¹ÙÀÌ½º´ç commMap command¿Í method´Â 1°³
+        //putCommand (Device, Commands)
+		//putMethod (Device, Command method)
+		// Command_method (ID, TYPE, VALUE, [args ìˆ«ì])
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ commMap commandï¿½ï¿½ methodï¿½ï¿½ 1ï¿½ï¿½
         commMap.putCommand("alarm", ["both", "off", "siren", "strobe"]); 
         commMap.putMethod("airConditionerMode",  new Command_method("setDishwasherMode", "ENUM", ["auto", "cool", "dry", "coolClean", "dryClean", "fanOnly", "heat", "heatClean", "notSupported"]));
         commMap.putCommand("audioMute", ["mute", "unmute"]);
@@ -148,7 +153,7 @@ function mapInit(){
         commMap.putCommand("lock", ["lock", "unlock"]);   
 
 		commMap.putCommand("polling", ["poll"]);  
-		//2°³ ´Ù musicPlayer
+		//2ï¿½ï¿½ ï¿½ï¿½ musicPlayer
 		commMap.putCommand("musicPlayer", ["mute", "nextTrack", "pause", "play", "stop", "unmute"]);  
 		//commMap.putMethod("musicPlayer", new Command_method("setTrack", "string", null)); 
        commMap.putCommand("mediaPlayback", ["play", "pause", "stop"]);   

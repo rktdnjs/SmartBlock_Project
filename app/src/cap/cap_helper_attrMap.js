@@ -3,6 +3,8 @@ AttributeMap = function(){
     this.multiple = new Array(); 
 };   
 AttributeMap.prototype = {  
+	// putSingle: key -> attr
+	// putMultiple: key -> map{ attr.id -> attr }
 	putSingle : function(key, attr){  
 		setDevice(key);
 		if(attr.constructor == Attributes){

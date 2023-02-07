@@ -8,13 +8,13 @@
 
 [Rule]--------------------------------------------
 
- Rule : eca
+ Rule : eca        // 블록 인덱스 (e.g., Blockly.Blocks[ 블록 인덱스 ])
         ea
         ca
 
  - Block index : eca
  
-   1) Value input : Event
+   1) Value input : Event           // eca 블록의 구조 1), 2), 3)
       Check : Event
       Field : Event
 
@@ -26,7 +26,7 @@
       Check : Action
       Field : Action
 
-   * Previous statement : ECA | EA
+   * Previous statement : ECA | EA    
    * Next statement : ECA | EA
    
    * ./src/block/rule_definer.js
@@ -754,183 +754,214 @@ SmartBlock에 사용한 장치 목록
 
 --------------------------------------------------
 
+// 장치 커맨드와 메소드
+// 
+//  커맨드 : [ "커맨드1", ..., "커맨드k" ]
+//  메소드 : 메소드 이름 (ID)
+//                 인자 타입 number, string, enum 등등 
+//                 (인자 타입이 number, string이면 arg value는 널!)
+//                 (인자 타입이 enum이면 arg VALUE에 enum 상수를 나열!)
 
-./src/block/action_device.js
-	Blockly.Blocks['a_'+device+type] = {
-	Blockly.Blocks['a_'+device+type] = {
-./src/block/rule_generator.js
-./src/block/_definer_helper.js
-./src/block/grouping.js
-	Blockly.Blocks["group"] = {
-	Blockly.Blocks['lists_create_with_container'] = {
-	Blockly.Blocks['lists_create_with_item'] = {
-Blockly.Blocks['all'] = {
-Blockly.Blocks['exists'] = {
-Blockly.Blocks['map'] = {
-./src/block/action_timer.js
-Blockly.Blocks['a_timer_after'] = {
-Blockly.Blocks['a_timer_every'] = {
-Blockly.Blocks['a_stop'] = {
-Blockly.Blocks['a_time'] = {
-Blockly.Blocks['a_day'] = {
-Blockly.Blocks['a_week'] = {
-./src/block/action_list.js
-Blockly.Blocks['action_group'] = {
-Blockly.Blocks['lists_create_with_action_container'] = {
-Blockly.Blocks['lists_create_with_action'] = {
-./src/block/ECA_plus.js
-Blockly.Blocks['eca_group'] = {
-Blockly.Blocks['lists_create_with_eca_container'] = {
-Blockly.Blocks['lists_create_with_eca'] = {
-./src/block/action_definer.js
-Blockly.Blocks['math_action'] = {
-Blockly.Blocks['action_state_def'] = {
-Blockly.Blocks['action_state'] = {
-Blockly.Blocks['dataa'] = {
-Blockly.Blocks['inputa_data'] = {
-Blockly.Blocks['send'] = {
-Blockly.Blocks['sendpush'] = {
-Blockly.Blocks['sendsms'] = {
-Blockly.Blocks['sendnotification'] = {
-Blockly.Blocks['function_invocation_a'] = {
-Blockly.Blocks['getlocation_a'] = {
-Blockly.Blocks['getsunrise_a'] = {
-Blockly.Blocks['getsunset_a'] = {
-Blockly.Blocks['time_a'] = {
-Blockly.Blocks['getweatherfeature_a'] = {
-Blockly.Blocks['setlocationmode_a'] = {
-Blockly.Blocks['now_a'] = {
-Blockly.Blocks['subscribe_method'] = {
-Blockly.Blocks['location_a'] = {
-Blockly.Blocks['app_a'] = {
-./src/block/event.js
-Blockly.Blocks['specific_event'] = {
-	Blockly.Blocks['e_'+device+s_m+type+id]= {
-Blockly.Blocks['inpute_data'] = {
-Blockly.Blocks['e_location'] = {
-Blockly.Blocks['e_app'] = {
-Blockly.Blocks['e_installed'] = {
-Blockly.Blocks['e_updated'] = {
-	Blockly.Blocks['e_sub'+input_block[3]] = {
-./src/block/event_timer.js
-Blockly.Blocks['e_time'] = {
-Blockly.Blocks['e_day'] = {
-Blockly.Blocks['e_week'] = {
-Blockly.Blocks['input_time'] = {
-Blockly.Blocks['e_timer'] = {
-./src/block/condition_generator.js
-./src/block/condition_definer.js
-Blockly.Blocks['operation'] = {
-Blockly.Blocks['compare'] = {
-Blockly.Blocks['boolean'] = {
-Blockly.Blocks['negate'] = {
-Blockly.Blocks['math_condition'] = {
-Blockly.Blocks['dev_attr'] = {
-Blockly.Blocks['device_list'] = {
-Blockly.Blocks['datac'] = {
-Blockly.Blocks['inputc_data'] = {
-Blockly.Blocks['function_invocation_c'] = {
-Blockly.Blocks['is_null'] = {
-Blockly.Blocks['already_enum'] = {
-Blockly.Blocks['already_num'] = {
-Blockly.Blocks['happen_enum_dropdown'] = {
-Blockly.Blocks['getlocation_c'] = {
-Blockly.Blocks['getsunrise_c'] = {
-Blockly.Blocks['getsunset_c'] = {
-Blockly.Blocks['getweatherfeature_c'] = {
-Blockly.Blocks['getlocationmode_c'] = {
-Blockly.Blocks['now_c'] = {
-Blockly.Blocks['condition_state'] = {
-Blockly.Blocks['last_event_data'] = {
-Blockly.Blocks['toDateTime'] = {
+   alarm:
+      ["both", "off", "siren", "strobe"]
 
+   airConditionerMode:
+      Method ID(setDishwasherMode)
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "cool", "dry", "coolClean", "dryClean", 
+                       "fanOnly", "heat", "heatClean", "notSupported"]
 
+   audioMute:
+      ["mute", "unmute"]
 
-./src/block/preference.js
-	Blockly.Blocks['input '+devname] = {
-Blockly.Blocks['page'] = {
-Blockly.Blocks['section'] = {
-Blockly.Blocks['dynamicpage'] = {
-./src/block/option.js
-Blockly.Blocks['option_required'] = {
-Blockly.Blocks['option_multiple'] = {
-Blockly.Blocks['option_title'] = {
-Blockly.Blocks['option_name'] = {
-Blockly.Blocks['option_nextpage'] = {
-Blockly.Blocks['option_install'] = {
-Blockly.Blocks['option_uninstall'] = {
-./src/block/condition_device.js
-	Blockly.Blocks['c_'+device+type] = {
-./src/block/action_generator.js
-./src/highlight/highlight.pack.js
-./src/codegenerate3(handlers).js
-./src/codegenerate2(predefined).js
-./src/cap/cap_helper_commMap.js
-./src/cap/cap_helper_attrMap.js
-./src/cap/cap_helper.js
-./src/cap/cap.js
-./src/toolbox.js
-	if (Blockly.Blocks["e_installed"]) {
-	if (Blockly.Blocks["inpute_data"]) {
-	if (Blockly.Blocks["specific_event"]) {
-	if (Blockly.Blocks["e_location"]) {
-	if (Blockly.Blocks["e_app"]) {
-	if (Blockly.Blocks["e_updated"]) {
-	if (Blockly.Blocks["inputc_data"]) {
-	if (Blockly.Blocks["datac"]) {
-	 if (Blockly.Blocks["condition_state"]) {
-	if (Blockly.Blocks["math_condition"]) {
-	 if (Blockly.Blocks["is_null"]) {
-	if (Blockly.Blocks["last_event_data"]) {
-	if (Blockly.Blocks["already_enum"]) {
-	if (Blockly.Blocks["already_num"]) {
-	if (Blockly.Blocks["happen_enum_dropdown"]) {
-	if (Blockly.Blocks["now_c"]) {
-	 if (Blockly.Blocks["function_invocation_c"]) {
-	if (Blockly.Blocks["getsunrise_c"]) {
-	if (Blockly.Blocks["getsunset_c"]) {
-	if (Blockly.Blocks["getlocation_c"]) {
-	if (Blockly.Blocks["getlocationmode_c"]) {
-	if (Blockly.Blocks["getweatherfeature_c"]) {
-	if (Blockly.Blocks["action_group"]) {
-	 if (Blockly.Blocks["inputa_data"]) {
-	 if (Blockly.Blocks["dataa"]) {
-	 if (Blockly.Blocks["action_state"]) {
-	 if (Blockly.Blocks["action_state_def"]) {
-	 if (Blockly.Blocks["math_action"]) {
-	if (Blockly.Blocks["send"]) {
-	 if (Blockly.Blocks["sendpush"]) {
-	if (Blockly.Blocks["sendsms"]) {
-	if (Blockly.Blocks["sendnotification"]) {
-	if (Blockly.Blocks["now_a"]) {
-	 if (Blockly.Blocks["function_invocation_a"]) {
-	if (Blockly.Blocks["subscribe_method"]) {
-	if (Blockly.Blocks["location_a"]) {
-	if (Blockly.Blocks["app_a"]) {
-	if (Blockly.Blocks["getlocation_a"]) {
-	if (Blockly.Blocks["getsunrise_a"]) {
-	if (Blockly.Blocks["getsunset_a"]) {
-	if (Blockly.Blocks["getweatherfeature_a"]) {
-	if (Blockly.Blocks["setlocationmode_a"]) {
-	 if (Blockly.Blocks["e_time"]) {
-	 if (Blockly.Blocks["e_day"]) {
-	 if (Blockly.Blocks["e_week"]) {
-	 if (Blockly.Blocks["input_time"]) {
-	 if (Blockly.Blocks["e_timer"]) {
-	 if (Blockly.Blocks["a_timer_after"]) {
-	 if (Blockly.Blocks["a_timer_every"]) {
-	 if (Blockly.Blocks["a_time"]) {
-	 if (Blockly.Blocks["a_day"]) {
-	 if (Blockly.Blocks["a_week"]) {
-	 if (Blockly.Blocks["a_stop"]) {
-	 if (Blockly.Blocks["operation"]) {
-	 if (Blockly.Blocks["negate"]) {
-	 if (Blockly.Blocks["boolean"]) {
-	 if (Blockly.Blocks["compare"]) {
-	 if (Blockly.Blocks["dev_attr"]) {
-	 if (Blockly.Blocks["device_list"]) {
-		 if (Blockly.Blocks["any"]) {
-		 if (Blockly.Blocks["map"]) {
-		 if (Blockly.Blocks[b]) {
-		 if (Blockly.Blocks[b]) {
+   audioMute:
+      Method ID(setMute), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
 
+	//audioNotification
+
+   audioVolume:
+      ["volumeUp", "volumeDown"]
+       
+	   Method ID (setVolume), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+
+   colorControl:
+      Method ID (setColor), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+      Method ID (setHue), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+
+      Method ID (setSaturation), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   colorTemperature
+      Method ID (setColorTemperature), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   dishwasherMode:
+      Method ID (setDishwasherMode), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["auto", "quick", "rinse", "dry"]
+
+   dishwasherOperatingState:
+      Method ID (setMachineState), 
+            ARG TYPE (ENUM),
+            ARG VALUE ["pause", "run", "stop"]
+
+   doorControl:
+      ["close", "open"]
+
+   dryerMode:
+      Method ID(setDryerMode), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["regular", "lowHeat", "highHeat"]
+
+   dryerOperatingState:
+      Method ID(setMachineState), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["pause", "run", "stop"]
+
+   fanSpeed:
+      Method ID(setFanSpeed), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   garageDoorControl:
+      ["close", "open"]
+
+   imageCapture: 
+      ["take"]
+
+	light:
+      ["off", "on"]
+
+   lock:
+      ["lock", "unlock"]
+
+	polling:
+      ["poll"]
+
+	//2�� �� musicPlayer
+	musicPlayer:
+      ["mute", "nextTrack", "pause", "play", "stop", "unmute"]
+
+	   Method ID(setTrack), 
+            ARG TYPE(string), 
+            ARG VALUE (null)
+
+   mediaPlayback:
+      ["play", "pause", "stop"]
+
+	momentary:
+      ["push"]
+
+   outlet:
+      ["off", "on"]
+
+   ovenMode:
+      Method ID(setOvenMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["heating", "grill", "warming", "defrosting"]
+
+   ovenSetpoint:
+      Method ID(setOvenSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+         
+	//ovenOperatingState
+
+   robotCleanerCleaningMode:
+      Method ID(setRobotCleanerCleaningMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "part", "repeat", "manual", "stop"]
+
+   robotCleanerMovement:
+      Method ID(setRobotCleanerMovement), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["homing"]
+
+   rapidCooling:
+      Method ID(setRapidCooling), 
+            ARG TYPE(number), 
+            ARG VALUE(null) 
+	
+	refrigerationSetpoint:
+      Method ID(setRefrigerationSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+	//signalStrength
+
+   switchLevel:
+      Method ID(setLevel),
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+   switch:
+      ["off", "on"]
+
+   thermostatHeatingSetpoint:
+      Method ID(setHeatingSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+   thermostatCoolingSetpoint:
+      Method ID(setCoolingSetpoint),
+            ARG TYPE (number), 
+            ARG VALUE(null)
+		
+	thermostatFanMode:
+      ["fanAuto", "fanCirculate", "fanOn"]
+
+	thermostatFanMode:
+      Method ID(setThermostatFanMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "circulate", "followschedule", "on"]
+
+   thermostatMode:
+      ["auto", "cool", "emergencyHeat", "heat", "off"]
+
+	//thermostat
+
+	tvChannel:
+      ["channelUp", "channelDown"]
+
+      Method ID(setTvChannel), 
+            ARG TYPE(STRING), 
+            ARG VALUE(null)
+
+	tone:
+      ["beep"]
+
+	valve:
+      ["close", "open"]
+
+	//videoClips
+
+	videoStream:
+      ["startStream", "stopStream"]
+
+   washerMode:
+      Method ID(setWasherMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["regular", "heavy", "rinse", "spinDry"]
+
+   washerOperatingState:
+      Method ID(setMachineState), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["pause", "run", "stop"]
+		
+	windowShade
+      ["close", "open", "presetPosition"]
+
+		//46
+
+--------------------------------------------------
