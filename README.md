@@ -43,7 +43,11 @@ https://ieeexplore.ieee.org/document/8377826
 
 ISSUES
 -------------
-- Code Save 이후 다시 Code 탭으로 가면, 기존의 블록들이 전부 사라짐
-- 또한 Rule, Event, Condition, Action 탭 또한 뜨지 않아 더 이상 블록을 추가할 수 없음
-- CSS 상의 문제인 것으로 보이는데, Preferences의 탭의 오른쪽 하단의 쓰레기통 아이콘이 이상함
-- saveCode와 관련된 로직을 공부해보고, 수정해 볼 예정!
+- saveCode와 관련된 로직(코드 저장 및 불러오기)을 공부해보고, 수정해야 함(핵심)!
+- SmartBlock 페이지의 App Name 옆의 + 버튼과 연관된 help.js의 app_info()함수로 실행하는 app_info.html의 역할에 대한 연구 필요
+- SaveCode 혹은 SaveBlock(왼쪽 2개의 로직은 현재 같음) 이후 다시 Code 혹은 Preferences 탭으로 가면, 기존의 블록들이 전부 사라지며 Rule, Event, Condition, Action 탭 또한 뜨지 않아 더 이상 블록을 추가할 수 없음 -> (가끔 이러한 현상이 발견된다, 일단 패스!)
+
+Complete!
+-------------
+- CSS 상의 문제인 것으로 보이는데, Preferences의 탭의 오른쪽 하단의 쓰레기통 아이콘이 Code 탭과는 다르다.(해결 완료)
+- SmartBlock 페이지의 App Name 옆의 + 버튼 클릭 시 뜨는 에러 수정하기(해결 완료)
