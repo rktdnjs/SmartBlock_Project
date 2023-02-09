@@ -208,7 +208,6 @@
 	// 도구 상자 - toolbox 카테고리 category 목록을 설정
 	//   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
 	workspace.registerToolboxCategoryCallback('SAMRT_DEVICE_E', Blockly.devicesFlyoutCallback_event);
-
 	workspace.registerToolboxCategoryCallback('SAMRT_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
 	workspace.registerToolboxCategoryCallback('SAMRT_DEVICE_A', Blockly.devicesFlyoutCallback_action);
 
@@ -254,7 +253,7 @@
 			
 	}
 
-
+	// 코드 세이브 함수
 	function saveCode() {
 		try{
 			var fileName = document.getElementById("name").value;
@@ -270,7 +269,7 @@
 		}
 	}
 
-
+	// 블록 세이브 함수
 	function saveBlock() {
 		try{
 			var fileName = document.getElementById("name").value;
@@ -290,6 +289,9 @@
 		}
 	}	
 
+	// toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
+	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
+	// 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여 Sample, Preference, Option, Input 카테고리를 띄우는 것 같음!
 	function click2(){
 
 		_("in_box1").style.display = "none"
@@ -307,7 +309,7 @@
 		if(demoWorkspace2){
 			demoWorkspace2.updateToolbox(toolbox);
 		}else{	
-			demoWorkspace2 = Blockly.inject('blocklyDiv2', {media: '../media/', toolbox: toolbox});
+			demoWorkspace2 = Blockly.inject('blocklyDiv2', {media: 'media/', toolbox: toolbox});
 			Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
 		}	
 	}
@@ -430,7 +432,6 @@
 		+'  </category>\n';
 		return preference_option
 	}
-    
     
 	function toolbox_pre(){
 			

@@ -134,8 +134,11 @@ function share_btn(x){
 
 }
 
+// Smart Block 페이지의 App Name 옆 + 버튼에 대한 함수
+// 경로를 기존의 경로인 support/app_info.html -> src/support/app_info.html로 수정
+// 근데 이 함수를 통해 작동시킨 app_info.html이 정확히 무슨 역할을 하는지는 파악 x
 function app_info(x){
-	var openWin = window.open("support/app_info.html", 'myWindow', 'scrollbars=no,toolbar=no,resizable=no,width=430px,height=450px,left=400,top=100');
+	var openWin = window.open("src/support/app_info.html", 'myWindow', 'scrollbars=no,toolbar=no,resizable=no,width=430px,height=450px,left=400,top=100');
 }
 
 function change_connted_color(block){
