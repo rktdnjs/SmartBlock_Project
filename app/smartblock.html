@@ -143,6 +143,19 @@
 	   <block type="..."></block>
 -->
 
+<!--
+	toolbox
+	  - toolbox는 사용 가능한 블록들 목록
+	  - 워크스페이스에 blocklyDiv id로 지정한 HTML 요소를 인젝트(inject)
+	  - 인젝트할때 toolbox를 지정하여 해당 HTML 요소로 표현된 워크스페이스에서 블록 목록을 사용하도록 함
+	    예시 코드) Blockly.inject('blocklyDiv', { toolbox : toolbox, ...
+
+	Blockly v1.0에서 xml로 toolbox를 작성했지만, v9.x 현재 버전에서는 json으로 작성
+	SmartBlock에서 이러한 형식의 차이로 인해 블록 메뉴 UI가 제대로 동작하지 않음
+
+	[참고]
+	  - https://blocklycodelabs.dev/codelabs/getting-started/index.html#5
+-->
 <xml id="toolbox" style="display: none" >
 	<category name="Rule" colour ="#304777">
 		<block type="eca"></block>
@@ -154,7 +167,9 @@
 		-->
 			  
 	</category>
-	<category name="Event" custom="SAMRT_DEVICE_E" colour ="#5eb7b5"></category>
+	<category name="Event" custom="SAMRT_DEVICE_E" colour ="#5eb7b5">
+		<block type="e_installed"></block>
+	</category>
 	<category name="Condition" custom="SAMRT_DEVICE_C" colour ="#A2CC0D"></category>
 	<category name="Action" custom="SAMRT_DEVICE_A" colour ="#efcd3f"></category>
 </xml>
