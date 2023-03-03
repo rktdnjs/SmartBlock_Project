@@ -146,6 +146,8 @@
 <!--
 	toolbox
 	  - toolbox는 사용 가능한 블록들 목록
+	  - toolbox안에서 블록들을 category로 그룹화할 수 있음
+	    예시) Rule, Event, Condition, Action 
 	  - 워크스페이스에 blocklyDiv id로 지정한 HTML 요소를 인젝트(inject)
 	  - 인젝트할때 toolbox를 지정하여 해당 HTML 요소로 표현된 워크스페이스에서 블록 목록을 사용하도록 함
 	    예시 코드) Blockly.inject('blocklyDiv', { toolbox : toolbox, ...
@@ -155,6 +157,15 @@
 
 	[참고]
 	  - https://blocklycodelabs.dev/codelabs/getting-started/index.html#5
+
+
+	json기반 toolbox 정의
+	   - "kind": "block" // 정적으로 블록 메뉴를 정의
+	   - "type": "eca"
+	   - "custom": "SAMRT_DEVICE_E"   // 동적으로 블록 메뉴 만들때
+
+	[참고]
+	  - https://developers.google.com/blockly/guides/configure/web/toolbox?hl=ko
 -->
 <xml id="toolbox" style="display: none" >
 	<category name="Rule" colour ="#304777">
@@ -173,6 +184,58 @@
 	<category name="Condition" custom="SAMRT_DEVICE_C" colour ="#A2CC0D"></category>
 	<category name="Action" custom="SAMRT_DEVICE_A" colour ="#efcd3f"></category>
 </xml>
+
+<script>
+	const json_toolbox =
+		{
+			"kind": "categoryToolbox",
+			"contents": [
+				{
+					"kind": "category",
+					"name": "Rule",
+					"contents": [
+						{
+							"kind": "block",
+							"type": "eca"
+						},
+						{
+							"kind": "block",
+							"type": "ea"
+						},
+						{
+							"kind": "block",
+							"type": "ca"
+						}
+					]
+					
+				},
+
+				{
+					"kind": "category",
+					"name": "Event",
+					"custom": "SAMRT_DEVICE_E",
+					"contents": [
+						{
+							"kind": "block",
+							"type": "e_installed"
+						}
+					]
+				},
+
+				{
+					"kind": "category",
+					"name": "Condition",
+					"custom": "SAMRT_DEVICE_C"
+				},
+
+				{
+					"kind": "category",
+					"name": "Action",
+					"custom": "SAMRT_DEVICE_A"
+				}		
+			]
+		}
+</script>
 
 <body onload="all()">
 	<center>
@@ -235,7 +298,7 @@
 
 	var options_workspace
 	<!-- Blockly 작업 공간을 만들어 'blocklyDiv' 위치에 주입시킴 -->
-	var workspace = Blockly.inject('blocklyDiv', { toolbox : toolbox, 
+	var workspace = Blockly.inject('blocklyDiv', { toolbox : json_toolbox, 
 												   collapse : false, 
 												   comments : false, 
 												   disable : false, 
