@@ -5,49 +5,350 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Blockly for the Web Codelab</title>
+  <title>Smart Block for SmartThings</title>
 
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <link rel="stylesheet" href="styles/index.css">
+
+  <!-- SmartBlock에서 사용하던 CSS를 가져옴
+       Todo: styles/index.css와 app/src/css/main.css를 합해야함!
+   -->
+  <link rel="stylesheet" type="text/css" href="app/src/css/main.css">
+  <link rel="stylesheet" href="app/src/highlight/styles/default.css">
+
 </head>
 
-<body mode="maker">
-  <header class="mdl-color--cyan-500">
-    <h1 class="mode-maker">Music Maker</h1>
-    <h1 class="mode-edit mode-blockly">Music Maker Configuration</h1>
-  </header>
+<body>
 
-  <main>
-    <button class="mode-maker mdl-button" id="edit">Edit</button>
-    <button class="mode-edit mdl-button mdl-js-button" id="done">Done</button>
-    <button class="mode-blockly mdl-button mdl-js-button" id="save">Save</button>
-    <p class="hint mode-edit">Tap any button to edit its code. <br/>When complete, press Done.</p>
+  <center>
+		<img src="app/src/css/snowblock_logo_s.png" id ="logo">
+	</center>
 
-    <div class="maker">
-      <div>
-        <div class="button mdl-color--amber-500">1</div>
-        <div class="button mdl-color--yellow-500">2</div>
-        <div class="button mdl-color--lime-500">3</div>
+	<div id="top">
+		<div id="app">  
+      <div id="app_name">      
+        <input type="text" id="name" required>
+        <label id="label">App Name</label>
+      </div>  
+      <button onclick="app_info(this)" 
+          id = "app_info" 
+          title="Write specific info of SmartApp"></button>
+		</div>  
+	</div>
+
+	<div>
+    <!-- device_tab 요소를 javascript 코드로
+         장치 목록을 입력받아 만들었는데
+         이 코드의 의존성이 복잡하여 삭제하고
+         이 코드가 만들어낸 HTML 요소를 복사해서
+         그 코드를 대체함!
+     -->
+		<!-- <div id="device_tab" >
+			<script>
+			  document.write(device_table());
+			</script>
+		</div>
+     -->
+    <div id="device_tab">
+			<div class="share-btn" id="Things" onclick="share_btn(this)">
+        <strong><p class="cta">Things</p></strong>
+        <button class="close"></button> 
+        
+        <div class="social" id="Things"> 
+          <button onclick="setting_things(this)" 
+                id="setting_things_open"></button>
+        </div>
       </div>
-      <div>
-        <div class="button mdl-color--pink-500">4</div>
-        <div class="button mdl-color--red-500">5</div>
-        <div class="button mdl-color--light-green-500">6</div>
-      </div>
-      <div>
-        <div class="button mdl-color--cyan-500">7</div>
-        <div class="button mdl-color--teal-500">8</div>
-        <div class="button mdl-color--green-500">9</div>
-      </div>
-    </div>
 
-    <div class="blockly-editor">
-      <div id="blocklyDiv" style="height: 480px; width: 400px;"></div>
-    </div>
-  </main>
+      <div class="share-btn" id="A" onclick="share_btn(this)">
+        <strong><p class="cta">A</p></strong>
+        <button class="close"></button> 
+        <div class="social">
+          <button onclick="change_devbutton_color(this)" 
+                  id="accelerationSensor" class="device_but">accelerationSensor</button>
+          <button onclick="change_devbutton_color(this)" 
+                id="airConditionerMode" class="device_but">airConditionerMode</button>
+          <button onclick="change_devbutton_color(this)" 
+                id="airQualitySensor" class="device_but">airQualitySensor</button>
+          <button onclick="change_devbutton_color(this)" 
+                id="alarm" class="device_but">alarm</button>
+          <button onclick="change_devbutton_color(this)" 
+                id="audioMute" class="device_but">audioMute</button>
+          <button onclick="change_devbutton_color(this)" 
+                id="audioVolume" class="device_but">audioVolume</button>
+        </div>
+      </div>
+      <div class="share-btn" id="B" onclick="share_btn(this)">
+          <strong><p class="cta">B</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="battery" class="device_but">battery</button>
+            <button onclick="change_devbutton_color(this)" id="beacon" class="device_but">beacon</button><button onclick="change_devbutton_color(this)" id="bulb" class="device_but">bulb</button><button onclick="change_devbutton_color(this)" id="button" class="device_but">button</button></div></div>
+      <div class="share-btn" id="C" onclick="share_btn(this)">
+          <strong><p class="cta">C</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="carbonDioxideMeasurement" class="device_but">carbonDioxideMeas</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="carbonMonoxideDetector" class="device_but">carbonMonoxideDet</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="colorControl" class="device_but">colorControl</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="colorMode" class="device_but">colorMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="colorTemperature" class="device_but">colorTemperature</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="consumable" class="device_but">consumable</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="contactSensor" class="device_but">contactSensor</button>
+          </div>
+      </div>
+      <div class="share-btn" id="D" onclick="share_btn(this)">
+          <strong><p class="cta">D</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="dishwasherMode" class="device_but">dishwasherMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="dishwasherOperatingState" class="device_but">dishwasherOper</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="doorControl" class="device_but">doorControl</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="dryerMode" class="device_but">dryerMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="dryerOperatingState" class="device_but">dryerOperatingState</button>
+          </div>
+      </div>
+      <div class="share-btn" id="E" onclick="share_btn(this)">
+          <strong><p class="cta">E</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="energyMeter" class="device_but">energyMeter</button>
+          </div>
+      </div>
+      <div class="share-btn" id="FG" onclick="share_btn(this)">
+          <strong><p class="cta">FG</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="fanSpeed" class="device_but">fanSpeed</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="filterStatus" class="device_but">filterStatus</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="garageDoorControl" class="device_but">garageDoorControl</button>
+          </div>
+      </div>
+      <div class="share-btn" id="H" onclick="share_btn(this)">
+          <strong><p class="cta">H</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+          </div>
+      </div>
+      <div class="share-btn" id="IJ" onclick="share_btn(this)">
+          <strong><p class="cta">IJ</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="illuminanceMeasurement" class="device_but">illuminanceMeas</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="imageCapture" class="device_but">imageCapture</button>
+          </div>
+      </div>
+      <div class="share-btn" id="KL" onclick="share_btn(this)">
+          <strong><p class="cta">KL</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="light" class="device_but">light</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="lock" class="device_but">lock</button>
+          </div>
+      </div>
+      <div class="share-btn" id="M" onclick="share_btn(this)">
+          <strong><p class="cta">M</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="mediaPlayback" class="device_but">mediaPlayback</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="momentary" class="device_but">momentary</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="motionSensor" class="device_but">motionSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="musicPlayer" class="device_but">musicPlayer</button>
+          </div>
+      </div>
+      <div class="share-btn" id="NO" onclick="share_btn(this)">
+          <strong><p class="cta">NO</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="odorSensor" class="device_but">odorSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="outlet" class="device_but">outlet</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="ovenMode" class="device_but">ovenMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="ovenSetpoint" class="device_but">ovenSetpoint</button>
+          </div>
+      </div>
+      <div class="share-btn" id="P" onclick="share_btn(this)">
+          <strong><p class="cta">P</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="polling" class="device_but">polling</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="powerMeter" class="device_but">powerMeter</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="powerSource" class="device_but">powerSource</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="presenceSensor" class="device_but">presenceSensor</button>
+          </div>
+      </div>
+      <div class="share-btn" id="QR" onclick="share_btn(this)">
+          <strong><p class="cta">QR</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="rapidCooling" class="device_but">rapidCooling</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="refrigerationSetpoint" class="device_but">refrigerationSetpoint</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="relativeHumidityMeasurement" class="device_but">relativeHumidityMeas</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="robotCleanerCleaningMode" class="device_but">robotCleanerCleaningMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="robotCleanerMovement" class="device_but">robotCleanerMovement</button>
+          </div>
+      </div>
+      <div class="share-btn" id="S" onclick="share_btn(this)">
+          <strong><p class="cta">S</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="smokeDetector" class="device_but">smokeDetector</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="soundPressureLevel" class="device_but">soundPressureLevel</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="soundSensor" class="device_but">soundSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="stepSensor" class="device_but">stepSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="switch" class="device_but">switch</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="switchLevel" class="device_but">switchLevel</button>
+          </div>
+      </div>
+      <div class="share-btn" id="T" onclick="share_btn(this)">
+          <strong><p class="cta">T</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="temperatureMeasurement" class="device_but">temperature</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatCoolingSetpoint" class="device_but">thermostatCoolSet</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatFanMode" class="device_but">thermostatFanMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatHeatingSetpoint" class="device_but">thermostatHeatSet</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatMode" class="device_but">thermostatMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatOperatingState" class="device_but">thermostatOper</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="thermostatSetpoint" class="device_but">thermostatSetpoint</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="tone" class="device_but">tone</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="touchSensor" class="device_but">touchSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="tvChannel" class="device_but">tvChannel</button>
+          </div>
+      </div>
+      <div class="share-btn" id="UV" onclick="share_btn(this)">
+          <strong><p class="cta">UV</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="ultravioletIndex" class="device_but">ultravioletIndex</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="valve" class="device_but">valve</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="videoStream" class="device_but">videoStream</button>
+          </div>
+      </div>
+      <div class="share-btn" id="WXYZ" onclick="share_btn(this)">
+          <strong><p class="cta">WXYZ</p></strong>
+          <button class="close"></button> 
+          <div class="social">
+            <button onclick="change_devbutton_color(this)" 
+                    id="washerMode" class="device_but">washerMode</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="washerOperatingState" class="device_but">washerOperatingState</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="waterSensor" class="device_but">waterSensor</button>
+            <button onclick="change_devbutton_color(this)" 
+                    id="windowShade" class="device_but">windowShade</button>
+            </div>
+      </div>
+		</div>
 
-  <script src="scripts/music_maker.js"></script>
-  <script src="scripts/main.js"></script>
+		<div id="box" >
+			<!-- Rule 탭 화면 -->
+			<div id="in_box1"> <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> ruleDiv -->
+			  <div id="blocklyDiv" style="height: 701px; width: 1200px;"></div>
+			</div>
+
+			<!-- Preferences 탭 화면 -->
+			<div id="in_box2"> 
+				<div id="blocklyDiv2" style="height: 701px; width: 1200px;"></div>
+			</div>
+
+			<!-- Code 탭 화면 -->
+			<div id="in_box3" style="height: 701px; width: 1200px; background: #f4f4f4;">
+		
+				<pre style="margin:0px;">
+					<code style="padding: 0px 8px 8px 8px;" id="smartApp_code" >
+				
+					</code>
+				</pre>
+
+				<button id="save_but" onClick="saveCode()">SaveCode</button>
+				<!-- <button id="save_block_but" onClick="saveBlock()">SaveBlock</button> -->
+			</div>
+		</div>
+
+		<!-- Rule, Preferences, Code 탭 버튼 -->
+		<div id="tab">
+       <!-- Todo: click1 ==> rule_tab, click1() ==> click_rule_tab() -->
+		  <button id="click1" onClick="click_rule_tab()">
+        <div class="tab_but">Rule<div></button>
+
+		  <button id="click2" onClick="click_preference_tab()">
+        <div class="tab_but">Preferences<div></button>
+
+		  <button id="click3" onClick="clieck_code_tab()">
+        <div class="tab_but">Code<div></button>
+		</div>
+
+	</div>
+
+	<div id="bottom">
+    <p><a href="https://kwanghoon.github.io">Software Languages and Systems Lab</a> 
+      at Chonnam National University</p>
+		<p><a href="http://cs.sookmyung.ac.kr/~chang">Software Language Lab</a> at Sookmyung Women's University</p>
+	</div>
+
+	<input type="text" id = "author"  hidden></input>
+	<input type="text" id = "namespace" hidden></input>
+	<input type="textarea" id = "description" hidden></input>
+	<input type="text" id = "iconUrl" hidden></input>
+
+  <script src="https://unpkg.com/blockly"></script>
 
 </body>
 </html>
