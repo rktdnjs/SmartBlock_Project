@@ -299,21 +299,23 @@
 
 		<div id="box" >
 			<!-- Rule 탭 화면 -->
-			<div id="in_box_rule"> <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
+      <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
+			<div id="in_box_rule"> 
 			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;"></div>
 			</div>
 
 			<!-- Preferences 탭 화면 -->
-			<div id="in_box2"> 
-				<div id="blocklyDiv2" style="height: 701px; width: 1200px;"></div>
+      <!-- Todo: in_box2 ==> in_box_preference, blocklyDiv2 ==> blocklyDivForPreference -->
+			<div id="in_box_preference"> 
+				<div id="blocklyDivForPreference" style="height: 701px; width: 1200px;"></div>
 			</div>
 
 			<!-- Code 탭 화면 -->
-			<div id="in_box3" style="height: 701px; width: 1200px; background: #f4f4f4;">
+      <!-- Todo: in_box3 ==> in_box_code, blocklyDiv3 ==> blocklyDivForCode -->
+			<div id="in_box_code" style="height: 701px; width: 1200px; background: #f4f4f4;">
 		
 				<pre style="margin:0px;">
 					<code style="padding: 0px 8px 8px 8px;" id="smartApp_code" >
-				
 					</code>
 				</pre>
 
@@ -429,12 +431,52 @@
     // Rule workspace 탭을 활성화하고
     // Preference workspace와 Code workspace 탭을 비활성화
     document.getElementById("in_box_rule").style.display = ""
-		document.getElementById("in_box2").style.display = "none"
-		document.getElementById("in_box3").style.display = "none"
+		document.getElementById("in_box_preference").style.display = "none"
+		document.getElementById("in_box_code").style.display = "none"
 
 		document.getElementById("rule_tab").style.background = "#f2fbfc"
 		document.getElementById("preference_tab").style.background = "#f8f8f8"
 		document.getElementById("code_tab").style.background = "#f8f8f8"
+
+    // Click tabs
+    function click_rule_tab(){
+      document.getElementById("in_box_rule").style.display = ""
+      document.getElementById("in_box_preference").style.display = "none"
+      document.getElementById("in_box_code").style.display = "none"
+      document.getElementById("save_but").style.visibility  = "hidden"
+      // document.getElementById("save_block_but").style.visibility  = "hidden"
+      
+      document.getElementById("rule_tab").style.background = "#f2fbfc"
+      document.getElementById("preference_tab").style.background = "#f8f8f8"
+      document.getElementById("code_tab").style.background = "#f8f8f8"
+	  }
+
+  // toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
+	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
+	// 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여
+  //  Sample, Preference, Option, Input 카테고리를 띄우는 것 같음!
+	function click_preference_tab(){
+      document.getElementById("in_box_rule").style.display = "none"
+      document.getElementById("in_box_preference").style.display = ""
+      document.getElementById("in_box_code").style.display = "none"
+      document.getElementById("save_but").style.visibility  = "hidden"
+      // _("save_block_but").style.visibility  = "hidden"
+
+      document.getElementById("rule_tab").style.background = "#f8f8f8"
+      document.getElementById("preference_tab").style.background = "#f2fbfc"
+      document.getElementById("code_tab").style.background = "#f8f8f8"
+
+      // Todo: 아래 코드가 동작하도록 toolbox_pre() 함수를 도입해야하고
+      //       그 외 이름 변경이 필요 (예: blocklyDiv2 ==> blocklyDivForPreference)
+      // var toolbox = toolbox_pre();
+
+      // if(demoWorkspace2){
+      //   demoWorkspace2.updateToolbox(toolbox);
+      // }else{	
+      //   demoWorkspace2 = Blockly.inject('blocklyDiv2', {media: 'app/media/', toolbox: toolbox});
+      //   Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
+      // }	
+  }
 
   </script>
 
