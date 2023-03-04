@@ -299,8 +299,8 @@
 
 		<div id="box" >
 			<!-- Rule 탭 화면 -->
-			<div id="in_box1"> <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> ruleDiv -->
-			  <div id="blocklyDiv" style="height: 701px; width: 1200px;"></div>
+			<div id="in_box_rule"> <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
+			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;"></div>
 			</div>
 
 			<!-- Preferences 탭 화면 -->
@@ -325,13 +325,13 @@
 		<!-- Rule, Preferences, Code 탭 버튼 -->
 		<div id="tab">
        <!-- Todo: click1 ==> rule_tab, click1() ==> click_rule_tab() -->
-		  <button id="click1" onClick="click_rule_tab()">
+		  <button id="rule_tab" onClick="click_rule_tab()">
         <div class="tab_but">Rule<div></button>
 
-		  <button id="click2" onClick="click_preference_tab()">
+		  <button id="preference_tab" onClick="click_preference_tab()">
         <div class="tab_but">Preferences<div></button>
 
-		  <button id="click3" onClick="clieck_code_tab()">
+		  <button id="code_tab" onClick="clieck_code_tab()">
         <div class="tab_but">Code<div></button>
 		</div>
 
@@ -349,6 +349,94 @@
 	<input type="text" id = "iconUrl" hidden></input>
 
   <script src="https://unpkg.com/blockly"></script>
+  <script>
+    	const json_toolbox =
+        {
+          "kind": "categoryToolbox",
+          "contents": [
+            {
+              "kind": "category",
+              "name": "Rule",
+              "contents": [
+                {
+                  "kind": "block",
+                  "type": "eca"
+                },
+                {
+                  "kind": "block",
+                  "type": "ea"
+                },
+                {
+                  "kind": "block",
+                  "type": "ca"
+                }
+              ]
+              
+            },
+
+            {
+              "kind": "category",
+              "name": "Event",
+              "custom": "SAMRT_DEVICE_E",
+              "contents": [
+                {
+                  "kind": "block",
+                  "type": "e_installed"
+                }
+              ]
+            },
+
+            {
+              "kind": "category",
+              "name": "Condition",
+              "custom": "SAMRT_DEVICE_C"
+            },
+
+            {
+              "kind": "category",
+              "name": "Action",
+              "custom": "SAMRT_DEVICE_A"
+            }		
+          ]
+        }
+
+    // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
+    var workspace = 
+          Blockly.inject('blocklyDivForRule', 
+            { toolbox : json_toolbox, 
+                  collapse : false, 
+                  comments : false, 
+                  disable : false, 
+                  maxBlocks : Infinity, 
+                  trashcan : true, 
+                  horizontalLayout : false, 
+                  toolboxPosition : 'start', 
+                  css : true, 
+                  media : 'app/media/',
+                  rtl : false, 
+                  scrollbars : true, 
+                  sounds : true, 
+                  oneBasedIndex : true,
+                  zoom:
+                  {controls: true,
+                    wheel: true,
+                    startScale: 1.0,
+                    maxScale: 3,
+                    minScale: 0.3,
+                    scaleSpeed: 1.2},
+                  });
+
+    // Rule workspace 탭을 활성화하고
+    // Preference workspace와 Code workspace 탭을 비활성화
+    document.getElementById("in_box_rule").style.display = ""
+		document.getElementById("in_box2").style.display = "none"
+		document.getElementById("in_box3").style.display = "none"
+
+		document.getElementById("rule_tab").style.background = "#f2fbfc"
+		document.getElementById("preference_tab").style.background = "#f8f8f8"
+		document.getElementById("code_tab").style.background = "#f8f8f8"
+
+  </script>
 
 </body>
 </html>
