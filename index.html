@@ -352,60 +352,164 @@
 
   <script src="https://unpkg.com/blockly"></script>
   <script>
-    	const json_toolbox =
-        {
-          "kind": "categoryToolbox",
-          "contents": [
-            {
+    const json_toolbox_for_rule_tab =
+      {
+        "kind": "categoryToolbox",
+        "contents": [
+          {
+            "kind": "category",
+            "name": "Rule",
+            "contents": [
+              {
+                "kind": "block",
+                "type": "eca"
+              },
+              {
+                "kind": "block",
+                "type": "ea"
+              },
+              {
+                "kind": "block",
+                "type": "ca"
+              }
+            ]
+            
+          },
+
+          {
+            "kind": "category",
+            "name": "Event",
+            "custom": "SAMRT_DEVICE_E",
+            "contents": [
+              {
+                "kind": "block",
+                "type": "e_installed"
+              }
+            ]
+          },
+
+          {
+            "kind": "category",
+            "name": "Condition",
+            "custom": "SAMRT_DEVICE_C"
+          },
+
+          {
+            "kind": "category",
+            "name": "Action",
+            "custom": "SAMRT_DEVICE_A"
+          }		
+        ]
+      }
+
+    const json_toolbox_for_preference_tab = 
+      {
+        "kind": "categoryToolbox",
+        "contents": [
+          {
               "kind": "category",
-              "name": "Rule",
+              "name": "Sample",
+              "contents": [
+                // Todo: 블록에서 statement 개념 이해 필요!
+                // {
+                //   "kind": "block",
+                //   "type": "page",
+                //   "fields": {
+                //     "name": ""
+                //   },
+                //   "statement": {
+                //     "kind": "block",
+                //     "type": "section"
+                //   }
+                // }
+              ]
+          },
+
+          {
+              "kind": "category",
+              "name": "Preference",
               "contents": [
                 {
                   "kind": "block",
-                  "type": "eca"
+                  "type": "page",
+                  "fields": {
+                    "name": "",
+                    "nextPage": ""
+                  }
                 },
                 {
                   "kind": "block",
-                  "type": "ea"
+                  "type": "section",
+                  "fields": {
+                    "NAME": ""
+                  }
                 },
                 {
                   "kind": "block",
-                  "type": "ca"
+                  "type": "dynamicpage",
+                  "fields": {
+                    "name": "",
+                    "nextPage": ""
+                  }
                 }
               ]
-              
-            },
+          },
 
-            {
+          {
               "kind": "category",
-              "name": "Event",
-              "custom": "SAMRT_DEVICE_E",
+              "name": "option",
               "contents": [
                 {
                   "kind": "block",
-                  "type": "e_installed"
-                }
+                  "type": "option_title"
+                },
+                {
+                  "kind": "block",
+                  "type": "option_nextpage",
+                  "fields": {
+                    "nextPage": ""
+                  }
+                },
+                {
+                  "kind": "block",
+                  "type": "option_install",
+                  "fields": {
+                    "true": true // Todo: TRUE vs. true???
+                  }
+                },
+                {
+                  "kind": "block",
+                  "type": "option_uninstall",
+                  "fields": {
+                    "true": true // Todo: TRUE vs. true???
+                  }
+                },
+                {
+                  "kind": "block",
+                  "type": "option_required"
+                },
+                {
+                  "kind": "block",
+                  "type": "option_multiple"
+                },
+                {
+                  "kind": "block",
+                  "type": "option_name"
+                },
               ]
-            },
+          },
 
-            {
+          {
               "kind": "category",
-              "name": "Condition",
-              "custom": "SAMRT_DEVICE_C"
-            },
-
-            {
-              "kind": "category",
-              "name": "Action",
-              "custom": "SAMRT_DEVICE_A"
-            }		
-          ]
-        }
+              "name": "input",
+          }      
+        ]
+      }
 
     // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
     var workspace = 
           Blockly.inject('blocklyDivForRule', 
-            { toolbox : json_toolbox, 
+            { toolbox : json_toolbox_for_rule_tab, 
                   collapse : false, 
                   comments : false, 
                   disable : false, 
@@ -427,6 +531,8 @@
                     minScale: 0.3,
                     scaleSpeed: 1.2},
                   });
+
+    var demoWorkspace2; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
 
     // Rule workspace 탭을 활성화하고
     // Preference workspace와 Code workspace 탭을 비활성화
@@ -470,12 +576,15 @@
       //       그 외 이름 변경이 필요 (예: blocklyDiv2 ==> blocklyDivForPreference)
       // var toolbox = toolbox_pre();
 
-      // if(demoWorkspace2){
+      if(demoWorkspace2){
       //   demoWorkspace2.updateToolbox(toolbox);
-      // }else{	
-      //   demoWorkspace2 = Blockly.inject('blocklyDiv2', {media: 'app/media/', toolbox: toolbox});
+      }else{	
+        demoWorkspace2 = 
+          Blockly.inject('blocklyDivForPreference', 
+                      {media: 'app/media/', 
+                      toolbox: json_toolbox_for_preference_tab});
       //   Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
-      // }	
+      }	
   }
 
   </script>
