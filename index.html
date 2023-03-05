@@ -8,7 +8,7 @@
   <title>Smart Block for SmartThings</title>
 
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-  <link rel="stylesheet" href="styles/index.css">
+  <!-- <link rel="stylesheet" href="styles/index.css"> -->
 
   <!-- SmartBlock에서 사용하던 CSS를 가져옴
        Todo: styles/index.css와 app/src/css/main.css를 합해야함!
@@ -37,7 +37,7 @@
 	</div>
 
 	<div>
-    <!-- device_tab 요소를 javascript 코드로
+    <!-- device_tab 요소를 javascript 코드 device_table()로
          장치 목록을 입력받아 만들었는데
          이 코드의 의존성이 복잡하여 삭제하고
          이 코드가 만들어낸 HTML 요소를 복사해서
@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <div class="share-btn" id="A" onclick="share_btn(this)">
+      <div class="share-btn" id="A" onclick="share_btn(this,event)">
         <strong><p class="cta">A</p></strong>
         <button class="close"></button> 
         <div class="social">
@@ -85,6 +85,7 @@
             <button onclick="change_devbutton_color(this)" 
                     id="battery" class="device_but">battery</button>
             <button onclick="change_devbutton_color(this)" id="beacon" class="device_but">beacon</button><button onclick="change_devbutton_color(this)" id="bulb" class="device_but">bulb</button><button onclick="change_devbutton_color(this)" id="button" class="device_but">button</button></div></div>
+
       <div class="share-btn" id="C" onclick="share_btn(this)">
           <strong><p class="cta">C</p></strong>
           <button class="close"></button> 
@@ -105,6 +106,7 @@
                     id="contactSensor" class="device_but">contactSensor</button>
           </div>
       </div>
+
       <div class="share-btn" id="D" onclick="share_btn(this)">
           <strong><p class="cta">D</p></strong>
           <button class="close"></button> 
@@ -121,6 +123,7 @@
                     id="dryerOperatingState" class="device_but">dryerOperatingState</button>
           </div>
       </div>
+
       <div class="share-btn" id="E" onclick="share_btn(this)">
           <strong><p class="cta">E</p></strong>
           <button class="close"></button> 
@@ -129,6 +132,7 @@
                     id="energyMeter" class="device_but">energyMeter</button>
           </div>
       </div>
+
       <div class="share-btn" id="FG" onclick="share_btn(this)">
           <strong><p class="cta">FG</p></strong>
           <button class="close"></button> 
@@ -141,12 +145,14 @@
                     id="garageDoorControl" class="device_but">garageDoorControl</button>
           </div>
       </div>
+
       <div class="share-btn" id="H" onclick="share_btn(this)">
           <strong><p class="cta">H</p></strong>
           <button class="close"></button> 
           <div class="social">
           </div>
       </div>
+
       <div class="share-btn" id="IJ" onclick="share_btn(this)">
           <strong><p class="cta">IJ</p></strong>
           <button class="close"></button> 
@@ -157,6 +163,7 @@
                     id="imageCapture" class="device_but">imageCapture</button>
           </div>
       </div>
+
       <div class="share-btn" id="KL" onclick="share_btn(this)">
           <strong><p class="cta">KL</p></strong>
           <button class="close"></button> 
@@ -167,6 +174,7 @@
                     id="lock" class="device_but">lock</button>
           </div>
       </div>
+
       <div class="share-btn" id="M" onclick="share_btn(this)">
           <strong><p class="cta">M</p></strong>
           <button class="close"></button> 
@@ -181,6 +189,7 @@
                     id="musicPlayer" class="device_but">musicPlayer</button>
           </div>
       </div>
+
       <div class="share-btn" id="NO" onclick="share_btn(this)">
           <strong><p class="cta">NO</p></strong>
           <button class="close"></button> 
@@ -195,6 +204,7 @@
                     id="ovenSetpoint" class="device_but">ovenSetpoint</button>
           </div>
       </div>
+
       <div class="share-btn" id="P" onclick="share_btn(this)">
           <strong><p class="cta">P</p></strong>
           <button class="close"></button> 
@@ -209,6 +219,7 @@
                     id="presenceSensor" class="device_but">presenceSensor</button>
           </div>
       </div>
+
       <div class="share-btn" id="QR" onclick="share_btn(this)">
           <strong><p class="cta">QR</p></strong>
           <button class="close"></button> 
@@ -225,6 +236,7 @@
                     id="robotCleanerMovement" class="device_but">robotCleanerMovement</button>
           </div>
       </div>
+
       <div class="share-btn" id="S" onclick="share_btn(this)">
           <strong><p class="cta">S</p></strong>
           <button class="close"></button> 
@@ -243,6 +255,7 @@
                     id="switchLevel" class="device_but">switchLevel</button>
           </div>
       </div>
+
       <div class="share-btn" id="T" onclick="share_btn(this)">
           <strong><p class="cta">T</p></strong>
           <button class="close"></button> 
@@ -269,6 +282,7 @@
                     id="tvChannel" class="device_but">tvChannel</button>
           </div>
       </div>
+
       <div class="share-btn" id="UV" onclick="share_btn(this)">
           <strong><p class="cta">UV</p></strong>
           <button class="close"></button> 
@@ -281,6 +295,7 @@
                     id="videoStream" class="device_but">videoStream</button>
           </div>
       </div>
+
       <div class="share-btn" id="WXYZ" onclick="share_btn(this)">
           <strong><p class="cta">WXYZ</p></strong>
           <button class="close"></button> 
@@ -296,6 +311,34 @@
             </div>
       </div>
 		</div>
+
+    <!-- Things와 A-Z 장치 메뉴에서 각 목록 창을 보여주고 사라지는 기능 구현
+          - help.js의 share_btn()함수로 share-btn clicked 클래스로 설정
+          - close_btn() 함수로 clicked 클래스를 제거
+          - main.css에서 clicked 클래스인 경우 적절하게 목록을 보여줌
+            (Todo: main.css에서 clicked 클래스의 경우 장치 목록을 보여주는 과정 이해 필요!)
+     -->
+    <script>
+      function close_btn(event){
+        var elems = document.getElementsByClassName("share-btn clicked");
+        for (let elem of elems) {
+          elem.classList.remove("clicked");
+        }
+        event.stopPropagation();
+      }
+
+      let thingsArray = 
+        [ "Things", "A", "B", "C", "D", "E", "FG", "H", "IJ",
+          "KL", "M", "NO", "P", "QR", "S", "T", "UV", "WXYZ" ];
+
+      for (thing of thingsArray) {
+        var elem = document.getElementById(thing)
+        var buttons = elem.getElementsByClassName("close");
+        for (let button of buttons) {
+          button.addEventListener('click', close_btn);
+        }  
+      }
+    </script>
 
 		<div id="box" >
 			<!-- Rule 탭 화면 -->
@@ -352,7 +395,12 @@
 
   <script src="https://unpkg.com/blockly"></script>
 
-  <!-- Attributes: colour -->
+  <!-- Common attributes among 
+         blocks: eca, event, condtion, action,
+         preference: page, section, option
+
+       Todo: refactor this out into a javascript??  
+  -->
   <script>
     	var Block_colour_eca = "#"+"304777"
 
@@ -365,9 +413,9 @@
       var Block_colour_action = "#"+"efcd3f"
       var Block_colour_action_disconnted = "#"+"ffea93"
 
-      var Block_colour_action = "#"+"efcd3f"
-      var Block_colour_action_disconnted = "#"+"ffea93"
-
+      // Todo: remove the following duplicate codes??
+      // var Block_colour_action = "#"+"efcd3f"
+      // var Block_colour_action_disconnted = "#"+"ffea93"
 
       var Block_colour_page = "#"+"304777"
 
@@ -377,10 +425,39 @@
       var Block_colour_option = "#"+"8cd4db"
       var Block_colour_option_disconnted = "#"+"cceef2"
   </script>
-  
+
   <!-- ECA, EA, CA blocks -->
+  <!--  - 의존: Block_clour_eca 속성 -->
   <script src="scripts/block/rule_definer.js"></script>
 
+  <!-- Things (cap or capability) 
+        CountMap이 cap_helper.js에서 정의됨
+        var deviceCount = new CountMap()을 이 스크립트 선언 다음에 작성
+  -->
+  <script src="scripts/cap/cap.js"></script>
+  <script src="scripts/cap/cap_helper.js"></script>
+  <script src="scripts/cap/cap_helper_attrMap.js"></script>
+  <script src="scripts/cap/cap_helper_commMap.js"></script>
+
+  <script>
+    var	deviceCount = new CountMap();
+    var deviceSet = new Set();
+
+    var attrMap = new AttributeMap(); 	
+    var commMap = new CommandMap();
+
+    // cap.js에 정의된 함수 mapInit
+	  //   이 함수에서 모든 장치들을 목록에 등록한다.
+	  mapInit();     
+  </script>
+
+  <!-- Things (cap or capability) UI -->
+  <script>
+      var selected_dev = new Map();
+  </script>
+  <script src="scripts/ui/help.js"></script>
+
+  <!-- json toolbox -->
   <script>
     const json_toolbox_for_rule_tab =
       {
