@@ -934,3 +934,161 @@ Blockly.Blocks['option_uninstall'] = {
 		 if (Blockly.Blocks[b]) {
 		 if (Blockly.Blocks[b]) {
 
+
+
+=====
+Toolbox for preference tab
+
+<xml>
+  <category name="Sample">
+		<block type="page">		
+         <field name="name">
+         </field>
+         <statement name="section">				
+            <block type="section">
+            </block>          
+         </statement>
+		</block> 
+
+      <block type="page">        
+         <field name="name">
+         </field>
+
+         <statement name="section"> 
+
+               <block type="section">            
+                  <value name="option">   
+
+                     <block type="option_title">                
+                        <field name="title">when..
+                        </field>              
+                     </block>    
+
+                  </value> 
+
+               <next> 
+
+               <block type="section">                
+                  <value name="option">                  
+                     <block type="option_title">                    
+                        <field name="title">then..
+                        </field>  
+                           
+                  </block>                
+               </value>              
+               </block> 
+
+               </next> 
+
+               <next>              
+               <block type="section">                
+                  <value name="option">                  
+                     <block type="option_title">                    
+                        <field name="title">if..
+                        </field>  
+                     </block>
+                  </value>
+               </block>
+               </next>
+
+            </block>
+
+         </statement>
+
+      </block>
+
+      <block type="page">
+        <field name="name">when..
+	      </field>
+
+        <statement name="section">
+          <block type="section">
+	       </block>
+        </statement>
+
+        <next>
+
+          <block type="page">
+            <field name="name">then..
+	         </field>
+
+            <statement name="section">
+               <block type="section">
+	            </block>
+            </statement>
+          </block>
+
+        </next>
+
+        <next>
+         
+            <block type="page">
+               <field name="name">if..
+               </field>
+
+               <statement name="section">
+                  <block type="section">
+                  </block>
+               </statement>
+            </block>
+	   </next>
+      </block>
+  </category>
+
+  <category name="Preference">
+
+    <block type="page">
+      <field name="name">
+      </field>
+      <field name="nextPage">
+      </field>
+  </block>
+
+    <block type="section">
+      <field name="NAME">
+      </field>
+  </block>
+
+    <block type="dynamicpage">
+      <field name="name">
+      </field>
+      <field name="nextPage">
+      </field>
+  </block>
+
+   </category>
+
+  <category name="option">
+
+    <block type="option_title">
+    </block>
+
+    <block type="option_nextpage">
+      <field name="nextPage">
+      </field>
+    </block>
+
+    <block type="option_install">
+      <field name="true">TRUE
+      </field>
+    </block>
+
+    <block type="option_uninstall">
+      <field name="true">TRUE
+      </field>
+    </block>
+
+    <block type="option_required">
+    </block>
+
+    <block type="option_multiple">
+    </block>
+
+    <block type="option_name">
+    </block>
+
+  </category>
+
+  <category name="input" >
+  </category>
+</xml>
