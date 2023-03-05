@@ -23,7 +23,7 @@
       Field : Condition
 
    3) Value input : Action
-      Check : Action 
+      Check : Action
       Field : Action
 
    * Previous statement : ECA | EA
