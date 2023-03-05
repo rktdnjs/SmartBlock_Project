@@ -333,7 +333,7 @@
 		  <button id="preference_tab" onClick="click_preference_tab()">
         <div class="tab_but">Preferences<div></button>
 
-		  <button id="code_tab" onClick="clieck_code_tab()">
+		  <button id="code_tab" onClick="click_code_tab()">
         <div class="tab_but">Code<div></button>
 		</div>
 
@@ -561,7 +561,7 @@
 	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
 	// 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여
   //  Sample, Preference, Option, Input 카테고리를 띄우는 것 같음!
-	function click_preference_tab(){
+	function click_preference_tab() {
       document.getElementById("in_box_rule").style.display = "none"
       document.getElementById("in_box_preference").style.display = ""
       document.getElementById("in_box_code").style.display = "none"
@@ -585,6 +585,47 @@
                       toolbox: json_toolbox_for_preference_tab});
       //   Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
       }	
+  }
+
+
+  // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
+  // Rule 탭과 Preference 탭을 비활성화하기
+  function click_code_tab() {
+
+      // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
+      // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
+      // var ecaList = Blockly.SmartThings.workspaceToCode(workspace);
+      // if(ecaList != null){
+      //   // ecaList를 출력
+      //   console.log("ECA list: " + JSON.stringify(ecaList));
+
+      //   var result_verification = verification(ecaList);
+      //   if(result_verification.isReliable()){
+        
+          // var code = smartApp(ecaList);
+          // _("smartApp_code").textContent = code;
+          // hljs.highlightBlock(_("smartApp_code"));	
+        
+          document.getElementById("in_box_rule").style.display = "none"
+          document.getElementById("in_box_preference").style.display = "none"
+          document.getElementById("in_box_code").style.display = ""
+          document.getElementById("save_but").style.visibility  = "visible"
+          // document.getElementById("save_block_but").style.visibility  = "visible"
+
+        
+          document.getElementById("rule_tab").style.background = "#fff"
+          document.getElementById("preference_tab").style.background = "#fff"
+          document.getElementById("code_tab").style.background = "#f4f4f4"
+          //countLines()
+
+      //   }else{
+      //     result_verification.alert_()
+      //   }
+      // }else{
+
+      //   alert("please build SmartBlock");
+      // }
+    
   }
 
   </script>
