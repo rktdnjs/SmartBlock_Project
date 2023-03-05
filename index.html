@@ -614,7 +614,7 @@
       }
 
     // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
-    var workspace = 
+    var workspaceForRule = 
           Blockly.inject('blocklyDivForRule', 
             { toolbox : json_toolbox_for_rule_tab, 
                   collapse : false, 
@@ -638,6 +638,14 @@
                     minScale: 0.3,
                     scaleSpeed: 1.2},
                   });
+    
+    // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
+    // 도구 상자 - toolbox 카테고리 category 목록을 설정
+    //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
+    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+
 
     var demoWorkspace2; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
 
@@ -734,6 +742,8 @@
       // }
     
   }
+
+  // 
 
   </script>
 
