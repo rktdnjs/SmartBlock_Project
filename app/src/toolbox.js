@@ -1,3 +1,28 @@
+// Blockly.devicesFlyoutCallback_event
+// Blockly.devicesFlyoutCallback_condition
+// Blockly.devicesFlyoutCallback_action
+//
+//   - Category: Event, Condition, Action categories를 동적으로 만드는 함수
+//   - 부가 함수
+//       addXml, event_block, condition_block, action_block
+//
+
+// The default event block category
+
+// toolbox.js:54 <xml><block type="e_installed"></block></xml>
+// toolbox.js:77 <xml><block type="inpute_data"></block></xml>
+// toolbox.js:87 <xml><block type="specific_event"></block></xml>
+// toolbox.js:97 <xml><block type="e_location"></block></xml>
+// toolbox.js:106 <xml><block type="e_app"></block></xml>
+// toolbox.js:761 <xml><block type="any"><value name="p"><block type="specific_event"></block></value><statement name="group"><block type="group"></block></statement></block></xml>
+// toolbox.js:582 <xml><block type="e_time"></block></xml>
+// toolbox.js:591 <xml><block type="e_day"></block></xml>
+// toolbox.js:600 <xml><block type="e_week"></block></xml>
+// toolbox.js:609 <xml><block type="input_time"></block></xml>
+// toolbox.js:618 <xml><block type="e_timer"></block></xml>
+// toolbox.js:119 <xml><block type="e_updated"></block></xml> 
+
+
 Blockly.devicesFlyoutCallback_event = function(workspace) {
 	// xmlList를 초기화
 	var xmlList = [];
@@ -18,7 +43,8 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 				event_block(device, "Single", type, id);
 
 				// xmlList에 위 이벤트 블록과 동일 이름의 xml을 만들어 추가
-				xmlList.push(addXml("e_"+device+"Single"+type+id))
+				var block = addXml("e_"+device+"Single"+type+id)
+				xmlList.push(block)
 			}else if(attrMap.isMultiple(device)){
 				var attr_map = attrMap.getMultiple(device)
 							
@@ -27,7 +53,8 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 					var id = attr.id
 					var type = attr.type
 					event_block(device, "Multiple", type, id);
-					xmlList.push(addXml("e_"+device+"Multiple"+type+id))
+					var block = addXml("e_"+device+"Multiple"+type+id)
+					xmlList.push(block)
 				});
 			
 				
@@ -41,8 +68,9 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="e_installed">' +
 			  '</block>' +
 			  '</xml>';
+		  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
-		 xmlList.push(block)
+		xmlList.push(block)
 	} 
 		 
 
@@ -53,7 +81,8 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 		//var sub_block = workspace.getBlockById(method_blockId)
 		
 		event_block2(method_blockId, input_block)
-		xmlList.push(addXml('e_sub'+input_block[3]))
+		var block = addXml('e_sub'+input_block[3])
+		xmlList.push(block)
 	});
 
 		 
@@ -62,6 +91,7 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="inpute_data">' +
 			  '</block>' +
 			  '</xml>';
+		  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -71,6 +101,7 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="specific_event">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -80,6 +111,7 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="e_location">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -88,6 +120,7 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="e_app">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -100,15 +133,44 @@ Blockly.devicesFlyoutCallback_event = function(workspace) {
 			  '<block type="e_updated">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
 		 
+	console.log(xmlList)
+
 	// 추가된 블록들을 포함하는 xmlList를 리턴하면
 	// Blockly에서 이를 모두 메뉴로 보여줌
 	return xmlList;
 };
 
+// The default condition block category
+
+// toolbox.js:694 <xml><block type="operation"></block></xml>
+// toolbox.js:703 <xml><block type="negate"></block></xml>
+// toolbox.js:712 <xml><block type="boolean"></block></xml>
+// toolbox.js:722 <xml><block type="compare"></block></xml>
+// toolbox.js:731 <xml><block type="dev_attr"></block></xml>
+// toolbox.js:740 <xml><block type="device_list"></block></xml>
+// toolbox.js:160 <xml><block type="inputc_data"></block></xml>
+// toolbox.js:169 <xml><block type="datac"></block></xml>
+// toolbox.js:179 <xml><block type="condition_state"></block></xml>
+// toolbox.js:188 <xml><block type="math_condition"></block></xml>
+// toolbox.js:198 <xml><block type="is_null"></block></xml>
+// toolbox.js:209 <xml><block type="last_event_data"></block></xml>
+// toolbox.js:220 <xml><block type="already_enum"></block></xml>
+// toolbox.js:229 <xml><block type="already_num"></block></xml>
+// toolbox.js:238 <xml><block type="happen_enum_dropdown"></block></xml>
+// toolbox.js:249 <xml><block type="now_c"></block></xml>
+// toolbox.js:258 <xml><block type="function_invocation_c"></block></xml>
+// toolbox.js:267 <xml><block type="getsunrise_c"></block></xml>
+// toolbox.js:277 <xml><block type="getsunset_c"></block></xml>
+// toolbox.js:288 <xml><block type="getlocation_c"></block></xml>
+// toolbox.js:297 <xml><block type="getlocationmode_c"></block></xml>
+// toolbox.js:307 <xml><block type="getweatherfeature_c"></block></xml>
+// toolbox.js:789 <xml><block type="all"><statement name="group"><block type="group"></block></statement></block></xml>
+// toolbox.js:789 <xml><block type="exists"><statement name="group"><block type="group"></block></statement></block></xml>
 
 Blockly.devicesFlyoutCallback_condition = function(workspace) {
 	var xmlList = [];
@@ -120,10 +182,12 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 
 		if(attrMap.isSingle(device)){
 			condition_block(device, "single");
-			xmlList.push(addXml("c_"+device+"single"));
+			var block = addXml("c_"+device+"single")
+			xmlList.push(block);
 		}else if(attrMap.isMultiple(device)){			
 			condition_block(device,"multiple");
-			xmlList.push(addXml("c_"+device+"multiple"));
+			var block = addXml("c_"+device+"multiple")
+			xmlList.push(block);
 
 
 		}
@@ -138,6 +202,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="inputc_data">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -146,6 +211,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="datac">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -155,6 +221,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="condition_state">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -163,6 +230,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="math_condition">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -172,6 +240,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="is_null">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -182,6 +251,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="last_event_data">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -192,6 +262,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="already_enum">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -200,6 +271,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="already_num">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -208,6 +280,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="happen_enum_dropdown">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -218,6 +291,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="now_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -226,6 +300,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="function_invocation_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -234,6 +309,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="getsunrise_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -243,6 +319,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="getsunset_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -253,6 +330,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="getlocation_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -261,6 +339,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="getlocationmode_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -270,6 +349,7 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
 			  '<block type="getweatherfeature_c">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -281,6 +361,36 @@ Blockly.devicesFlyoutCallback_condition = function(workspace) {
   return xmlList;
 };
 
+// The default action block category
+
+// toolbox.js:372 <xml><block type="action_group"></block></xml>
+// toolbox.js:382 <xml><block type="inputa_data"></block></xml>
+// toolbox.js:391 <xml><block type="dataa"></block></xml>
+// toolbox.js:401 <xml><block type="action_state"></block></xml>
+// toolbox.js:410 <xml><block type="action_state_def"></block></xml>
+// toolbox.js:420 <xml><block type="math_action"></block></xml>
+// toolbox.js:432 <xml><block type="send"><field name="phone">+8210</field><field name="mes"></field></block></xml>
+// toolbox.js:443 <xml><block type="sendpush"><field name="mes"></field></block></xml>
+// toolbox.js:454 <xml><block type="sendsms"><field name="phone">+82010</field><field name="mes"></field></block></xml>
+// toolbox.js:464 <xml><block type="sendnotification"><field name="mes"></field></block></xml>
+// toolbox.js:630 <xml><block type="a_timer_after"></block></xml>
+// toolbox.js:639 <xml><block type="a_timer_every"></block></xml>
+// toolbox.js:648 <xml><block type="a_time"></block></xml>
+// toolbox.js:657 <xml><block type="a_day"></block></xml>
+// toolbox.js:666 <xml><block type="a_week"></block></xml>
+// toolbox.js:675 <xml><block type="a_stop"></block></xml>
+// toolbox.js:775 <xml><block type="map"><statement name="group"><block type="group"></block></statement></block></xml>
+// toolbox.js:477 <xml><block type="now_a"></block></xml>
+// toolbox.js:486 <xml><block type="function_invocation_a"></block></xml>
+// toolbox.js:496 <xml><block type="subscribe_method"></block></xml>
+// toolbox.js:505 <xml><block type="location_a"></block></xml>
+// toolbox.js:514 <xml><block type="app_a"></block></xml>
+// toolbox.js:526 <xml><block type="getlocation_a"></block></xml>
+// toolbox.js:536 <xml><block type="getsunrise_a"></block></xml>
+// toolbox.js:546 <xml><block type="getsunset_a"></block></xml>
+// toolbox.js:557 <xml><block type="getweatherfeature_a"></block></xml>
+// toolbox.js:567 <xml><block type="setlocationmode_a"></block></xml>
+
 Blockly.devicesFlyoutCallback_action = function(workspace) {
 	var xmlList = [];
 	
@@ -289,15 +399,18 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 	   if(commMap.makeBlock(device)){
 			if(commMap.hasCommad(device)){
 				action_block(device, "Command");
-				xmlList.push(addXml("a_"+device+"Command"))
+				var block = addXml("a_"+device+"Command")
+				xmlList.push(block)
 			}
 			if(commMap.hasMethod(device)){
 				action_block(device, "Method");
-				xmlList.push(addXml("a_"+device+"Method"))
+				var block = addXml("a_"+device+"Method")
+				xmlList.push(block)
 			}
 			if(commMap.hasMethodS(device)){
 				action_block(device, "MethodS");
-				xmlList.push(addXml("a_"+device+"MethodS"))
+				var block = addXml("a_"+device+"MethodS")
+				xmlList.push(block)
 			}
 			
 		}
@@ -311,10 +424,12 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 
 		if(attrMap.isSingle(device)){
 			action_block2(device, "single");
-			xmlList.push(addXml("a_"+device+"single"));
+			var block = addXml("a_"+device+"single")
+			xmlList.push(block);
 		}else if(attrMap.isMultiple(device)){			
 			action_block2(device,"multiple");
-			xmlList.push(addXml("a_"+device+"multiple"));
+			var block = addXml("a_"+device+"multiple")
+			xmlList.push(block);
 
 
 		}
@@ -329,6 +444,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="action_group">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -338,6 +454,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="inputa_data">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -346,6 +463,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="dataa">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -355,6 +473,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="action_state">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -363,6 +482,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="action_state_def">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -372,6 +492,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="math_action">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -383,6 +504,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 		  '<field name="mes"></field>'+
 		  '</block>' +
 		  '</xml>';
+		  console.log(blockText)
 		var block = Blockly.Xml.textToDom(blockText).firstChild;
 		xmlList.push(block)
 	}	
@@ -393,6 +515,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<field name="mes"></field>'+
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -403,6 +526,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 		  '<field name="mes"></field>'+
 		  '</block>' +
 		  '</xml>';
+		  console.log(blockText)
 		var block = Blockly.Xml.textToDom(blockText).firstChild;
 		xmlList.push(block)
 	}
@@ -412,6 +536,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 		  '<field name="mes"></field>'+
 		  '</block>' +
 		  '</xml>';
+		  console.log(blockText)
 		var block = Blockly.Xml.textToDom(blockText).firstChild;
 		xmlList.push(block)
 	}
@@ -424,6 +549,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="now_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -432,6 +558,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="function_invocation_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -441,6 +568,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="subscribe_method">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -449,6 +577,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="location_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -457,6 +586,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="app_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -468,6 +598,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="getlocation_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -477,6 +608,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="getsunrise_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -486,6 +618,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="getsunset_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -496,6 +629,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="getweatherfeature_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -505,6 +639,7 @@ Blockly.devicesFlyoutCallback_action = function(workspace) {
 			  '<block type="setlocationmode_a">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		 var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -519,6 +654,7 @@ function add_schedule_xml(xmlList){
 			  '<block type="e_time">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -527,6 +663,7 @@ function add_schedule_xml(xmlList){
 			  '<block type="e_day">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -535,6 +672,7 @@ function add_schedule_xml(xmlList){
 			  '<block type="e_week">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -543,6 +681,7 @@ function add_schedule_xml(xmlList){
 			  '<block type="input_time">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -551,6 +690,7 @@ function add_schedule_xml(xmlList){
 			  '<block type="e_timer">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -562,6 +702,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_timer_after">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -570,6 +711,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_timer_every">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -578,6 +720,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_time">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -586,6 +729,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_day">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -594,6 +738,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_week">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -602,6 +747,7 @@ function add_timer_xml(xmlList){
 			  '<block type="a_stop">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	} 
@@ -609,7 +755,8 @@ function add_timer_xml(xmlList){
 
 function add_groupingBlock_xml(group, color, xmlList){
 	  groupingBlock(color)	
-	  xmlList.push(addXml(group))
+	  var block = addXml(group)
+	  xmlList.push(block)
 }
 
 function add_logic_xml(xmlList){
@@ -619,6 +766,7 @@ function add_logic_xml(xmlList){
 			  '<block type="operation">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -627,6 +775,7 @@ function add_logic_xml(xmlList){
 			  '<block type="negate">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -635,6 +784,7 @@ function add_logic_xml(xmlList){
 			  '<block type="boolean">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -644,6 +794,7 @@ function add_logic_xml(xmlList){
 			  '<block type="compare">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -652,6 +803,7 @@ function add_logic_xml(xmlList){
 			  '<block type="dev_attr">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -660,6 +812,7 @@ function add_logic_xml(xmlList){
 			  '<block type="device_list">' +
 			  '</block>' +
 			  '</xml>';
+			  console.log(blockText)
 		  var block = Blockly.Xml.textToDom(blockText).firstChild;
 		 xmlList.push(block)
 	}
@@ -680,6 +833,7 @@ function addXml(b){
 					  '</statement>'+
 				  '</block>' +
 				  '</xml>';
+				  console.log(blockText)
 			  var block = Blockly.Xml.textToDom(blockText).firstChild;
 			  return block
 		}
@@ -693,6 +847,7 @@ function addXml(b){
 					  '</statement>'+
 				  '</block>' +
 				  '</xml>';
+				  console.log(blockText)
 			  var block = Blockly.Xml.textToDom(blockText).firstChild;
 			  return block
 		}
@@ -706,6 +861,7 @@ function addXml(b){
 					  '</statement>'+
 				  '</block>' +
 				  '</xml>';
+				  console.log(blockText)
 			  var block = Blockly.Xml.textToDom(blockText).firstChild;
 			  return block
 		}
@@ -717,6 +873,7 @@ function addXml(b){
 				  '<block type="'+b+'">' +
 				  '</block>' +
 				  '</xml>';
+				  console.log(blockText)
 			  var block = Blockly.Xml.textToDom(blockText).firstChild;
 			  return block
 		}
