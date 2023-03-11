@@ -151,68 +151,68 @@ function share_btn(x,event){
 // Smart Block 페이지의 App Name 옆 + 버튼에 대한 함수
 // 경로를 기존의 경로인 support/app_info.html -> src/support/app_info.html로 수정
 // 근데 이 함수를 통해 작동시킨 app_info.html이 정확히 무슨 역할을 하는지는 파악 x
-// function app_info(x){
-// 	var openWin = window.open("src/support/app_info.html", 'myWindow', 'scrollbars=no,toolbar=no,resizable=no,width=430px,height=450px,left=400,top=100');
-// }
+function app_info(x){
+	var openWin = window.open("src/support/app_info.html", 'myWindow', 'scrollbars=no,toolbar=no,resizable=no,width=430px,height=450px,left=400,top=100');
+}
 
-// function change_connted_color(block){
+function change_connted_color(block){
 
-// 	if(block.type != "eca" && block.type != "ea"){
-// 		if(colourBlock)//colour
-// 			if(block.colour_ == Block_colour_event_disconnted)
-// 				block.setColour(Block_colour_event)
-// 			else if(block.colour_ == Block_colour_condition_disconnted)
-// 				block.setColour(Block_colour_condition)
-// 			else if(block.colour_ == Block_colour_action_disconnted)
-// 				block.setColour(Block_colour_action)		
-// 			else if(block.colour_ == Block_colour_section_disconnted)
-// 				block.setColour(Block_colour_section)
-// 			else if(block.colour_ == Block_colour_option_disconnted)
-// 				block.setColour(Block_colour_option)
-// 	}
-// }
+	if(block.type != "eca" && block.type != "ea"){
+		if(colourBlock)//colour
+			if(block.colour_ == Block_colour_event_disconnted)
+				block.setColour(Block_colour_event)
+			else if(block.colour_ == Block_colour_condition_disconnted)
+				block.setColour(Block_colour_condition)
+			else if(block.colour_ == Block_colour_action_disconnted)
+				block.setColour(Block_colour_action)		
+			else if(block.colour_ == Block_colour_section_disconnted)
+				block.setColour(Block_colour_section)
+			else if(block.colour_ == Block_colour_option_disconnted)
+				block.setColour(Block_colour_option)
+	}
+}
 
-// function change_disconnted_color(block){
+function change_disconnted_color(block){
 
-// 	if(block.type != "eca" && block.type != "ea"){
-// 		if(colourBlock)//colour
-// 			if(block.colour_ == Block_colour_event)
-// 				block.setColour(Block_colour_event_disconnted)
-// 			else if(block.colour_ == Block_colour_condition)
-// 				block.setColour(Block_colour_condition_disconnted)
-// 			else if(block.colour_ == Block_colour_action)
-// 				block.setColour(Block_colour_action_disconnted)
-// 			else if(block.colour_ == Block_colour_section)
-// 				block.setColour(Block_colour_section_disconnted)
-// 			else if(block.colour_ == Block_colour_option)
-// 				block.setColour(Block_colour_option_disconnted)
+	if(block.type != "eca" && block.type != "ea"){
+		if(colourBlock)//colour
+			if(block.colour_ == Block_colour_event)
+				block.setColour(Block_colour_event_disconnted)
+			else if(block.colour_ == Block_colour_condition)
+				block.setColour(Block_colour_condition_disconnted)
+			else if(block.colour_ == Block_colour_action)
+				block.setColour(Block_colour_action_disconnted)
+			else if(block.colour_ == Block_colour_section)
+				block.setColour(Block_colour_section_disconnted)
+			else if(block.colour_ == Block_colour_option)
+				block.setColour(Block_colour_option_disconnted)
 			
-// 	}
-// }
+	}
+}
 
-// function change(event, block){
-// 	if(event.type == Blockly.Events.BLOCK_CREATE && event.group){
-// 		if(event.ids.length > 1){
-// 			var block_array = event.ids
-// 			var length = block_array.length
-// 			for(var i =0; i < length; i++){
-// 				if(block.id == block_array[i]){
-// 					change_block_color(block)
-// 					break;
-// 				}
-// 			}
+function change(event, block){
+	if(event.type == Blockly.Events.BLOCK_CREATE && event.group){
+		if(event.ids.length > 1){
+			var block_array = event.ids
+			var length = block_array.length
+			for(var i =0; i < length; i++){
+				if(block.id == block_array[i]){
+					change_block_color(block)
+					break;
+				}
+			}
 		
-// 		}
-// 	}
-// }
+		}
+	}
+}
 
-// function set2blocksMap(blocks){
-// 	blocks
-// 	blocksMap
-// }
+function set2blocksMap(blocks){
+	blocks
+	blocksMap
+}
 
-// function countLines() {
-//    var text =_("smartApp_code").textContent
-//    var lines = text.split("\n").length -1;
-//    alert("Lines: " + lines);
-// }
+function countLines() {
+   var text =_("smartApp_code").textContent
+   var lines = text.split("\n").length -1;
+   alert("Lines: " + lines);
+}
