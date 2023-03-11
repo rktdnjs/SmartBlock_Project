@@ -504,7 +504,12 @@
   <script src="app/src/highlight/highlight.pack.js"></script>
 
 
+  <!-- **** Three workspaces ******************************************************** -->
+
   <script>
+
+    // **** Rule tab and workspace  ****************************************
+
     const json_toolbox_for_rule_tab =
       {
         "kind": "categoryToolbox",
@@ -555,6 +560,68 @@
         ]
       }
 
+    // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
+    var workspaceForRule = 
+          Blockly.inject('blocklyDivForRule', 
+            { toolbox : json_toolbox_for_rule_tab, 
+                  collapse : false, 
+                  comments : false, 
+                  disable : false, 
+                  maxBlocks : Infinity, 
+                  trashcan : true, 
+                  horizontalLayout : false, 
+                  toolboxPosition : 'start', 
+                  css : true, 
+                  media : 'app/media/',
+                  rtl : false, 
+                  scrollbars : true, 
+                  sounds : true, 
+                  oneBasedIndex : true,
+                  zoom:
+                  {controls: true,
+                    wheel: true,
+                    startScale: 1.0,
+                    maxScale: 3,
+                    minScale: 0.3,
+                    scaleSpeed: 1.2},
+                  });
+
+    // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
+    // 도구 상자 - toolbox 카테고리 category 목록을 설정
+    //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+
+
+    var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
+
+    // Rule workspace 탭을 활성화하고
+    // Preference workspace와 Code workspace 탭을 비활성화
+    document.getElementById("in_box_rule").style.display = ""
+		document.getElementById("in_box_preference").style.display = "none"
+		document.getElementById("in_box_code").style.display = "none"
+
+		document.getElementById("rule_tab").style.background = "#f2fbfc"
+		document.getElementById("preference_tab").style.background = "#f8f8f8"
+		document.getElementById("code_tab").style.background = "#f8f8f8"
+
+    // Click tabs
+    function click_rule_tab(){
+      document.getElementById("in_box_rule").style.display = ""
+      document.getElementById("in_box_preference").style.display = "none"
+      document.getElementById("in_box_code").style.display = "none"
+      document.getElementById("save_but").style.visibility  = "hidden"
+      // document.getElementById("save_block_but").style.visibility  = "hidden"
+      
+      document.getElementById("rule_tab").style.background = "#f2fbfc"
+      document.getElementById("preference_tab").style.background = "#f8f8f8"
+      document.getElementById("code_tab").style.background = "#f8f8f8"
+	  }
+
+  // **** Preference tab and workspace  ****************************************
+
+  // Todo: json으로 statement 개념을 작성할 수 있다면 변경
     // const json_toolbox_for_preference_tab = 
     //   {
     //     "kind": "categoryToolbox",
@@ -659,65 +726,6 @@
     //     ]
     //   }
 
-    // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
-    var workspaceForRule = 
-          Blockly.inject('blocklyDivForRule', 
-            { toolbox : json_toolbox_for_rule_tab, 
-                  collapse : false, 
-                  comments : false, 
-                  disable : false, 
-                  maxBlocks : Infinity, 
-                  trashcan : true, 
-                  horizontalLayout : false, 
-                  toolboxPosition : 'start', 
-                  css : true, 
-                  media : 'app/media/',
-                  rtl : false, 
-                  scrollbars : true, 
-                  sounds : true, 
-                  oneBasedIndex : true,
-                  zoom:
-                  {controls: true,
-                    wheel: true,
-                    startScale: 1.0,
-                    maxScale: 3,
-                    minScale: 0.3,
-                    scaleSpeed: 1.2},
-                  });
-
-    // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
-    // 도구 상자 - toolbox 카테고리 category 목록을 설정
-    //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
-
-
-    var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
-
-    // Rule workspace 탭을 활성화하고
-    // Preference workspace와 Code workspace 탭을 비활성화
-    document.getElementById("in_box_rule").style.display = ""
-		document.getElementById("in_box_preference").style.display = "none"
-		document.getElementById("in_box_code").style.display = "none"
-
-		document.getElementById("rule_tab").style.background = "#f2fbfc"
-		document.getElementById("preference_tab").style.background = "#f8f8f8"
-		document.getElementById("code_tab").style.background = "#f8f8f8"
-
-    // Click tabs
-    function click_rule_tab(){
-      document.getElementById("in_box_rule").style.display = ""
-      document.getElementById("in_box_preference").style.display = "none"
-      document.getElementById("in_box_code").style.display = "none"
-      document.getElementById("save_but").style.visibility  = "hidden"
-      // document.getElementById("save_block_but").style.visibility  = "hidden"
-      
-      document.getElementById("rule_tab").style.background = "#f2fbfc"
-      document.getElementById("preference_tab").style.background = "#f8f8f8"
-      document.getElementById("code_tab").style.background = "#f8f8f8"
-	  }
-
   // toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
 	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
 	// 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여
@@ -740,11 +748,6 @@
       if(workspaceForPreference){
         workspaceForPreference.updateToolbox(toolbox_for_preference_tab);
       }else{	
-        // workspaceForPreference = 
-        //   Blockly.inject('blocklyDivForPreference', 
-        //               {media: 'app/media/', 
-        //               toolbox: json_toolbox_for_preference_tab});
-
          workspaceForPreference = 
             Blockly.inject('blocklyDivForPreference', 
               {media: 'app/media/', toolbox: toolbox_for_preference_tab});
@@ -919,23 +922,27 @@
 
 	}
 
+  // **** Code tab and workspace  **************************************************
+
   // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
   // Rule 탭과 Preference 탭을 비활성화하기
   function click_code_tab() {
+      // Blockly.SmartThings.nameDB_.setVariableMap(workspaceForRule.getVariableMap());
+
 
       // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
       // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
-      // var ecaList = Blockly.SmartThings.workspaceToCode(workspace);
-      // if(ecaList != null){
+      var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
+      if(ecaList != null){
       //   // ecaList를 출력
-      //   console.log("ECA list: " + JSON.stringify(ecaList));
+        console.log("ECA list: " + JSON.stringify(ecaList));
 
-      //   var result_verification = verification(ecaList);
-      //   if(result_verification.isReliable()){
+        var result_verification = verification(ecaList);
+        if(result_verification.isReliable()){
         
-          // var code = smartApp(ecaList);
-          // _("smartApp_code").textContent = code;
-          // hljs.highlightBlock(_("smartApp_code"));	
+          var code = smartApp(ecaList);
+          document.getElementById("smartApp_code").textContent = code;
+          hljs.highlightBlock(document.getElementById("smartApp_code"));	
         
           document.getElementById("in_box_rule").style.display = "none"
           document.getElementById("in_box_preference").style.display = "none"
@@ -949,17 +956,31 @@
           document.getElementById("code_tab").style.background = "#f4f4f4"
           //countLines()
 
-      //   }else{
-      //     result_verification.alert_()
-      //   }
-      // }else{
+        }else{
+          result_verification.alert_()
+        }
+      }else{
 
-      //   alert("please build SmartBlock");
-      // }
+        alert("please build SmartBlock");
+      }
     
   }
 
-  // 
+	// 코드 세이브 함수
+	function saveCode() {
+		try{
+			var fileName = document.getElementById("name").value;
+			if(fileName){
+				var code = _("smartApp_code").textContent;
+				var blob = new Blob([code], {type: "text/plain;charset=utf-8"});
+				saveAs(blob, fileName+".groovy");
+			}else{
+				alert("plz write the App name");
+			}
+		}catch(e){
+			alert(e);
+		}
+	}
 
   </script>
 
