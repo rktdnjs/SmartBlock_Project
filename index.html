@@ -464,7 +464,9 @@
   <!-- Todo: Refactor the depence on codegenerators -->
   <script>
     Blockly.SmartThings = new Blockly.Generator("SmartThings");
+    Blockly.SmartThings.init();
   </script>
+  <script src="app/smartthings_compressed.js"></script>
 
   <script src="scripts/codegenerate1(def+pref).js"></script> <!-- Changes demoworkspace2 into workspaceForPreference -->
   <script src="app/src/codegenerate2(predefined).js"></script>
@@ -592,7 +594,6 @@
     workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
     workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
     workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
-
 
     var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
 
@@ -927,8 +928,6 @@
   // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
   // Rule 탭과 Preference 탭을 비활성화하기
   function click_code_tab() {
-      // Blockly.SmartThings.nameDB_.setVariableMap(workspaceForRule.getVariableMap());
-
 
       // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
       // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
