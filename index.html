@@ -348,7 +348,9 @@
 			<!-- Rule 탭 화면 -->
       <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
 			<div id="in_box_rule"> 
-			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;"></div>
+			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;">
+                          </div>
+
 			</div>
 
 			<!-- Preferences 탭 화면 -->
@@ -367,7 +369,6 @@
 				</pre>
 
 				<button id="save_but" onClick="saveCode()">SaveCode</button>
-				<!-- <button id="save_block_but" onClick="saveBlock()">SaveBlock</button> -->
 			</div>
 		</div>
 
@@ -465,6 +466,9 @@
   <script>
     Blockly.SmartThings = new Blockly.Generator("SmartThings");
     Blockly.SmartThings.init();
+
+    const serializer = new Blockly.serialization.blocks.BlockSerializer();
+
   </script>
   <script src="app/smartthings_compressed.js"></script>
 
@@ -505,11 +509,11 @@
   <link rel="stylesheet" href="app/src/highlight/styles/default.css">
   <script src="app/src/highlight/highlight.pack.js"></script>
 
+  <script src="app/src/support/FileSaver.js"></script>
 
   <!-- **** Three workspaces ******************************************************** -->
 
   <script>
-
     // **** Rule tab and workspace  ****************************************
 
     const json_toolbox_for_rule_tab =
@@ -558,7 +562,8 @@
             "kind": "category",
             "name": "Action",
             "custom": "SMART_DEVICE_A"
-          }		
+          }
+          
         ]
       }
 
@@ -613,11 +618,14 @@
       document.getElementById("in_box_preference").style.display = "none"
       document.getElementById("in_box_code").style.display = "none"
       document.getElementById("save_but").style.visibility  = "hidden"
-      // document.getElementById("save_block_but").style.visibility  = "hidden"
+//       document.getElementById("save_block_but").style.visibility  = "hidden"
       
       document.getElementById("rule_tab").style.background = "#f2fbfc"
       document.getElementById("preference_tab").style.background = "#f8f8f8"
       document.getElementById("code_tab").style.background = "#f8f8f8"
+
+      saveBlock();
+      
 	  }
 
   // **** Preference tab and workspace  ****************************************
@@ -980,6 +988,84 @@
 			alert(e);
 		}
 	}
+
+        // [블록 저장과 불러오기]
+        // 파일명을 입력하고 Rule 블록을 만든 다음 Rule 탭을 누르면 파일명.smartblock 파일에
+        // 블록을 json으로 인코딩한 텍스트를 저장
+        //
+        // 파일명이 비어있는 상태에서 Rule 탭을 누르면 미리 준비된 sampleJsonBlocks의 json을
+        // Rule 워크스페이스로 불러옴
+        function saveBlock() {
+                var json = serializer.save(workspaceForRule)
+                if (json) {
+                        console.log(json);
+        
+                        try{
+                                var fileName = document.getElementById("name").value;
+                                if(fileName){
+                                        // var code = document.getElementsByClassName("smartApp_code").textContent;
+                                        var blob = new Blob([JSON.stringify(json)], {type: "text/plain;charset=utf-8"});
+                                        saveAs(blob, fileName+".smartblock");
+                                }else{
+                                        // alert("plz write the App name");
+                                        
+                                }
+                        }catch(e){
+                                alert(e);
+                        }
+                }
+                else
+                        loadBlock(sampleJsonBlocks);
+
+        }
+
+        var sampleJsonBlocks = 
+        {
+                "languageVersion": 0,
+                "blocks": [
+                {
+                "type": "eca",
+                "id": "Q!E*y7elD7d5%lE[u:S6",
+                "x": 204,
+                "y": 53,
+                "inputs": {
+                        "Event": {
+                        "block": {
+                        "type": "e_installed",
+                        "id": "ta,g,EB1F_-TMTNND^ge",
+                        "fields": {
+                        "name": {
+                                "id": "q@w3aYmHsa;}QuDKo(7#"
+                        }
+                        }
+                        }
+                        },
+                        "Condition": {
+                        "block": {
+                        "type": "boolean",
+                        "id": "rD845p:D=Ir`Y(YyqL=:",
+                        "fields": {
+                        "BOOL": "TRUE"
+                        }
+                        }
+                        },
+                        "Action": {
+                        "block": {
+                        "type": "sendnotification",
+                        "id": "wk@z}44D9-CCV8z0XOG%",
+                        "fields": {
+                        "text": "Hello!!"
+                        }
+                        }
+                        }
+                }
+                }
+                ]
+        }
+
+        function loadBlock(json) {
+                serializer.load(json, workspaceForRule)
+        }
 
   </script>
 
