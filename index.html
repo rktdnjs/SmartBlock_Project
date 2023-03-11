@@ -37,6 +37,8 @@
 	</div>
 
 	<div>
+    <!-- **** Things 메뉴 ************************************************************** -->
+
     <!-- device_tab 요소를 javascript 코드 device_table()로
          장치 목록을 입력받아 만들었는데
          이 코드의 의존성이 복잡하여 삭제하고
@@ -340,6 +342,8 @@
       }
     </script>
 
+    <!-- **** 탭        ************************************************************** -->
+
 		<div id="box" >
 			<!-- Rule 탭 화면 -->
       <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
@@ -426,18 +430,14 @@
       var Block_colour_option_disconnted = "#"+"cceef2"
   </script>
 
-  <!-- ECA, EA, CA blocks -->
-  <!--  - 의존: Block_clour_eca 속성 -->
-  <script src="scripts/block/rule_definer.js"></script>
-
   <!-- Things (cap or capability) 
         CountMap이 cap_helper.js에서 정의됨
         var deviceCount = new CountMap()을 이 스크립트 선언 다음에 작성
   -->
-  <script src="scripts/cap/cap.js"></script>
-  <script src="scripts/cap/cap_helper.js"></script>
-  <script src="scripts/cap/cap_helper_attrMap.js"></script>
-  <script src="scripts/cap/cap_helper_commMap.js"></script>
+  <script src="app/src/cap/cap.js"></script>
+  <script src="app/src/cap/cap_helper.js"></script>
+  <script src="app/src/cap/cap_helper_attrMap.js"></script>
+  <script src="app/src/cap/cap_helper_commMap.js"></script>
 
   <script>
     var	deviceCount = new CountMap();
@@ -455,9 +455,55 @@
   <script>
       var selected_dev = new Map();
   </script>
+
+  <!-- Things 메뉴 생성하는 device_table() 함수를 주석 처리한 app/src/ui/help.js -->
   <script src="scripts/ui/help.js"></script>
 
   <!-- json toolbox -->
+
+  <!-- Todo: Refactor the depence on codegenerators -->
+  <script>
+    Blockly.SmartThings = new Blockly.Generator("SmartThings");
+  </script>
+
+  <script src="app/src/codegenerate1(def+pref).js"></script>
+  <script src="app/src/codegenerate2(predefined).js"></script>
+  <script src="app/src/codegenerate3(handlers).js"></script>
+
+  <script src="app/src/toolbox.js"></script>
+  <script src="app/src/verification.js"></script>
+
+  <!-- ECA, EA, CA blocks -->
+  <!--  - 의존: Block_clour_eca 속성 -->
+  <script src="app/src/block/rule_definer.js"></script>
+
+  <script src="app/src/block/rule_generator.js"></script>
+
+  <script src="app/src/block/event.js"></script>
+  <script src="app/src/block/event_timer.js"></script>
+
+  <script src="app/src/block/condition_generator.js"></script>
+  <script src="app/src/block/condition_device.js"></script>
+  <script src="app/src/block/condition_definer.js"></script>
+
+  <script src="app/src/block/action_list.js"></script>
+  <script src="app/src/block/action_device.js"></script>
+  <script src="app/src/block/action_generator.js"></script>
+  <script src="app/src/block/action_definer.js"></script>
+  <script src="app/src/block/action_timer.js"></script>
+
+  <script src="app/src/block/_definer_helper.js"></script>
+
+
+  <script src="app/src/block/option.js"></script>
+  <script src="app/src/block/preference.js"></script>
+  <script src="app/src/block/grouping.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="app/src/css/main.css">
+  <link rel="stylesheet" href="app/src/highlight/styles/default.css">
+  <script src="app/src/highlight/highlight.pack.js"></script>
+
+
   <script>
     const json_toolbox_for_rule_tab =
       {
@@ -486,7 +532,7 @@
           {
             "kind": "category",
             "name": "Event",
-            "custom": "SAMRT_DEVICE_E",
+            "custom": "SMART_DEVICE_E",
             "contents": [
               {
                 "kind": "block",
@@ -498,13 +544,13 @@
           {
             "kind": "category",
             "name": "Condition",
-            "custom": "SAMRT_DEVICE_C"
+            "custom": "SMART_DEVICE_C"
           },
 
           {
             "kind": "category",
             "name": "Action",
-            "custom": "SAMRT_DEVICE_A"
+            "custom": "SMART_DEVICE_A"
           }		
         ]
       }
@@ -638,13 +684,13 @@
                     minScale: 0.3,
                     scaleSpeed: 1.2},
                   });
-    
+
     // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
     // 도구 상자 - toolbox 카테고리 category 목록을 설정
     //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_E', Blockly.devicesFlyoutCallback_event);
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
 
 
     var demoWorkspace2; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
