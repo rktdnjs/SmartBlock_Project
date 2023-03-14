@@ -37,6 +37,8 @@
 	</div>
 
 	<div>
+    <!-- **** Things 메뉴 ************************************************************** -->
+
     <!-- device_tab 요소를 javascript 코드 device_table()로
          장치 목록을 입력받아 만들었는데
          이 코드의 의존성이 복잡하여 삭제하고
@@ -340,11 +342,15 @@
       }
     </script>
 
+    <!-- **** 탭        ************************************************************** -->
+
 		<div id="box" >
 			<!-- Rule 탭 화면 -->
       <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
 			<div id="in_box_rule"> 
-			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;"></div>
+			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;">
+                          </div>
+
 			</div>
 
 			<!-- Preferences 탭 화면 -->
@@ -363,7 +369,6 @@
 				</pre>
 
 				<button id="save_but" onClick="saveCode()">SaveCode</button>
-				<!-- <button id="save_block_but" onClick="saveBlock()">SaveBlock</button> -->
 			</div>
 		</div>
 
@@ -426,18 +431,14 @@
       var Block_colour_option_disconnted = "#"+"cceef2"
   </script>
 
-  <!-- ECA, EA, CA blocks -->
-  <!--  - 의존: Block_clour_eca 속성 -->
-  <script src="scripts/block/rule_definer.js"></script>
-
   <!-- Things (cap or capability) 
         CountMap이 cap_helper.js에서 정의됨
         var deviceCount = new CountMap()을 이 스크립트 선언 다음에 작성
   -->
-  <script src="scripts/cap/cap.js"></script>
-  <script src="scripts/cap/cap_helper.js"></script>
-  <script src="scripts/cap/cap_helper_attrMap.js"></script>
-  <script src="scripts/cap/cap_helper_commMap.js"></script>
+  <script src="app/src/cap/cap.js"></script>
+  <script src="app/src/cap/cap_helper.js"></script>
+  <script src="app/src/cap/cap_helper_attrMap.js"></script>
+  <script src="app/src/cap/cap_helper_commMap.js"></script>
 
   <script>
     var	deviceCount = new CountMap();
@@ -455,10 +456,66 @@
   <script>
       var selected_dev = new Map();
   </script>
+
+  <!-- Things 메뉴 생성하는 device_table() 함수를 주석 처리한 app/src/ui/help.js -->
   <script src="scripts/ui/help.js"></script>
 
   <!-- json toolbox -->
+
+  <!-- Todo: Refactor the depence on codegenerators -->
   <script>
+    Blockly.SmartThings = new Blockly.Generator("SmartThings");
+    Blockly.SmartThings.init();
+
+    const serializer = new Blockly.serialization.blocks.BlockSerializer();
+
+  </script>
+  <script src="app/smartthings_compressed.js"></script>
+
+  <script src="scripts/codegenerate1(def+pref).js"></script> <!-- Changes demoworkspace2 into workspaceForPreference -->
+  <script src="app/src/codegenerate2(predefined).js"></script>
+  <script src="app/src/codegenerate3(handlers).js"></script>
+
+  <script src="app/src/toolbox.js"></script>
+  <script src="app/src/verification.js"></script>
+
+  <!-- ECA, EA, CA blocks -->
+  <!--  - 의존: Block_clour_eca 속성 -->
+  <script src="app/src/block/rule_definer.js"></script>
+
+  <script src="app/src/block/rule_generator.js"></script>
+
+  <script src="app/src/block/event.js"></script>
+  <script src="app/src/block/event_timer.js"></script>
+
+  <script src="app/src/block/condition_generator.js"></script>
+  <script src="app/src/block/condition_device.js"></script>
+  <script src="app/src/block/condition_definer.js"></script>
+
+  <script src="app/src/block/action_list.js"></script>
+  <script src="app/src/block/action_device.js"></script>
+  <script src="app/src/block/action_generator.js"></script>
+  <script src="app/src/block/action_definer.js"></script>
+  <script src="app/src/block/action_timer.js"></script>
+
+  <script src="app/src/block/_definer_helper.js"></script>
+
+
+  <script src="app/src/block/option.js"></script>
+  <script src="app/src/block/preference.js"></script>
+  <script src="app/src/block/grouping.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="app/src/css/main.css">
+  <link rel="stylesheet" href="app/src/highlight/styles/default.css">
+  <script src="app/src/highlight/highlight.pack.js"></script>
+
+  <script src="app/src/support/FileSaver.js"></script>
+
+  <!-- **** Three workspaces ******************************************************** -->
+
+  <script>
+    // **** Rule tab and workspace  ****************************************
+
     const json_toolbox_for_rule_tab =
       {
         "kind": "categoryToolbox",
@@ -486,7 +543,7 @@
           {
             "kind": "category",
             "name": "Event",
-            "custom": "SAMRT_DEVICE_E",
+            "custom": "SMART_DEVICE_E",
             "contents": [
               {
                 "kind": "block",
@@ -498,118 +555,15 @@
           {
             "kind": "category",
             "name": "Condition",
-            "custom": "SAMRT_DEVICE_C"
+            "custom": "SMART_DEVICE_C"
           },
 
           {
             "kind": "category",
             "name": "Action",
-            "custom": "SAMRT_DEVICE_A"
-          }		
-        ]
-      }
-
-    const json_toolbox_for_preference_tab = 
-      {
-        "kind": "categoryToolbox",
-        "contents": [
-          {
-              "kind": "category",
-              "name": "Sample",
-              "contents": [
-                // Todo: 블록에서 statement 개념 이해 필요!
-                // {
-                //   "kind": "block",
-                //   "type": "page",
-                //   "fields": {
-                //     "name": ""
-                //   },
-                //   "statement": {
-                //     "kind": "block",
-                //     "type": "section"
-                //   }
-                // }
-              ]
-          },
-
-          {
-              "kind": "category",
-              "name": "Preference",
-              "contents": [
-                {
-                  "kind": "block",
-                  "type": "page",
-                  "fields": {
-                    "name": "",
-                    "nextPage": ""
-                  }
-                },
-                {
-                  "kind": "block",
-                  "type": "section",
-                  "fields": {
-                    "NAME": ""
-                  }
-                },
-                {
-                  "kind": "block",
-                  "type": "dynamicpage",
-                  "fields": {
-                    "name": "",
-                    "nextPage": ""
-                  }
-                }
-              ]
-          },
-
-          {
-              "kind": "category",
-              "name": "option",
-              "contents": [
-                {
-                  "kind": "block",
-                  "type": "option_title"
-                },
-                {
-                  "kind": "block",
-                  "type": "option_nextpage",
-                  "fields": {
-                    "nextPage": ""
-                  }
-                },
-                {
-                  "kind": "block",
-                  "type": "option_install",
-                  "fields": {
-                    "true": true // Todo: TRUE vs. true???
-                  }
-                },
-                {
-                  "kind": "block",
-                  "type": "option_uninstall",
-                  "fields": {
-                    "true": true // Todo: TRUE vs. true???
-                  }
-                },
-                {
-                  "kind": "block",
-                  "type": "option_required"
-                },
-                {
-                  "kind": "block",
-                  "type": "option_multiple"
-                },
-                {
-                  "kind": "block",
-                  "type": "option_name"
-                },
-              ]
-          },
-
-          {
-              "kind": "category",
-              "name": "input",
-          }      
+            "custom": "SMART_DEVICE_A"
+          }
+          
         ]
       }
 
@@ -638,16 +592,15 @@
                     minScale: 0.3,
                     scaleSpeed: 1.2},
                   });
-    
+
     // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
     // 도구 상자 - toolbox 카테고리 category 목록을 설정
     //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_E', Blockly.devicesFlyoutCallback_event);
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
-    workspaceForRule.registerToolboxCategoryCallback('SAMRT_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
 
-
-    var demoWorkspace2; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
+    var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
 
     // Rule workspace 탭을 활성화하고
     // Preference workspace와 Code workspace 탭을 비활성화
@@ -665,12 +618,122 @@
       document.getElementById("in_box_preference").style.display = "none"
       document.getElementById("in_box_code").style.display = "none"
       document.getElementById("save_but").style.visibility  = "hidden"
-      // document.getElementById("save_block_but").style.visibility  = "hidden"
+//       document.getElementById("save_block_but").style.visibility  = "hidden"
       
       document.getElementById("rule_tab").style.background = "#f2fbfc"
       document.getElementById("preference_tab").style.background = "#f8f8f8"
       document.getElementById("code_tab").style.background = "#f8f8f8"
+
+      saveBlock();
+      
 	  }
+
+  // **** Preference tab and workspace  ****************************************
+
+  // Todo: json으로 statement 개념을 작성할 수 있다면 변경
+    // const json_toolbox_for_preference_tab = 
+    //   {
+    //     "kind": "categoryToolbox",
+    //     "contents": [
+    //       {
+    //           "kind": "category",
+    //           "name": "Sample",
+    //           "contents": [
+    //             // Todo: 블록에서 statement 개념 이해 필요!
+    //             // {
+    //             //   "kind": "block",
+    //             //   "type": "page",
+    //             //   "fields": {
+    //             //     "name": ""
+    //             //   },
+    //             //   "statement": {
+    //             //     "kind": "block",
+    //             //     "type": "section"
+    //             //   }
+    //             // }
+    //           ]
+    //       },
+
+    //       {
+    //           "kind": "category",
+    //           "name": "Preference",
+    //           "contents": [
+    //             {
+    //               "kind": "block",
+    //               "type": "page",
+    //               "fields": {
+    //                 "name": "",
+    //                 "nextPage": ""
+    //               }
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "section",
+    //               "fields": {
+    //                 "NAME": ""
+    //               }
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "dynamicpage",
+    //               "fields": {
+    //                 "name": "",
+    //                 "nextPage": ""
+    //               }
+    //             }
+    //           ]
+    //       },
+
+    //       {
+    //           "kind": "category",
+    //           "name": "option",
+    //           "contents": [
+    //             {
+    //               "kind": "block",
+    //               "type": "option_title"
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_nextpage",
+    //               "fields": {
+    //                 "nextPage": ""
+    //               }
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_install",
+    //               "fields": {
+    //                 "true": true // Todo: TRUE vs. true???
+    //               }
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_uninstall",
+    //               "fields": {
+    //                 "true": true // Todo: TRUE vs. true???
+    //               }
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_required"
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_multiple"
+    //             },
+    //             {
+    //               "kind": "block",
+    //               "type": "option_name"
+    //             },
+    //           ]
+    //       },
+
+    //       {
+    //           "kind": "category",
+    //           "name": "input",
+    //       }      
+    //     ]
+    //   }
 
   // toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
 	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
@@ -689,19 +752,186 @@
 
       // Todo: 아래 코드가 동작하도록 toolbox_pre() 함수를 도입해야하고
       //       그 외 이름 변경이 필요 (예: blocklyDiv2 ==> blocklyDivForPreference)
-      // var toolbox = toolbox_pre();
+      var toolbox_for_preference_tab = toolbox_pre();
 
-      if(demoWorkspace2){
-      //   demoWorkspace2.updateToolbox(toolbox);
+      if(workspaceForPreference){
+        workspaceForPreference.updateToolbox(toolbox_for_preference_tab);
       }else{	
-        demoWorkspace2 = 
-          Blockly.inject('blocklyDivForPreference', 
-                      {media: 'app/media/', 
-                      toolbox: json_toolbox_for_preference_tab});
-      //   Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
+         workspaceForPreference = 
+            Blockly.inject('blocklyDivForPreference', 
+              {media: 'app/media/', toolbox: toolbox_for_preference_tab});
+
+        Blockly.Xml.domToWorkspace(
+          document.getElementById('blocklyDivForPreference'), workspaceForPreference);
       }	
   }
 
+  function sample(){
+	    var sample = '  <category name="Sample">\n'
+
+		+ '		<block type="page">'
+		+ '		<field name="name"></field>'
+		+'			<statement name="section">'
+		+'				<block type="section"></block>'
+        +'          </statement>'
+        +'      </block>'
+
+    // Todo: nextStatement 필드 관련 TypeError가 발생하여
+    //       아래 두 가지 샘플 페이지는 주석 처리함
+
+		// +'      <block type="page">'
+		// +'        <field name="name"></field>'
+		// +'        <statement name="section">'
+		// +'          <block type="section">'
+		// +'            <value name="option">'
+		// +'              <block type="option_title">'
+		// +'                <field name="title">when..</field>'
+		// +'              </block>'
+		// +'            </value>'
+		// +'            <next>'
+		// +'              <block type="section">'
+		// +'                <value name="option">'
+		// +'                  <block type="option_title">'
+		// +'                    <field name="title">then..</field>'
+		// +'                  </block>'
+		// +'                </value>'
+		// +'              </block>'
+		// +'            </next>'
+		// +'            <next>'
+		// +'              <block type="section">'
+		// +'                <value name="option">'
+		// +'                  <block type="option_title">'
+		// +'                    <field name="title">if..</field>'
+		// +'                  </block>'
+		// +'                </value>'
+		// +'              </block>'
+		// +'            </next>'
+		// +'          </block>'
+		// +'        </statement>'
+		// +'      </block>'
+
+		// +'      <block type="page">'
+		// +'        <field name="name">when..</field>'
+		// +'        <statement name="section">'
+		// +'          <block type="section"></block>'
+		// +'        </statement>'
+		// +'        <next>'
+		// +'          <block type="page">'
+		// +'            <field name="name">then..</field>'
+		// +'            <statement name="section">'
+		// +'              <block type="section"></block>'
+		// +'            </statement>'
+		// +'          </block>'
+		// +'        </next>'
+		// +'        <next>'
+		// +'          <block type="page">'
+		// +'            <field name="name">if..</field>'
+		// +'            <statement name="section">'
+		// +'              <block type="section"></block>'
+		// +'            </statement>'
+		// +'          </block>'
+		// +'        </next>'
+		// +'      </block>'
+
+		+'</category>\n';
+		return sample
+	}
+
+	function preference(){
+		var pre = '  <category name="Preference">\n';
+		pre += '    <block type="page"> <field name="name"></field>\n  <field name="nextPage"></field>\n  </block>\n ';
+		pre += '    <block type="section">'+' <field name="NAME"></field>\n ' + ' </block>\n ';
+		pre += '    <block type="dynamicpage">'+' <field name="name"></field>\n ' + ' <field name="nextPage"></field>\n ' + ' </block>\n ';
+		pre += '  </category>\n';
+	
+		return pre
+	}
+
+	function preference_option(){
+		var preference_option = 
+		'  <category name="option">\n'
+		+'<block type="option_title"></block>\n'
+		+'<block type="option_nextpage"><field name="nextPage"></field></block>\n'
+		+'<block type="option_install"><field name="true">TRUE</field></block>\n'
+		+'<block type="option_uninstall"> <field name="true">TRUE</field></block>\n'
+		+'<block type="option_required"></block>\n'
+		+'<block type="option_multiple"></block>\n'
+		+'<block type="option_name"></block>\n'
+		+'  </category>\n';
+		return preference_option
+	}
+    
+	function toolbox_pre(){
+			
+		var toolbox_pre = '<xml>\n';
+		toolbox_pre += sample();
+		toolbox_pre += preference();
+		toolbox_pre += preference_option();
+
+		var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
+		var event_block ="";
+		var action_block ="";
+		var condition_block ="";
+		
+		toolbox_pre += '  <category name="input" >\n';
+		if(ecaList){
+			for(i in ecaList){
+				var event = ecaList[i].event;
+				var actionList = ecaList[i].actionList;
+				var coditionList = new Array();
+
+				var e_devname = event.devname;
+				
+				//eliminate dutulicate
+				var eSt_e = event_block.indexOf(e_devname);
+				var aSt_e = action_block.indexOf(e_devname);
+				var cSt_e = condition_block.indexOf(e_devname);
+
+				if(eSt_e == -1 && aSt_e == -1 && cSt_e == -1){
+					pre_block(e_devname, Block_colour_event)
+					event_block += '    <block type="input '+e_devname+'">'+ ' </block> \n';
+				}
+
+
+				condition_input(ecaList[i].condition, coditionList);
+
+				for(c in coditionList){
+					var c_devname = coditionList[c].devname
+					if(c_devname){
+						var eSt_a = event_block.indexOf(c_devname);
+						var aSt_a = action_block.indexOf(c_devname);
+						var cSt_e = condition_block.indexOf(c_devname);
+						if(eSt_a == -1 && aSt_a == -1 && cSt_e == -1){
+							pre_block(c_devname, Block_colour_condition)
+							condition_block += '    <block type="input '+c_devname+'">'+ ' </block> \n';
+						}
+					}
+				}
+
+				for(a in actionList){
+					var a_devname = actionList[a].devname
+					if(a_devname){
+						var eSt_a = event_block.indexOf(a_devname);
+						var aSt_a = action_block.indexOf(a_devname);
+						var cSt_e = condition_block.indexOf(a_devname);
+						if(eSt_a == -1 && aSt_a == -1 && cSt_e == -1){
+							pre_block(a_devname, Block_colour_action)
+							action_block += '    <block type="input '+a_devname+'">'+ ' </block> \n';
+						}
+					}
+				}
+			}
+		}
+
+		toolbox_pre += event_block + condition_block + action_block;
+		toolbox_pre += '  </category>\n';
+		toolbox_pre += '</xml>\n';
+
+		return toolbox_pre;
+
+	}
+
+  // **** Code tab and workspace  **************************************************
 
   // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
   // Rule 탭과 Preference 탭을 비활성화하기
@@ -709,17 +939,17 @@
 
       // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
       // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
-      // var ecaList = Blockly.SmartThings.workspaceToCode(workspace);
-      // if(ecaList != null){
+      var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
+      if(ecaList != null){
       //   // ecaList를 출력
-      //   console.log("ECA list: " + JSON.stringify(ecaList));
+        console.log("ECA list: " + JSON.stringify(ecaList));
 
-      //   var result_verification = verification(ecaList);
-      //   if(result_verification.isReliable()){
+        var result_verification = verification(ecaList);
+        if(result_verification.isReliable()){
         
-          // var code = smartApp(ecaList);
-          // _("smartApp_code").textContent = code;
-          // hljs.highlightBlock(_("smartApp_code"));	
+          var code = smartApp(ecaList);
+          document.getElementById("smartApp_code").textContent = code;
+          hljs.highlightBlock(document.getElementById("smartApp_code"));	
         
           document.getElementById("in_box_rule").style.display = "none"
           document.getElementById("in_box_preference").style.display = "none"
@@ -733,17 +963,109 @@
           document.getElementById("code_tab").style.background = "#f4f4f4"
           //countLines()
 
-      //   }else{
-      //     result_verification.alert_()
-      //   }
-      // }else{
+        }else{
+          result_verification.alert_()
+        }
+      }else{
 
-      //   alert("please build SmartBlock");
-      // }
+        alert("please build SmartBlock");
+      }
     
   }
 
-  // 
+	// 코드 세이브 함수
+	function saveCode() {
+		try{
+			var fileName = document.getElementById("name").value;
+			if(fileName){
+				var code = _("smartApp_code").textContent;
+				var blob = new Blob([code], {type: "text/plain;charset=utf-8"});
+				saveAs(blob, fileName+".groovy");
+			}else{
+				alert("plz write the App name");
+			}
+		}catch(e){
+			alert(e);
+		}
+	}
+
+        // [블록 저장과 불러오기]
+        // 파일명을 입력하고 Rule 블록을 만든 다음 Rule 탭을 누르면 파일명.smartblock 파일에
+        // 블록을 json으로 인코딩한 텍스트를 저장
+        //
+        // 파일명이 비어있는 상태에서 Rule 탭을 누르면 미리 준비된 sampleJsonBlocks의 json을
+        // Rule 워크스페이스로 불러옴
+        function saveBlock() {
+                var json = serializer.save(workspaceForRule)
+                if (json) {
+                        console.log(json);
+        
+                        try{
+                                var fileName = document.getElementById("name").value;
+                                if(fileName){
+                                        // var code = document.getElementsByClassName("smartApp_code").textContent;
+                                        var blob = new Blob([JSON.stringify(json)], {type: "text/plain;charset=utf-8"});
+                                        saveAs(blob, fileName+".smartblock");
+                                }else{
+                                        // alert("plz write the App name");
+                                        
+                                }
+                        }catch(e){
+                                alert(e);
+                        }
+                }
+                else
+                        loadBlock(sampleJsonBlocks);
+
+        }
+
+        var sampleJsonBlocks = 
+        {
+                "languageVersion": 0,
+                "blocks": [
+                {
+                "type": "eca",
+                "id": "Q!E*y7elD7d5%lE[u:S6",
+                "x": 204,
+                "y": 53,
+                "inputs": {
+                        "Event": {
+                        "block": {
+                        "type": "e_installed",
+                        "id": "ta,g,EB1F_-TMTNND^ge",
+                        "fields": {
+                        "name": {
+                                "id": "q@w3aYmHsa;}QuDKo(7#"
+                        }
+                        }
+                        }
+                        },
+                        "Condition": {
+                        "block": {
+                        "type": "boolean",
+                        "id": "rD845p:D=Ir`Y(YyqL=:",
+                        "fields": {
+                        "BOOL": "TRUE"
+                        }
+                        }
+                        },
+                        "Action": {
+                        "block": {
+                        "type": "sendnotification",
+                        "id": "wk@z}44D9-CCV8z0XOG%",
+                        "fields": {
+                        "text": "Hello!!"
+                        }
+                        }
+                        }
+                }
+                }
+                ]
+        }
+
+        function loadBlock(json) {
+                serializer.load(json, workspaceForRule)
+        }
 
   </script>
 
