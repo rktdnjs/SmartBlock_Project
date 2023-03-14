@@ -2,6 +2,7 @@ Smart Block: visual programming environment for SmartThings
 ===================
 *Software Language Lab, Computer Science, Sookmyung Women’s University*
 
+*Software Languages and Systems Lab at Chonnam National University*
 
 SmartThings
 -------------
@@ -41,9 +42,10 @@ https://www.sciencedirect.com/science/article/pii/S2590118420300599
 Nayeon Park, Byeong-Mo Chang, Kwanghoon Choi, Smart Block: A Visual Programming Environment for SmartThings, SCA2018: the 1st IEEE International Workshop on Smart Computing and Applications, Tokyo, Japan, July 23-27, 2018.
 https://ieeexplore.ieee.org/document/8377826
 
-newblockly branch
+newblockly branch(Blockly v9.2.1)
 -------------
 새로운 blockly 라이브러리 환경에 기존 SmartBlock 코드를 하나씩 떼어내서 옮긴 형태.
-- 화면 상단 제목과 좌측 device table, 우측 3개의 탭의 모양은 일단 보이나  
-- 화면 중간 workspace를 아직 작업하지 않았음 (blockly.inject 필요)
-- device table을 javascript 코드를 동적 생성했던 것을 해당 html 요소로 대체하여 정적으로 생성하도록 바꾸었음
+
+[작업 중인 내용]
+- 일부 CSS가 적용되지 않는 문제 -> 디버깅 및 수정 필요
+- File Save/Load UI 및 기능 구현 -> 좋은 라이브러리가 존재하는지?
