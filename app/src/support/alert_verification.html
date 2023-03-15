@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Verificiation</title>
+	<meta charset="UTF-8">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="./alert_info.css">
+<!--===============================================================================================-->
+</head>
+<body>
+
+
+	<div>
+		<p class="title" id ="error"></p>
+		<p class="subtitle" id ="inconsistencyErrorTitle"></p>
+		<p class="message" id ="inconsistencyErrorMessage"><br></p>
+		<p class="subtitle" id ="redundancyErrorTitle"></p>
+		<p class="message" id ="redundancyErrorMessage"><br></p>
+		<p class="subtitle" id ="circularityErrorTitle"></p>
+		<p class="message" id ="circularityErrorMessage"><br></p>
+		<p class="message" id ="circularityErrorMessage2"><br></p>
+	</div>
+
+
+<script type="text/javascript">
+ 
+function _GET(search) {
+	var obj = {};
+	var uri = decodeURI(search);
+		uri = uri.slice(1,uri.length);
+
+	var param = uri.split('&');
+	
+	for (var i = 0; i < param.length; i++) {
+		var devide = param[i].split('=');
+		obj[devide[0]] = devide[1];
+	}
+
+	return obj;
+}
+
+window.onload = function () {
+	var search = window.location.search;
+	var getData =  _GET(search);
+	var circularityError = getData.CircularityError
+	var inconsistencyError = getData.InconsistencyError
+	var redundancyError = getData.RedundancyError
+	var numError = getData.numError
+	
+	if(numError > 1)
+		_("error").innerHTML = numError+" Errors detected."
+	else
+		_("error").innerHTML = numError+" Error detected."
+
+	if(circularityError){
+		_("circularityErrorTitle").innerHTML = "Circularity Error"
+		var array = circularityError.split("frist rule will repeat"); 
+		_("circularityErrorMessage").innerHTML = array[0]
+		_("circularityErrorMessage2").innerHTML = "Frist rule"+array[1]+" will repeat"
+	}else{
+		_("circularityErrorMessage").innerHTML = ""
+		_("circularityErrorMessage2").innerHTML = ""
+	}
+	if(inconsistencyError){	
+		_("inconsistencyErrorTitle").innerHTML = "Inconsistency Error"
+		_("inconsistencyErrorMessage").innerHTML = inconsistencyError.replace("*op*", "vs")
+	}else
+		_("inconsistencyErrorMessage").innerHTML = ""
+	if(redundancyError){
+		_("redundancyErrorTitle").innerHTML = "Redundancy Error"
+		_("redundancyErrorMessage").innerHTML = redundancyError.replace("*op*", "==")
+	}else
+		_("redundancyErrorMessage").innerHTML = ""
+}
+
+
+function _(x){ return document.getElementById(x); }
+</script>
+</body>
+</html>

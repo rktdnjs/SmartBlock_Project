@@ -1,0 +1,936 @@
+
+[참고] Blockly에서 블록 정의,  https://vleudive.github.io/2018/01/24/4_javascript_define_block/
+
+
+**************************************************
+*** Blockly.Blocks 배열을 구성하는 블록 정의     ***
+**************************************************
+
+[Rule]--------------------------------------------
+
+ Rule : eca
+        ea
+        ca
+
+ - Block index : eca
+ 
+   1) Value input : Event
+      Check : Event
+      Field : Event
+
+   2) Value input : Condition
+      Check : Condition
+      Field : Condition
+
+   3) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA
+   * Next statement : ECA | EA
+   
+   * ./src/block/rule_definer.js
+
+ - Block index : ea
+
+   1) Value input : Event
+      Check : Event
+      Field : Event
+
+   2) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA
+   * Next statement : ECA | EA
+   
+   * ./src/block/rule_definer.js
+
+ - Block index : ca
+ 
+   1) Value input : Condition
+      Check : Condition
+      Field : Condition
+
+   2) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA | CA
+   * Next statement : ECA | EA | CA
+   
+   * ./src/block/rule_definer.js
+    
+
+[Event]------------------------------------------
+
+ Event :
+   e_installed
+   inpute_data
+   specific_event
+   e_location
+   e_app
+   any
+   e_time
+   e_day
+   e_week
+   input_time
+   e_timer
+   e_updated
+
+---(Timer events)---------------------------------
+
+ - Block index : e_time
+
+   1) Value input : time
+      Field : at
+      Field : [ 0 ] hour
+      Field : : c
+      Field : [ 0 ] minute
+      Field : [ AM | PM ]  apm
+      Check : day_e | week_e
+      Output : Event
+
+   * ./src/block/event_timer.js
+   
+ - Block index : e_day
+
+   1) Dummy input : year
+      Field : [ Jan | Feb | Mar | Apr | May
+              | Jun | Jul | Aug | Sept | Oct
+	      | Nov | Dec ] month
+      Field : [ 불러온 날짜 ] day
+      Field : th
+      Output : day_e
+
+   * ./src/block/event_timer.js      
+
+ - Block index : e_week
+
+   1) Dummy input : next
+      Field : [ Mon | Tue | Wed | Thu
+              | Fri | Sat | Sun ] week1
+      Field : to
+      Field : [ Mon | Tue | Wed | Thu
+              | Fri | Sat | Sun ] week2
+      Output : week_e
+
+   * ./src/block/event_timer.js
+
+ - Block index : e_timer
+
+   1) Dummy input : type
+      Field : timer
+
+   2) Dummy input : type
+      Field : [ 타이머 번호 timer ] NAME
+      Output : Event
+
+   * ./src/block/event_timer.js
+
+ - Block index : input_time
+
+   1) Dummy input : type
+      Field : at time
+      Field : [ 타이머 번호 time ] name
+      Output : Event
+
+   * ./src/block/event_timer.js
+
+---(Application events)---------------------------
+
+ - Block index : e_installed
+
+   1) Value input : updated   <--- 오타?
+      Field : installed
+      Field : [ 설치 횟수 installed ] name
+      Check : Event
+      Output : Event
+
+   * ./src/block/event.js
+   
+
+ - Block index : e_updated
+
+   1) Value input : updated
+      Field : installed
+      Field : [ 수정 횟수 updated ] name
+      Output : Event
+      
+      Check : Event   <--- 없음?
+
+   * ./src/block/event.js
+   
+ - Block index : e_location
+
+   1) Dummy input : 속성 없음
+      Field : location
+      Field : [ . | mode | position
+              | sunset | sunrise
+	      | sunrise Time | sunset Time ] attr
+      Output : Event
+
+   * ./src/block/event.js
+   
+ - Block index : e_app
+
+   1) Dummy input : 속성 없음
+      Field : app
+      Output : Event
+
+   * ./src/block/event.js
+
+ - Block index : inpute_data
+
+   1) Dummy input : device
+      Field : [ text | bool | number
+              | phone | message ] type 
+      Field : [ 장치 갯수 device ] name
+      Output : Inpute
+
+   * ./src/block/event.js
+
+ - Block index : specific_event
+
+   (목적을 알 수 없는 블록)
+
+   * ./src/block/event.js
+
+
+---(Application events)---------------------------
+
+
+---(Grouping)-------------------------------------
+
+Blockly.Blocks['any'] = {
+
+ - Block index : any
+
+   1) Value input : p
+      Check : specific_event
+      Field : any
+      
+   2) Statement input : group
+      Check : group
+      Output : Event
+
+   * ./src/block/grouping.js
+
+
+[Condition]---------------------------------------
+
+Condition:
+
+  *선택한 디바이스들 목록에서 조건*
+
+  operation
+  negate
+  boolean
+  compare
+  dev_attr
+  device_list
+
+  inputc_data
+  datac
+  condition_state
+  math_condition
+  is_null
+  last_event_data
+  already_enum
+  already_num
+  happen_enum_dropdown
+  now_c
+  function_invocation_c
+  getsunrise_c
+  getsunset_c
+  getlocation_c
+  getlocationmode_c
+  getweatherfeature_c
+
+  all
+  exists
+
+ - Block index : 
+
+   1) Dummy input : device
+      Field : type
+      Field : any
+      
+   2) Statement input : group
+      Check : group
+      Output : Event
+
+   * ./src/block/grouping.js
+
+
+[Action]------------------------------------------
+
+Action:
+
+  *선택한 디바이스들 목록에서 액션*
+
+  action_group
+  inputa_data
+  dataa
+  action_state
+  action_state_def
+  math_action
+  send
+  sendpush
+  sendsms
+  sendnotification
+
+  a_timer_after
+  a_timer_every
+  a_time
+  a_day
+  a_week
+  a_stop
+  
+  *map group 액션 
+
+  now_a
+  function_invocation_a
+  subscribe_method
+  location_a
+  app_a
+  getlocation_a
+  getsunrise_a
+  getsunset_a
+  getweatherfeature_a
+  setlocationmode_a
+
+--------------------------------------------------
+SmartBlock에 사용한 장치 목록
+  * ./src/cap/cap.js
+  
+  	// Attributes (id, type, value)
+	// putSingle(device, attributes)
+	// putMultiple(device, attributes1)
+	// putMultiple(device, attributes2)
+
+   // 장치 이름:
+   //   ID (속성 식별자)
+   //   속성 타입
+   //   속성 값
+   //
+   // device.field = value  
+   
+   accelerationSensor: 
+      ID (acceleration), 
+      TYPE (ENUM), 
+      VALUE ["active", "inactive"]
+
+   //actuator
+
+   airConditionerMode: 
+      ID (airConditionerMode),  
+      TYPE(ENUM), 
+      VALUE ["auto", "cool", "dry", "coolClean", "dryClean", 
+               "fanOnly", "heat", "heatClean", "notSupported"]
+		
+   airQualitySensor: 
+      ID (airQuality), 
+      TYPE (NUMBER),
+      VALUE null
+   
+   alarm:
+      ID (alarm)
+      TYPE (ENUM),
+      VALUE ["both", "off", "siren", "strobe"]
+
+   audioMute:
+      ID (mute), 
+      TYPE (ENUM),
+      VALUE ["muted", "unmuted"]
+
+	//audioNotification
+
+	//audioTrackData
+
+	audioVolume:
+      ID (volume), 
+      TYPE (NUMBER), 
+      VALUE null
+      
+	battery:
+      ID (battery), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	beacon:
+      ID (battery), 
+      TYPE (ENUM),
+      VALUE ["not present", "present"]
+   
+	//bridge
+
+	bulb:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+   
+	button:
+      ID (button) 
+      TYPE (ENUM), 
+      VALUE ["held", "pushed"]
+		
+		ID (numberOfButtons), 
+      TYPE (NUMBER), 
+      VALUE (null) 
+
+   carbonDioxideMeasurement:
+      ID (carbonDioxide), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+
+   carbonMonoxideDetector:
+      ID (carbonMonoxide), 
+      TYPE (ENUM), 
+      VALUE ["clear", "detected", "tested"]
+
+	colorControl:
+      ID (color), 
+      TYPE (STRING), 
+      VALUE (null)
+      
+      ID (hue), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+		ID (saturation), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+
+	colorTemperature:
+      ID (colorTemperature), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//color
+
+   colorMode:
+      ID (colorMode), 
+      TYPE (ENUM), 
+      VALUE ["color", "colorTemperature", "other"]
+   
+	//configuration
+   
+   consumable:
+      ID (consumableStatus), 
+      TYPE (ENUM), 
+      VALUE ["good", "maintenance_required", "missing", "order", "replace"]
+
+	contactSensor:
+      ID (contact), 
+      TYPE (ENUM), 
+      VALUE ["closed", "open"]
+
+	//demandResponseLoadControl
+
+   dishwasherMode:
+      ID (dishwasherMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "quick", "rinse", "dry"]
+
+   dishwasherOperatingState:
+      ID (machineState), 
+      TYPE (ENUM), 
+      VALUE ["pause", "run", "stop"]
+
+	doorControl:
+      ID (door), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+
+
+   dryerMode:
+      ID (dryerMode), 
+      TYPE (ENUM), 
+      VALUE ["regular", "lowHeat", "highHeat"]
+
+	//dryerOperatingState
+
+   //dustSensor
+
+	energyMeter:
+      ID (energy), 
+      TYPE (NUMBER), 
+      VALUE (null)
+   
+	//estimatedTimeOfArrival
+
+	//execute
+
+	fanSpeed:
+      ID (fanSpeed), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   filterStatus:
+      ID (filterStatus), 
+      TYPE (ENUM), 
+      VALUE ["normal", "replace"]
+
+   garageDoorControl:
+      ID (door), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+
+	//geolocation
+
+	//holdableButton
+
+	illuminanceMeasurement:
+      ID (illuminance), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//imageCapture
+
+	//indicator
+
+	//infraredLevel
+
+   light:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+		
+	//lockOnly
+
+   lock:
+      ID (lock), 
+      TYPE (ENUM), 
+      VALUE ["locked", "unknown", "unlocked", "unlocked with timeout"]
+
+	//mediaController
+
+	//mediaInputSource
+
+	//mediaPlaybackRepeat
+
+	//mediaPlaybackShuffle
+
+   mediaPlayback:
+      ID (playbackStatus), 
+      TYPE (ENUM), 
+      VALUE ["pause", "play", "stop"]
+
+	//mediaPresets
+
+	//mediaTrackControl
+
+	//momentary
+
+   motionSensor:
+      ID (motion), 
+      TYPE (ENUM), 
+      VALUE ["active", "inactive"]
+
+   musicPlayer:
+      ID (mute), 
+      TYPE (ENUM), 
+      VALUE ["muted", "unmuted"]
+
+		ID (level), 
+      TYPE (NUMBER), 
+      VALUE null
+
+	//notification
+
+	odorSensor:
+      ID (odorLevel), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   outlet:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+
+   ovenMode:
+      ID (ovenMode), 
+      TYPE (ENUM), 
+      VALUE ["heating", "grill", "warming", "defrosting"]
+
+	//ovenOperatingState
+
+	ovenSetpoint:
+      ID (ovenSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//pHMeasurement
+
+	//polling
+
+	//powerConsumptionReport
+
+	powerMeter:
+      ID (power), 
+      TYPE (NUMBER), 
+      VALUE (null)
+        
+	powerSource:
+      ID (powerSource), 
+      TYPE (ENUM), 
+      VALUE ["battery", "dc", "mains", "unknown"]
+
+   presenceSensor:
+      ID (presence), 
+      TYPE (ENUM), 
+      VALUE ["present", "not present"]
+
+   rapidCooling:
+      ID (rapidCooling), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+   
+	//refresh
+
+	refrigerationSetpoint:
+      ID (refrigerationSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	relativeHumidityMeasurement:
+      ID (humidity), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//relaySwitch
+
+   robotCleanerCleaningMode:
+      ID (robotCleanerCleaningMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "part", "repeat", "manual", "stop", "map"]
+
+   robotCleanerMovement:
+      ID (robotCleanerMovement), 
+      TYPE (ENUM), 
+      VALUE ["homing", "idle", "charging", "alarm", "powerOff", 
+      "reserve", "point", "after", "cleaning"]
+
+   //robotCleanerTurboMode
+
+	//sensor
+
+	//shockSensor
+
+	//signalStrength
+
+	//sleepSensor
+
+	smokeDetector:
+      ID (smoke), 
+      TYPE (ENUM), 
+      VALUE ["clear", "detected", "tested"]
+
+	soundPressureLevel:
+      ID (soundPressureLevel), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	soundSensor:
+      ID (smoke), 
+      TYPE (ENUM),
+      VALUE ["detected", "notdetected", ]
+		
+	stepSensor:
+      ID (steps), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//speechRecognition
+
+	//speechSynthesis
+
+	//here
+
+	switchLevel:
+      ID (level), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   switch:
+      ID (switch),
+      TYPE (ENUM),
+      VALUE ["off", "on"]
+
+	temperatureMeasurement:
+      ID (temperature), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	thermostatCoolingSetpoint:
+      ID (coolingSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	thermostatHeatingSetpoint:
+      ID (heatingSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   thermostatFanMode:
+      ID (thermostatFanMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "circulate", "followschedule", "on"]
+
+   thermostatMode:
+      ID (thermostatMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "eco", "rushhour", "cool", 
+               "emergencyheat", "heat", "off"])); 
+
+   thermostatOperatingState:
+      ID (thermostatOperatingState), 
+      TYPE (ENUM), 
+      VALUE ["cooling", "fan only", "heating", "idle", 
+               "pending cool", "pending heat", "vent economizer"]
+
+	thermostatSetpoint:
+      ID(thermostatSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//thermostat
+		
+	touchSensor:
+      ID (touch), 
+      TYPE (ENUM), 
+      VALUE ["touched"]
+      
+	tvChannel:
+      ID (tvChannel), 
+      TYPE (ENUM), 
+      VALUE ["channelDown", "channelUp"]
+
+	ultravioletIndex:
+      ID(ultravioletIndex), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	valve:
+      ID (valve), 
+      TYPE (ENUM), 
+      VALUE ["closed", "open"]
+
+	//videoClips
+
+	washerMode:
+      ID (washerMode), 
+      TYPE (ENUM), 
+      VALUE ["regular", "heavy", "rinse", "spinDry"]
+
+	washerOperatingState:
+      ID (washerJobState), 
+      TYPE (ENUM), 
+      VALUE ["airWash", "cooling", "delayWash", "drying", 
+               "finish", "none", "preWash", "rinse", "spin", 
+               "wash", "weightSensing", "wrinklePrevent"]
+
+		//attrMap.putENUM("washerOperatingState", 
+      // new Attributes("machineState", ["pause", "run", "stop"]));         
+
+		ID (completionTime), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	waterSensor:
+      ID(water), 
+      TYPE (ENUM), 
+      VALUE ["dry", "wet"]
+
+	windowShade:
+      ID (windowShade), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+		//69
+
+
+--------------------------------------------------
+
+
+./src/block/action_device.js
+	Blockly.Blocks['a_'+device+type] = {
+	Blockly.Blocks['a_'+device+type] = {
+./src/block/rule_generator.js
+./src/block/_definer_helper.js
+./src/block/grouping.js
+	Blockly.Blocks["group"] = {
+	Blockly.Blocks['lists_create_with_container'] = {
+	Blockly.Blocks['lists_create_with_item'] = {
+Blockly.Blocks['all'] = {
+Blockly.Blocks['exists'] = {
+Blockly.Blocks['map'] = {
+./src/block/action_timer.js
+Blockly.Blocks['a_timer_after'] = {
+Blockly.Blocks['a_timer_every'] = {
+Blockly.Blocks['a_stop'] = {
+Blockly.Blocks['a_time'] = {
+Blockly.Blocks['a_day'] = {
+Blockly.Blocks['a_week'] = {
+./src/block/action_list.js
+Blockly.Blocks['action_group'] = {
+Blockly.Blocks['lists_create_with_action_container'] = {
+Blockly.Blocks['lists_create_with_action'] = {
+./src/block/ECA_plus.js
+Blockly.Blocks['eca_group'] = {
+Blockly.Blocks['lists_create_with_eca_container'] = {
+Blockly.Blocks['lists_create_with_eca'] = {
+./src/block/action_definer.js
+Blockly.Blocks['math_action'] = {
+Blockly.Blocks['action_state_def'] = {
+Blockly.Blocks['action_state'] = {
+Blockly.Blocks['dataa'] = {
+Blockly.Blocks['inputa_data'] = {
+Blockly.Blocks['send'] = {
+Blockly.Blocks['sendpush'] = {
+Blockly.Blocks['sendsms'] = {
+Blockly.Blocks['sendnotification'] = {
+Blockly.Blocks['function_invocation_a'] = {
+Blockly.Blocks['getlocation_a'] = {
+Blockly.Blocks['getsunrise_a'] = {
+Blockly.Blocks['getsunset_a'] = {
+Blockly.Blocks['time_a'] = {
+Blockly.Blocks['getweatherfeature_a'] = {
+Blockly.Blocks['setlocationmode_a'] = {
+Blockly.Blocks['now_a'] = {
+Blockly.Blocks['subscribe_method'] = {
+Blockly.Blocks['location_a'] = {
+Blockly.Blocks['app_a'] = {
+./src/block/event.js
+Blockly.Blocks['specific_event'] = {
+	Blockly.Blocks['e_'+device+s_m+type+id]= {
+Blockly.Blocks['inpute_data'] = {
+Blockly.Blocks['e_location'] = {
+Blockly.Blocks['e_app'] = {
+Blockly.Blocks['e_installed'] = {
+Blockly.Blocks['e_updated'] = {
+	Blockly.Blocks['e_sub'+input_block[3]] = {
+./src/block/event_timer.js
+Blockly.Blocks['e_time'] = {
+Blockly.Blocks['e_day'] = {
+Blockly.Blocks['e_week'] = {
+Blockly.Blocks['input_time'] = {
+Blockly.Blocks['e_timer'] = {
+./src/block/condition_generator.js
+./src/block/condition_definer.js
+Blockly.Blocks['operation'] = {
+Blockly.Blocks['compare'] = {
+Blockly.Blocks['boolean'] = {
+Blockly.Blocks['negate'] = {
+Blockly.Blocks['math_condition'] = {
+Blockly.Blocks['dev_attr'] = {
+Blockly.Blocks['device_list'] = {
+Blockly.Blocks['datac'] = {
+Blockly.Blocks['inputc_data'] = {
+Blockly.Blocks['function_invocation_c'] = {
+Blockly.Blocks['is_null'] = {
+Blockly.Blocks['already_enum'] = {
+Blockly.Blocks['already_num'] = {
+Blockly.Blocks['happen_enum_dropdown'] = {
+Blockly.Blocks['getlocation_c'] = {
+Blockly.Blocks['getsunrise_c'] = {
+Blockly.Blocks['getsunset_c'] = {
+Blockly.Blocks['getweatherfeature_c'] = {
+Blockly.Blocks['getlocationmode_c'] = {
+Blockly.Blocks['now_c'] = {
+Blockly.Blocks['condition_state'] = {
+Blockly.Blocks['last_event_data'] = {
+Blockly.Blocks['toDateTime'] = {
+
+
+
+./src/block/preference.js
+	Blockly.Blocks['input '+devname] = {
+Blockly.Blocks['page'] = {
+Blockly.Blocks['section'] = {
+Blockly.Blocks['dynamicpage'] = {
+./src/block/option.js
+Blockly.Blocks['option_required'] = {
+Blockly.Blocks['option_multiple'] = {
+Blockly.Blocks['option_title'] = {
+Blockly.Blocks['option_name'] = {
+Blockly.Blocks['option_nextpage'] = {
+Blockly.Blocks['option_install'] = {
+Blockly.Blocks['option_uninstall'] = {
+./src/block/condition_device.js
+	Blockly.Blocks['c_'+device+type] = {
+./src/block/action_generator.js
+./src/highlight/highlight.pack.js
+./src/codegenerate3(handlers).js
+./src/codegenerate2(predefined).js
+./src/cap/cap_helper_commMap.js
+./src/cap/cap_helper_attrMap.js
+./src/cap/cap_helper.js
+./src/cap/cap.js
+./src/toolbox.js
+	if (Blockly.Blocks["e_installed"]) {
+	if (Blockly.Blocks["inpute_data"]) {
+	if (Blockly.Blocks["specific_event"]) {
+	if (Blockly.Blocks["e_location"]) {
+	if (Blockly.Blocks["e_app"]) {
+	if (Blockly.Blocks["e_updated"]) {
+	if (Blockly.Blocks["inputc_data"]) {
+	if (Blockly.Blocks["datac"]) {
+	 if (Blockly.Blocks["condition_state"]) {
+	if (Blockly.Blocks["math_condition"]) {
+	 if (Blockly.Blocks["is_null"]) {
+	if (Blockly.Blocks["last_event_data"]) {
+	if (Blockly.Blocks["already_enum"]) {
+	if (Blockly.Blocks["already_num"]) {
+	if (Blockly.Blocks["happen_enum_dropdown"]) {
+	if (Blockly.Blocks["now_c"]) {
+	 if (Blockly.Blocks["function_invocation_c"]) {
+	if (Blockly.Blocks["getsunrise_c"]) {
+	if (Blockly.Blocks["getsunset_c"]) {
+	if (Blockly.Blocks["getlocation_c"]) {
+	if (Blockly.Blocks["getlocationmode_c"]) {
+	if (Blockly.Blocks["getweatherfeature_c"]) {
+	if (Blockly.Blocks["action_group"]) {
+	 if (Blockly.Blocks["inputa_data"]) {
+	 if (Blockly.Blocks["dataa"]) {
+	 if (Blockly.Blocks["action_state"]) {
+	 if (Blockly.Blocks["action_state_def"]) {
+	 if (Blockly.Blocks["math_action"]) {
+	if (Blockly.Blocks["send"]) {
+	 if (Blockly.Blocks["sendpush"]) {
+	if (Blockly.Blocks["sendsms"]) {
+	if (Blockly.Blocks["sendnotification"]) {
+	if (Blockly.Blocks["now_a"]) {
+	 if (Blockly.Blocks["function_invocation_a"]) {
+	if (Blockly.Blocks["subscribe_method"]) {
+	if (Blockly.Blocks["location_a"]) {
+	if (Blockly.Blocks["app_a"]) {
+	if (Blockly.Blocks["getlocation_a"]) {
+	if (Blockly.Blocks["getsunrise_a"]) {
+	if (Blockly.Blocks["getsunset_a"]) {
+	if (Blockly.Blocks["getweatherfeature_a"]) {
+	if (Blockly.Blocks["setlocationmode_a"]) {
+	 if (Blockly.Blocks["e_time"]) {
+	 if (Blockly.Blocks["e_day"]) {
+	 if (Blockly.Blocks["e_week"]) {
+	 if (Blockly.Blocks["input_time"]) {
+	 if (Blockly.Blocks["e_timer"]) {
+	 if (Blockly.Blocks["a_timer_after"]) {
+	 if (Blockly.Blocks["a_timer_every"]) {
+	 if (Blockly.Blocks["a_time"]) {
+	 if (Blockly.Blocks["a_day"]) {
+	 if (Blockly.Blocks["a_week"]) {
+	 if (Blockly.Blocks["a_stop"]) {
+	 if (Blockly.Blocks["operation"]) {
+	 if (Blockly.Blocks["negate"]) {
+	 if (Blockly.Blocks["boolean"]) {
+	 if (Blockly.Blocks["compare"]) {
+	 if (Blockly.Blocks["dev_attr"]) {
+	 if (Blockly.Blocks["device_list"]) {
+		 if (Blockly.Blocks["any"]) {
+		 if (Blockly.Blocks["map"]) {
+		 if (Blockly.Blocks[b]) {
+		 if (Blockly.Blocks[b]) {
+

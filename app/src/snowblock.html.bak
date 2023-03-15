@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Snow Block for SmartThings</title>
+  
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="../blockly_compressed.js"></script>
+  <script src="../blocks_compressed.js"></script>
+  <script src="../smartthings_compressed.js"></script>
+  <script src="../msg/js/en.js"></script>
+  <script src="support/FileSaver.js"></script>
+  <script src="support/button_jquery.js"></script>
+  <script src="cap/cap.js"></script>
+  <script src="cap/cap_help.js"></script>
+  <script src="help.js"></script>
+
+  <script src="block/rule_definer.js"></script>
+  <script src="block/rule_generator.js"></script>
+  <script src="block/event.js"></script>
+  <script src="block/condition.js"></script>
+  <script src="block/action.js"></script>
+  <script src="block/option.js"></script>
+  <script src="block/preference.js"></script>
+  <script src="block/timer.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" href="highlight/styles/default.css">
+
+  <script src="highlight/highlight.pack.js"></script>
+
+<script>
+	var deviceMap = new Map();
+	var selected_dev = new Map();
+	var attrMap = new AttributeMap(); 	
+	var commMap = new CommandMap();
+
+	mapInit(); 	
+	
+	var Block_colour_eca = "#"+"304777"
+
+	var Block_colour_event = "#"+"5eb7b5"
+	var Block_colour_event_disconnted = "#"+"a5efee"
+
+	var Block_colour_condition = "#"+"A2CC0D"
+	var Block_colour_condition_disconnted = "#"+"ddf48b"
+
+	var Block_colour_action = "#"+"efcd3f"
+	var Block_colour_action_disconnted = "#"+"ffea93"
+
+	var Block_colour_action = "#"+"efcd3f"
+	var Block_colour_action_disconnted = "#"+"ffea93"
+
+
+	var Block_colour_page = "#"+"304777"
+
+	var Block_colour_section = "#"+"3273a0"
+	var Block_colour_section_disconnted = "#"+"b0d7f2"
+
+	var Block_colour_option = "#"+"8cd4db"
+	var Block_colour_option_disconnted = "#"+"cceef2"
+
+	var event_num = 1;
+	var action_num = 1;
+	var variable_num = 1;
+	var ecaList_g;
+	var eca_num;
+
+
+</script>
+</head>
+  
+<xml id="toolbox" style="display: none" >
+	<category name="Rule">
+		<block type="eca"></block>
+		<block type="ea"></block>
+	</category>
+	<category name="Event" custom="SAMRT_DEVICE_E" ></category>
+	<category name="Codition" custom="SAMRT_DEVICE_C" ></category>
+	<category name="Action" custom="SAMRT_DEVICE_A" ></category>
+</xml>
+
+<body onload="all()">
+	<center>
+		<img src="./css/snowblock_logo_s.png" id ="logo">
+	</center>
+	<div id="top">
+		<div id="app">  
+		<div id="app_name">      
+			<input type="text" id="name" required>
+			<label id="label">App Name</label>
+		</div>  
+		<button onclick="app_info(this)" id = "app_info" title="Write specific info of SmartApp"></button>
+		</div>  
+	</div>
+	<div>
+		<div id="device_tab" >
+			<script>
+			document.write(device_table());
+			</script>
+		</div>
+		<div id="box" >
+			<div id="in_box1">
+			  <div id="blocklyDiv" style="height: 701px; width: 1000px;"></div>
+			</div>
+
+			<div id="in_box2">
+				<div id="blocklyDiv2" style="height: 701px; width: 1000px;"></div>
+			</div>
+
+			<div id="in_box3" style="height: 701px; width: 1000px; background: #f4f4f4;">
+				<pre style="margin:0px;">
+					<code style="padding: 0px 8px 8px 8px;" class="groovy" id="smartApp_code"></code>
+				</pre>
+			</div>
+		</div>
+		<div class="tab">
+		  <button id="click1" onClick="click1()" >Rule</button>
+		  <button id="click2" onClick="click2()">Pref</button>
+		  <button id="click3" onClick="click3()">Code</button>
+		</div>
+	</div>
+	<div id="bottom">
+		<p><a href="http://cs.sookmyung.ac.kr/~uslab/sites/index.html">Software Language Lab</a> at Sookmyung Women's University</p>
+	</div>
+	<input type="text" id = "author"  hidden></input>
+	<input type="text" id = "namespace" hidden></input>
+	<input type="textarea" id = "description" hidden></input>
+	<input type="text" id = "iconUrl" hidden></input>
+	<script>
+
+	document.getElementById("click1").click();
+
+	var options = { 
+		toolbox : toolbox, 
+		collapse : false, 
+		comments : false, 
+		disable : false, 
+		maxBlocks : Infinity, 
+		trashcan : true, 
+		horizontalLayout : false, 
+		toolboxPosition : 'start', 
+		css : true, 
+		media : 'https://blockly-demo.appspot.com/static/media/', 
+		rtl : false, 
+		scrollbars : true, 
+		sounds : true, 
+		oneBasedIndex : true
+	};
+
+	var demoWorkspace = Blockly.inject('blocklyDiv', options);
+
+	demoWorkspace.registerToolboxCategoryCallback('SAMRT_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+	demoWorkspace.registerToolboxCategoryCallback('SAMRT_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+	demoWorkspace.registerToolboxCategoryCallback('SAMRT_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+
+	var demoWorkspace2; 
+     
+	function click3(){
+		
+		_("in_box1").style.display = "none"
+		_("in_box2").style.display = "none"
+		_("in_box3").style.display = "block"
+	
+		_("click1").style.background = "#fff"
+		_("click2").style.background = "#fff"
+		_("click3").style.background = "#eee"
+
+		var code = smartApp('SamrtApp');
+		_("smartApp_code").textContent = code;
+		hljs.highlightBlock(_("smartApp_code"));
+	}
+
+	function saveCode() {
+		try{
+			var fileName = document.getElementById("name").value;
+			if(fileName){
+				var code = smartApp();
+				var blob = new Blob([code], {type: "text/plain;charset=utf-8"});
+				saveAs(blob, fileName+".groovy");
+			}else{
+				alert("plz write the App name");
+			}
+		}catch(e){
+			alert(e);
+		}
+	}
+
+	function click2(){
+
+		_("in_box1").style.display = "none"
+		_("in_box2").style.display = "block"
+		_("in_box3").style.display = "none"
+		
+		_("click1").style.background = "#fff"
+		_("click2").style.background = "#f2fbfc"
+		_("click3").style.background = "#fff"
+		
+		var toolbox = toolbox_pre();
+
+		if(demoWorkspace2){
+			demoWorkspace2.updateToolbox(toolbox);
+		}else{	
+			demoWorkspace2 = Blockly.inject('blocklyDiv2', {media: '../media/', toolbox: toolbox});
+			Blockly.Xml.domToWorkspace(document.getElementById('blocklyDiv2'), demoWorkspace2);
+		}	
+	}
+
+	function click1(){
+		_("in_box1").style.display = "block"
+		_("in_box2").style.display = "none"
+		_("in_box3").style.display = "none"
+		
+		_("click1").style.background = "#f2fbfc"
+		_("click2").style.background = "#fff"
+		_("click3").style.background = "#fff"
+	}
+
+	function all(){
+		_("in_box1").style.display = "block"
+		_("in_box2").style.display = "none"
+		_("in_box3").style.display = "none"
+		
+		//_("author").style.display = "none"
+		//_("namespace").style.display = "none"
+
+		_("click1").style.background = "#f2fbfc"
+		_("click2").style.background = "#fff"
+		_("click3").style.background = "#fff"
+	}
+
+
+	function _(x){
+		return document.getElementById(x);
+	}
+
+	function sample(){
+	    var sample = '  <category name="Sample">\n'
+		//+' <block type="preference">\n'
+		//+ '   <statement name="page">'
+		+ '		<block type="page">'
+		+ '		<field name="name"></field>'
+		+'			<statement name="section">'
+		+'				<block type="section"></block>'
+        +'          </statement>'
+        +'      </block>'
+		//+'    </statement>'
+		//+'  </block>'
+		//+'<block type="preference">'
+		//+'    <statement name="page">'
+		+'      <block type="page">'
+		+'        <field name="name"></field>'
+		+'        <statement name="section">'
+		+'          <block type="section">'
+		+'            <value name="option">'
+		+'              <block type="option_title">'
+		+'                <field name="title">Event</field>'
+		+'              </block>'
+		+'            </value>'
+		+'            <next>'
+		+'              <block type="section">'
+		+'                <value name="option">'
+		+'                  <block type="option_title">'
+		+'                    <field name="title">Codtion</field>'
+		+'                  </block>'
+		+'                </value>'
+		+'              </block>'
+		+'            </next>'
+		+'            <next>'
+		+'              <block type="section">'
+		+'                <value name="option">'
+		+'                  <block type="option_title">'
+		+'                    <field name="title">Action</field>'
+		+'                  </block>'
+		+'                </value>'
+		+'              </block>'
+		+'            </next>'
+		+'          </block>'
+		+'        </statement>'
+		+'      </block>'
+		//+'    </statement>'
+		//+'  </block>'
+		//+'  <block type="preference">'
+		//+'    <statement name="page">'
+		+'      <block type="page">'
+		+'        <field name="name">Event</field>'
+		+'        <statement name="section">'
+		+'          <block type="section"></block>'
+		+'        </statement>'
+		+'        <next>'
+		+'          <block type="page">'
+		+'            <field name="name">Codition</field>'
+		+'            <statement name="section">'
+		+'              <block type="section"></block>'
+		+'            </statement>'
+		+'          </block>'
+		+'        </next>'
+		+'        <next>'
+		+'          <block type="page">'
+		+'            <field name="name">Action</field>'
+		+'            <statement name="section">'
+		+'              <block type="section"></block>'
+		+'            </statement>'
+		+'          </block>'
+		+'        </next>'
+		+'      </block>'
+		//+'    </statement>'
+	    //+' </block> '
+		+'</category>\n';
+		return sample
+	}
+
+	function preference(){
+		var pre = '  <category name="Preference">\n';
+		//pre += '    <block type="preference"></block>\n';
+		pre += '    <block type="page"> <field name="name"></field>\n  <field name="nextPage"></field>\n  </block>\n ';
+		pre += '    <block type="section">'+' <field name="NAME"></field>\n ' + ' </block>\n ';
+		pre += '    <block type="dynamicpage">'+' <field name="name"></field>\n ' + ' <field name="nextPage"></field>\n ' + ' </block>\n ';
+		pre += '  </category>\n';
+	
+		return pre
+	}
+
+	function preference_option(){
+		var preference_option = 
+		'  <category name="option">\n'
+		+'<block type="option_title"></block>\n'
+		+'<block type="option_nextpage"><field name="nextPage"></field></block>\n'
+		+'<block type="option_install"><field name="true">TRUE</field></block>\n'
+		+'<block type="option_uninstall"> <field name="true">TRUE</field></block>\n'
+		+'<block type="option_required"></block>\n'
+		+'<block type="option_multiple"></block>\n'
+		+'<block type="option_name"></block>\n'
+		+'  </category>\n';
+		return preference_option
+	}
+
+  </script>
+</body>
+</html>

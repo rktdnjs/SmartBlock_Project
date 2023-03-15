@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Appilcation Configuration</title>
+	<meta charset="UTF-8">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="./app_info.css">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<h1>
+		Appilcation Configuration
+	</h1>
+
+	<div id = "main">
+		<div class = "set">
+			<input type="text" id="author" required>
+			<label>author</label>
+		</div>
+
+		<div class = "set">
+			<input type="text" id="namespace" required>
+			<label>namespace</label>
+		</div>
+		<div class = "set">
+			<textarea id="description" required></textarea>
+			<label>description</label>
+		</div>
+		
+		<div class = "set">
+			<input type="url" id="iconUrl" required>
+			<label>iconUrl</label>
+		</div>
+	</div>
+	<button class="btn" onClick = "save_info()">
+		<span>
+			Save
+		</span>
+	</button>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+
+  function save_info(){
+	  try{
+			opener.document.getElementById("author").value = document.getElementById("author").value
+			opener.document.getElementById("namespace").value = document.getElementById("namespace").value
+			opener.document.getElementById("iconUrl").value = document.getElementById("iconUrl").value
+
+		  window.close()
+	  }catch(e){
+		alert(e);
+	  }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,967 @@
+
+[참고] Blockly에서 블록 정의,  https://vleudive.github.io/2018/01/24/4_javascript_define_block/
+
+
+**************************************************
+*** Blockly.Blocks 배열을 구성하는 블록 정의     ***
+**************************************************
+
+[Rule]--------------------------------------------
+
+ Rule : eca        // 블록 인덱스 (e.g., Blockly.Blocks[ 블록 인덱스 ])
+        ea
+        ca
+
+ - Block index : eca
+ 
+   1) Value input : Event           // eca 블록의 구조 1), 2), 3)
+      Check : Event
+      Field : Event
+
+   2) Value input : Condition
+      Check : Condition
+      Field : Condition
+
+   3) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA    
+   * Next statement : ECA | EA
+   
+   * ./src/block/rule_definer.js
+
+ - Block index : ea
+
+   1) Value input : Event
+      Check : Event
+      Field : Event
+
+   2) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA
+   * Next statement : ECA | EA
+   
+   * ./src/block/rule_definer.js
+
+ - Block index : ca
+ 
+   1) Value input : Condition
+      Check : Condition
+      Field : Condition
+
+   2) Value input : Action
+      Check : Action
+      Field : Action
+
+   * Previous statement : ECA | EA | CA
+   * Next statement : ECA | EA | CA
+   
+   * ./src/block/rule_definer.js
+    
+
+[Event]------------------------------------------
+
+ Event :
+   e_installed
+   inpute_data
+   specific_event
+   e_location
+   e_app
+   any
+   e_time
+   e_day
+   e_week
+   input_time
+   e_timer
+   e_updated
+
+---(Timer events)---------------------------------
+
+ - Block index : e_time
+
+   1) Value input : time
+      Field : at
+      Field : [ 0 ] hour
+      Field : : c
+      Field : [ 0 ] minute
+      Field : [ AM | PM ]  apm
+      Check : day_e | week_e
+      Output : Event
+
+   * ./src/block/event_timer.js
+   
+ - Block index : e_day
+
+   1) Dummy input : year
+      Field : [ Jan | Feb | Mar | Apr | May
+              | Jun | Jul | Aug | Sept | Oct
+	      | Nov | Dec ] month
+      Field : [ 불러온 날짜 ] day
+      Field : th
+      Output : day_e
+
+   * ./src/block/event_timer.js      
+
+ - Block index : e_week
+
+   1) Dummy input : next
+      Field : [ Mon | Tue | Wed | Thu
+              | Fri | Sat | Sun ] week1
+      Field : to
+      Field : [ Mon | Tue | Wed | Thu
+              | Fri | Sat | Sun ] week2
+      Output : week_e
+
+   * ./src/block/event_timer.js
+
+ - Block index : e_timer
+
+   1) Dummy input : type
+      Field : timer
+
+   2) Dummy input : type
+      Field : [ 타이머 번호 timer ] NAME
+      Output : Event
+
+   * ./src/block/event_timer.js
+
+ - Block index : input_time
+
+   1) Dummy input : type
+      Field : at time
+      Field : [ 타이머 번호 time ] name
+      Output : Event
+
+   * ./src/block/event_timer.js
+
+---(Application events)---------------------------
+
+ - Block index : e_installed
+
+   1) Value input : updated   <--- 오타?
+      Field : installed
+      Field : [ 설치 횟수 installed ] name
+      Check : Event
+      Output : Event
+
+   * ./src/block/event.js
+   
+
+ - Block index : e_updated
+
+   1) Value input : updated
+      Field : installed
+      Field : [ 수정 횟수 updated ] name
+      Output : Event
+      
+      Check : Event   <--- 없음?
+
+   * ./src/block/event.js
+   
+ - Block index : e_location
+
+   1) Dummy input : 속성 없음
+      Field : location
+      Field : [ . | mode | position
+              | sunset | sunrise
+	      | sunrise Time | sunset Time ] attr
+      Output : Event
+
+   * ./src/block/event.js
+   
+ - Block index : e_app
+
+   1) Dummy input : 속성 없음
+      Field : app
+      Output : Event
+
+   * ./src/block/event.js
+
+ - Block index : inpute_data
+
+   1) Dummy input : device
+      Field : [ text | bool | number
+              | phone | message ] type 
+      Field : [ 장치 갯수 device ] name
+      Output : Inpute
+
+   * ./src/block/event.js
+
+ - Block index : specific_event
+
+   (목적을 알 수 없는 블록)
+
+   * ./src/block/event.js
+
+
+---(Application events)---------------------------
+
+
+---(Grouping)-------------------------------------
+
+Blockly.Blocks['any'] = {
+
+ - Block index : any
+
+   1) Value input : p
+      Check : specific_event
+      Field : any
+      
+   2) Statement input : group
+      Check : group
+      Output : Event
+
+   * ./src/block/grouping.js
+
+
+[Condition]---------------------------------------
+
+Condition:
+
+  *선택한 디바이스들 목록에서 조건*
+
+  operation
+  negate
+  boolean
+  compare
+  dev_attr
+  device_list
+
+  inputc_data
+  datac
+  condition_state
+  math_condition
+  is_null
+  last_event_data
+  already_enum
+  already_num
+  happen_enum_dropdown
+  now_c
+  function_invocation_c
+  getsunrise_c
+  getsunset_c
+  getlocation_c
+  getlocationmode_c
+  getweatherfeature_c
+
+  all
+  exists
+
+ - Block index : 
+
+   1) Dummy input : device
+      Field : type
+      Field : any
+      
+   2) Statement input : group
+      Check : group
+      Output : Event
+
+   * ./src/block/grouping.js
+
+
+[Action]------------------------------------------
+
+Action:
+
+  *선택한 디바이스들 목록에서 액션*
+
+  action_group
+  inputa_data
+  dataa
+  action_state
+  action_state_def
+  math_action
+  send
+  sendpush
+  sendsms
+  sendnotification
+
+  a_timer_after
+  a_timer_every
+  a_time
+  a_day
+  a_week
+  a_stop
+  
+  *map group 액션 
+
+  now_a
+  function_invocation_a
+  subscribe_method
+  location_a
+  app_a
+  getlocation_a
+  getsunrise_a
+  getsunset_a
+  getweatherfeature_a
+  setlocationmode_a
+
+--------------------------------------------------
+SmartBlock에 사용한 장치 목록
+  * ./src/cap/cap.js
+  
+  	// Attributes (id, type, value)
+	// putSingle(device, attributes)
+	// putMultiple(device, attributes1)
+	// putMultiple(device, attributes2)
+
+   // 장치 이름:
+   //   ID (속성 식별자)
+   //   속성 타입
+   //   속성 값
+   //
+   // device.field = value  
+   
+   accelerationSensor: 
+      ID (acceleration), 
+      TYPE (ENUM), 
+      VALUE ["active", "inactive"]
+
+   //actuator
+
+   airConditionerMode: 
+      ID (airConditionerMode),  
+      TYPE(ENUM), 
+      VALUE ["auto", "cool", "dry", "coolClean", "dryClean", 
+               "fanOnly", "heat", "heatClean", "notSupported"]
+		
+   airQualitySensor: 
+      ID (airQuality), 
+      TYPE (NUMBER),
+      VALUE null
+   
+   alarm:
+      ID (alarm)
+      TYPE (ENUM),
+      VALUE ["both", "off", "siren", "strobe"]
+
+   audioMute:
+      ID (mute), 
+      TYPE (ENUM),
+      VALUE ["muted", "unmuted"]
+
+	//audioNotification
+
+	//audioTrackData
+
+	audioVolume:
+      ID (volume), 
+      TYPE (NUMBER), 
+      VALUE null
+      
+	battery:
+      ID (battery), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	beacon:
+      ID (battery), 
+      TYPE (ENUM),
+      VALUE ["not present", "present"]
+   
+	//bridge
+
+	bulb:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+   
+	button:
+      ID (button) 
+      TYPE (ENUM), 
+      VALUE ["held", "pushed"]
+		
+		ID (numberOfButtons), 
+      TYPE (NUMBER), 
+      VALUE (null) 
+
+   carbonDioxideMeasurement:
+      ID (carbonDioxide), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+
+   carbonMonoxideDetector:
+      ID (carbonMonoxide), 
+      TYPE (ENUM), 
+      VALUE ["clear", "detected", "tested"]
+
+	colorControl:
+      ID (color), 
+      TYPE (STRING), 
+      VALUE (null)
+      
+      ID (hue), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+		ID (saturation), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+
+	colorTemperature:
+      ID (colorTemperature), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//color
+
+   colorMode:
+      ID (colorMode), 
+      TYPE (ENUM), 
+      VALUE ["color", "colorTemperature", "other"]
+   
+	//configuration
+   
+   consumable:
+      ID (consumableStatus), 
+      TYPE (ENUM), 
+      VALUE ["good", "maintenance_required", "missing", "order", "replace"]
+
+	contactSensor:
+      ID (contact), 
+      TYPE (ENUM), 
+      VALUE ["closed", "open"]
+
+	//demandResponseLoadControl
+
+   dishwasherMode:
+      ID (dishwasherMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "quick", "rinse", "dry"]
+
+   dishwasherOperatingState:
+      ID (machineState), 
+      TYPE (ENUM), 
+      VALUE ["pause", "run", "stop"]
+
+	doorControl:
+      ID (door), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+
+
+   dryerMode:
+      ID (dryerMode), 
+      TYPE (ENUM), 
+      VALUE ["regular", "lowHeat", "highHeat"]
+
+	//dryerOperatingState
+
+   //dustSensor
+
+	energyMeter:
+      ID (energy), 
+      TYPE (NUMBER), 
+      VALUE (null)
+   
+	//estimatedTimeOfArrival
+
+	//execute
+
+	fanSpeed:
+      ID (fanSpeed), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   filterStatus:
+      ID (filterStatus), 
+      TYPE (ENUM), 
+      VALUE ["normal", "replace"]
+
+   garageDoorControl:
+      ID (door), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+
+	//geolocation
+
+	//holdableButton
+
+	illuminanceMeasurement:
+      ID (illuminance), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//imageCapture
+
+	//indicator
+
+	//infraredLevel
+
+   light:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+		
+	//lockOnly
+
+   lock:
+      ID (lock), 
+      TYPE (ENUM), 
+      VALUE ["locked", "unknown", "unlocked", "unlocked with timeout"]
+
+	//mediaController
+
+	//mediaInputSource
+
+	//mediaPlaybackRepeat
+
+	//mediaPlaybackShuffle
+
+   mediaPlayback:
+      ID (playbackStatus), 
+      TYPE (ENUM), 
+      VALUE ["pause", "play", "stop"]
+
+	//mediaPresets
+
+	//mediaTrackControl
+
+	//momentary
+
+   motionSensor:
+      ID (motion), 
+      TYPE (ENUM), 
+      VALUE ["active", "inactive"]
+
+   musicPlayer:
+      ID (mute), 
+      TYPE (ENUM), 
+      VALUE ["muted", "unmuted"]
+
+		ID (level), 
+      TYPE (NUMBER), 
+      VALUE null
+
+	//notification
+
+	odorSensor:
+      ID (odorLevel), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   outlet:
+      ID (switch), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+
+   ovenMode:
+      ID (ovenMode), 
+      TYPE (ENUM), 
+      VALUE ["heating", "grill", "warming", "defrosting"]
+
+	//ovenOperatingState
+
+	ovenSetpoint:
+      ID (ovenSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//pHMeasurement
+
+	//polling
+
+	//powerConsumptionReport
+
+	powerMeter:
+      ID (power), 
+      TYPE (NUMBER), 
+      VALUE (null)
+        
+	powerSource:
+      ID (powerSource), 
+      TYPE (ENUM), 
+      VALUE ["battery", "dc", "mains", "unknown"]
+
+   presenceSensor:
+      ID (presence), 
+      TYPE (ENUM), 
+      VALUE ["present", "not present"]
+
+   rapidCooling:
+      ID (rapidCooling), 
+      TYPE (ENUM), 
+      VALUE ["off", "on"]
+   
+	//refresh
+
+	refrigerationSetpoint:
+      ID (refrigerationSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	relativeHumidityMeasurement:
+      ID (humidity), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//relaySwitch
+
+   robotCleanerCleaningMode:
+      ID (robotCleanerCleaningMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "part", "repeat", "manual", "stop", "map"]
+
+   robotCleanerMovement:
+      ID (robotCleanerMovement), 
+      TYPE (ENUM), 
+      VALUE ["homing", "idle", "charging", "alarm", "powerOff", 
+      "reserve", "point", "after", "cleaning"]
+
+   //robotCleanerTurboMode
+
+	//sensor
+
+	//shockSensor
+
+	//signalStrength
+
+	//sleepSensor
+
+	smokeDetector:
+      ID (smoke), 
+      TYPE (ENUM), 
+      VALUE ["clear", "detected", "tested"]
+
+	soundPressureLevel:
+      ID (soundPressureLevel), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	soundSensor:
+      ID (smoke), 
+      TYPE (ENUM),
+      VALUE ["detected", "notdetected", ]
+		
+	stepSensor:
+      ID (steps), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//speechRecognition
+
+	//speechSynthesis
+
+	//here
+
+	switchLevel:
+      ID (level), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   switch:
+      ID (switch),
+      TYPE (ENUM),
+      VALUE ["off", "on"]
+
+	temperatureMeasurement:
+      ID (temperature), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	thermostatCoolingSetpoint:
+      ID (coolingSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	thermostatHeatingSetpoint:
+      ID (heatingSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+   thermostatFanMode:
+      ID (thermostatFanMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "circulate", "followschedule", "on"]
+
+   thermostatMode:
+      ID (thermostatMode), 
+      TYPE (ENUM), 
+      VALUE ["auto", "eco", "rushhour", "cool", 
+               "emergencyheat", "heat", "off"])); 
+
+   thermostatOperatingState:
+      ID (thermostatOperatingState), 
+      TYPE (ENUM), 
+      VALUE ["cooling", "fan only", "heating", "idle", 
+               "pending cool", "pending heat", "vent economizer"]
+
+	thermostatSetpoint:
+      ID(thermostatSetpoint), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	//thermostat
+		
+	touchSensor:
+      ID (touch), 
+      TYPE (ENUM), 
+      VALUE ["touched"]
+      
+	tvChannel:
+      ID (tvChannel), 
+      TYPE (ENUM), 
+      VALUE ["channelDown", "channelUp"]
+
+	ultravioletIndex:
+      ID(ultravioletIndex), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	valve:
+      ID (valve), 
+      TYPE (ENUM), 
+      VALUE ["closed", "open"]
+
+	//videoClips
+
+	washerMode:
+      ID (washerMode), 
+      TYPE (ENUM), 
+      VALUE ["regular", "heavy", "rinse", "spinDry"]
+
+	washerOperatingState:
+      ID (washerJobState), 
+      TYPE (ENUM), 
+      VALUE ["airWash", "cooling", "delayWash", "drying", 
+               "finish", "none", "preWash", "rinse", "spin", 
+               "wash", "weightSensing", "wrinklePrevent"]
+
+		//attrMap.putENUM("washerOperatingState", 
+      // new Attributes("machineState", ["pause", "run", "stop"]));         
+
+		ID (completionTime), 
+      TYPE (NUMBER), 
+      VALUE (null)
+
+	waterSensor:
+      ID(water), 
+      TYPE (ENUM), 
+      VALUE ["dry", "wet"]
+
+	windowShade:
+      ID (windowShade), 
+      TYPE (ENUM), 
+      VALUE ["closed", "closing", "open", "opening", "unknown"]
+		//69
+
+
+--------------------------------------------------
+
+// 장치 커맨드와 메소드
+// 
+//  커맨드 : [ "커맨드1", ..., "커맨드k" ]
+//  메소드 : 메소드 이름 (ID)
+//                 인자 타입 number, string, enum 등등 
+//                 (인자 타입이 number, string이면 arg value는 널!)
+//                 (인자 타입이 enum이면 arg VALUE에 enum 상수를 나열!)
+
+   alarm:
+      ["both", "off", "siren", "strobe"]
+
+   airConditionerMode:
+      Method ID(setDishwasherMode)
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "cool", "dry", "coolClean", "dryClean", 
+                       "fanOnly", "heat", "heatClean", "notSupported"]
+
+   audioMute:
+      ["mute", "unmute"]
+
+   audioMute:
+      Method ID(setMute), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+	//audioNotification
+
+   audioVolume:
+      ["volumeUp", "volumeDown"]
+       
+	   Method ID (setVolume), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+
+   colorControl:
+      Method ID (setColor), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+      Method ID (setHue), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+
+      Method ID (setSaturation), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   colorTemperature
+      Method ID (setColorTemperature), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   dishwasherMode:
+      Method ID (setDishwasherMode), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["auto", "quick", "rinse", "dry"]
+
+   dishwasherOperatingState:
+      Method ID (setMachineState), 
+            ARG TYPE (ENUM),
+            ARG VALUE ["pause", "run", "stop"]
+
+   doorControl:
+      ["close", "open"]
+
+   dryerMode:
+      Method ID(setDryerMode), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["regular", "lowHeat", "highHeat"]
+
+   dryerOperatingState:
+      Method ID(setMachineState), 
+            ARG TYPE (ENUM), 
+            ARG VALUE ["pause", "run", "stop"]
+
+   fanSpeed:
+      Method ID(setFanSpeed), 
+            ARG TYPE (number), 
+            ARG VALUE (null)
+
+   garageDoorControl:
+      ["close", "open"]
+
+   imageCapture: 
+      ["take"]
+
+	light:
+      ["off", "on"]
+
+   lock:
+      ["lock", "unlock"]
+
+	polling:
+      ["poll"]
+
+	//2�� �� musicPlayer
+	musicPlayer:
+      ["mute", "nextTrack", "pause", "play", "stop", "unmute"]
+
+	   Method ID(setTrack), 
+            ARG TYPE(string), 
+            ARG VALUE (null)
+
+   mediaPlayback:
+      ["play", "pause", "stop"]
+
+	momentary:
+      ["push"]
+
+   outlet:
+      ["off", "on"]
+
+   ovenMode:
+      Method ID(setOvenMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["heating", "grill", "warming", "defrosting"]
+
+   ovenSetpoint:
+      Method ID(setOvenSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE (null)
+         
+	//ovenOperatingState
+
+   robotCleanerCleaningMode:
+      Method ID(setRobotCleanerCleaningMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "part", "repeat", "manual", "stop"]
+
+   robotCleanerMovement:
+      Method ID(setRobotCleanerMovement), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["homing"]
+
+   rapidCooling:
+      Method ID(setRapidCooling), 
+            ARG TYPE(number), 
+            ARG VALUE(null) 
+	
+	refrigerationSetpoint:
+      Method ID(setRefrigerationSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+	//signalStrength
+
+   switchLevel:
+      Method ID(setLevel),
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+   switch:
+      ["off", "on"]
+
+   thermostatHeatingSetpoint:
+      Method ID(setHeatingSetpoint), 
+            ARG TYPE(number), 
+            ARG VALUE(null)
+
+   thermostatCoolingSetpoint:
+      Method ID(setCoolingSetpoint),
+            ARG TYPE (number), 
+            ARG VALUE(null)
+		
+	thermostatFanMode:
+      ["fanAuto", "fanCirculate", "fanOn"]
+
+	thermostatFanMode:
+      Method ID(setThermostatFanMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["auto", "circulate", "followschedule", "on"]
+
+   thermostatMode:
+      ["auto", "cool", "emergencyHeat", "heat", "off"]
+
+	//thermostat
+
+	tvChannel:
+      ["channelUp", "channelDown"]
+
+      Method ID(setTvChannel), 
+            ARG TYPE(STRING), 
+            ARG VALUE(null)
+
+	tone:
+      ["beep"]
+
+	valve:
+      ["close", "open"]
+
+	//videoClips
+
+	videoStream:
+      ["startStream", "stopStream"]
+
+   washerMode:
+      Method ID(setWasherMode), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["regular", "heavy", "rinse", "spinDry"]
+
+   washerOperatingState:
+      Method ID(setMachineState), 
+            ARG TYPE(ENUM), 
+            ARG VALUE ["pause", "run", "stop"]
+		
+	windowShade
+      ["close", "open", "presetPosition"]
+
+		//46
+
+--------------------------------------------------
