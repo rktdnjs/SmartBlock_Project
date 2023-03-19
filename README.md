@@ -49,3 +49,10 @@ newblockly branch(Blockly v9.2.1)
 [작업 중인 내용]
 - 일부 CSS가 적용되지 않는 문제 -> 디버깅 및 수정 필요
 - File Save/Load UI 및 기능 구현 -> 좋은 라이브러리가 존재하는지?
+    - 기존에 SaveBlock을 클릭하면 샘플 블록이 로드되도록 하는 기능을 임시로 Sample 버튼을 만들어 옮김
+    - LoadBlock을 통해서 코드로 저장된 SmartBlock을 불러오는 기능 추후 구현
+- SmartBlock을 가지고 간단한 SmartApp을 구현하여 작동하는 지 확인
+
+[작업 중 확인된 문제]
+- App Name만 작성하고 Code 탭 클릭 시 코드가 보여지나, 블록 생성 후 Code탭 클릭시 정상작동 x
+    - 블록 생성 이후 Code탭을 클릭할 시 Code탭이 활성화되지 않는다.
