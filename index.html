@@ -1,993 +1,1031 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Smart Block for SmartThings</title>
+    <title>Smart Block for SmartThings</title>
 
-  <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-  <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <!-- SmartBlock에서 사용하던 CSS를 가져옴
+       Todo: styles/index.css와 app/src/css/main.css를 합해야함! -->
 
-  <!-- SmartBlock에서 사용하던 CSS를 가져옴
-       Todo: styles/index.css와 app/src/css/main.css를 합해야함!
-   -->
-  <link rel="stylesheet" type="text/css" href="app/src/css/main.css">
-  <link rel="stylesheet" href="app/src/highlight/styles/default.css">
 
+    <!-- 540~550줄 즈음에 따로 선언되어 있어 주석 처리 -->
+    <!-- <link rel="stylesheet" href="app/src/highlight/styles/default.css"> -->
 </head>
 
 <body>
+    <center>
+        <img src="app/src/css/snowblock_logo_s.png" id="logo">
+    </center>
 
-  <center>
-		<img src="app/src/css/snowblock_logo_s.png" id ="logo">
-	</center>
+    <div id="top">
+        <div id="app">
+            <div id="app_name">
+                <input type="text" id="name" required>
+                <label id="label">App Name</label>
+            </div>
+            <button onclick="app_info(this)" id="app_info" title="Write specific info of SmartApp"></button>
+        </div>
+    </div>
 
-	<div id="top">
-		<div id="app">  
-      <div id="app_name">      
-        <input type="text" id="name" required>
-        <label id="label">App Name</label>
-      </div>  
-      <button onclick="app_info(this)" 
-          id = "app_info" 
-          title="Write specific info of SmartApp"></button>
-		</div>  
-	</div>
+    <!-- 추후 loadBlock으로 저장했던 코드를 블록형태로 불러오는 기능 추가 -->
+    <div id="save_buttons">
+        <button id="save_but" onClick="loadBlock(sampleJsonBlocks)">Sample</button>
+		<button id="save_block_but" onClick="saveBlock()">SaveBlock</button>
+        <button id="save_but" onClick="loadBlock()">LoadBlock</button>
+    </div>
 
-	<div>
-    <!-- **** Things 메뉴 ************************************************************** -->
+    <div>
+        <!-- **** Things 메뉴 ************************************************************** -->
 
-    <!-- device_tab 요소를 javascript 코드 device_table()로
+        <!-- device_tab 요소를 javascript 코드 device_table()로
          장치 목록을 입력받아 만들었는데
          이 코드의 의존성이 복잡하여 삭제하고
          이 코드가 만들어낸 HTML 요소를 복사해서
          그 코드를 대체함!
      -->
-		<!-- <div id="device_tab" >
+        <!-- <div id="device_tab" >
 			<script>
 			  document.write(device_table());
 			</script>
 		</div>
      -->
-    <div id="device_tab">
-			<div class="share-btn" id="Things" onclick="share_btn(this)">
-        <strong><p class="cta">Things</p></strong>
-        <button class="close"></button> 
-        
-        <div class="social" id="Things"> 
-          <button onclick="setting_things(this)" 
-                id="setting_things_open"></button>
-        </div>
-      </div>
+        <div id="device_tab">
+            <div class="share-btn" id="Things" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">Things</p>
+                </strong>
+                <button class="close"></button>
 
-      <div class="share-btn" id="A" onclick="share_btn(this,event)">
-        <strong><p class="cta">A</p></strong>
-        <button class="close"></button> 
-        <div class="social">
-          <button onclick="change_devbutton_color(this)" 
-                  id="accelerationSensor" class="device_but">accelerationSensor</button>
-          <button onclick="change_devbutton_color(this)" 
-                id="airConditionerMode" class="device_but">airConditionerMode</button>
-          <button onclick="change_devbutton_color(this)" 
-                id="airQualitySensor" class="device_but">airQualitySensor</button>
-          <button onclick="change_devbutton_color(this)" 
-                id="alarm" class="device_but">alarm</button>
-          <button onclick="change_devbutton_color(this)" 
-                id="audioMute" class="device_but">audioMute</button>
-          <button onclick="change_devbutton_color(this)" 
-                id="audioVolume" class="device_but">audioVolume</button>
-        </div>
-      </div>
-      <div class="share-btn" id="B" onclick="share_btn(this)">
-          <strong><p class="cta">B</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="battery" class="device_but">battery</button>
-            <button onclick="change_devbutton_color(this)" id="beacon" class="device_but">beacon</button><button onclick="change_devbutton_color(this)" id="bulb" class="device_but">bulb</button><button onclick="change_devbutton_color(this)" id="button" class="device_but">button</button></div></div>
-
-      <div class="share-btn" id="C" onclick="share_btn(this)">
-          <strong><p class="cta">C</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="carbonDioxideMeasurement" class="device_but">carbonDioxideMeas</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="carbonMonoxideDetector" class="device_but">carbonMonoxideDet</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="colorControl" class="device_but">colorControl</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="colorMode" class="device_but">colorMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="colorTemperature" class="device_but">colorTemperature</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="consumable" class="device_but">consumable</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="contactSensor" class="device_but">contactSensor</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="D" onclick="share_btn(this)">
-          <strong><p class="cta">D</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="dishwasherMode" class="device_but">dishwasherMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="dishwasherOperatingState" class="device_but">dishwasherOper</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="doorControl" class="device_but">doorControl</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="dryerMode" class="device_but">dryerMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="dryerOperatingState" class="device_but">dryerOperatingState</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="E" onclick="share_btn(this)">
-          <strong><p class="cta">E</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="energyMeter" class="device_but">energyMeter</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="FG" onclick="share_btn(this)">
-          <strong><p class="cta">FG</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="fanSpeed" class="device_but">fanSpeed</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="filterStatus" class="device_but">filterStatus</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="garageDoorControl" class="device_but">garageDoorControl</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="H" onclick="share_btn(this)">
-          <strong><p class="cta">H</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-          </div>
-      </div>
-
-      <div class="share-btn" id="IJ" onclick="share_btn(this)">
-          <strong><p class="cta">IJ</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="illuminanceMeasurement" class="device_but">illuminanceMeas</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="imageCapture" class="device_but">imageCapture</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="KL" onclick="share_btn(this)">
-          <strong><p class="cta">KL</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="light" class="device_but">light</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="lock" class="device_but">lock</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="M" onclick="share_btn(this)">
-          <strong><p class="cta">M</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="mediaPlayback" class="device_but">mediaPlayback</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="momentary" class="device_but">momentary</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="motionSensor" class="device_but">motionSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="musicPlayer" class="device_but">musicPlayer</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="NO" onclick="share_btn(this)">
-          <strong><p class="cta">NO</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="odorSensor" class="device_but">odorSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="outlet" class="device_but">outlet</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="ovenMode" class="device_but">ovenMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="ovenSetpoint" class="device_but">ovenSetpoint</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="P" onclick="share_btn(this)">
-          <strong><p class="cta">P</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="polling" class="device_but">polling</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="powerMeter" class="device_but">powerMeter</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="powerSource" class="device_but">powerSource</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="presenceSensor" class="device_but">presenceSensor</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="QR" onclick="share_btn(this)">
-          <strong><p class="cta">QR</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="rapidCooling" class="device_but">rapidCooling</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="refrigerationSetpoint" class="device_but">refrigerationSetpoint</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="relativeHumidityMeasurement" class="device_but">relativeHumidityMeas</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="robotCleanerCleaningMode" class="device_but">robotCleanerCleaningMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="robotCleanerMovement" class="device_but">robotCleanerMovement</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="S" onclick="share_btn(this)">
-          <strong><p class="cta">S</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="smokeDetector" class="device_but">smokeDetector</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="soundPressureLevel" class="device_but">soundPressureLevel</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="soundSensor" class="device_but">soundSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="stepSensor" class="device_but">stepSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="switch" class="device_but">switch</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="switchLevel" class="device_but">switchLevel</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="T" onclick="share_btn(this)">
-          <strong><p class="cta">T</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="temperatureMeasurement" class="device_but">temperature</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatCoolingSetpoint" class="device_but">thermostatCoolSet</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatFanMode" class="device_but">thermostatFanMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatHeatingSetpoint" class="device_but">thermostatHeatSet</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatMode" class="device_but">thermostatMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatOperatingState" class="device_but">thermostatOper</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="thermostatSetpoint" class="device_but">thermostatSetpoint</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="tone" class="device_but">tone</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="touchSensor" class="device_but">touchSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="tvChannel" class="device_but">tvChannel</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="UV" onclick="share_btn(this)">
-          <strong><p class="cta">UV</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="ultravioletIndex" class="device_but">ultravioletIndex</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="valve" class="device_but">valve</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="videoStream" class="device_but">videoStream</button>
-          </div>
-      </div>
-
-      <div class="share-btn" id="WXYZ" onclick="share_btn(this)">
-          <strong><p class="cta">WXYZ</p></strong>
-          <button class="close"></button> 
-          <div class="social">
-            <button onclick="change_devbutton_color(this)" 
-                    id="washerMode" class="device_but">washerMode</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="washerOperatingState" class="device_but">washerOperatingState</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="waterSensor" class="device_but">waterSensor</button>
-            <button onclick="change_devbutton_color(this)" 
-                    id="windowShade" class="device_but">windowShade</button>
+                <div class="social" id="Things">
+                    <button onclick="setting_things(this)" id="setting_things_open"></button>
+                </div>
             </div>
-      </div>
-		</div>
 
-    <!-- Things와 A-Z 장치 메뉴에서 각 목록 창을 보여주고 사라지는 기능 구현
+            <div class="share-btn" id="A" onclick="share_btn(this, event)">
+                <strong>
+                    <p class="cta">A</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="accelerationSensor"
+                        class="device_but">accelerationSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="airConditionerMode"
+                        class="device_but">airConditionerMode</button>
+                    <button onclick="change_devbutton_color(this)" id="airQualitySensor"
+                        class="device_but">airQualitySensor</button>
+                    <button onclick="change_devbutton_color(this)" id="alarm" class="device_but">alarm</button>
+                    <button onclick="change_devbutton_color(this)" id="audioMute" class="device_but">audioMute</button>
+                    <button onclick="change_devbutton_color(this)" id="audioVolume"
+                        class="device_but">audioVolume</button>
+                </div>
+            </div>
+            <div class="share-btn" id="B" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">B</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="battery" class="device_but">battery</button>
+                    <button onclick="change_devbutton_color(this)" id="beacon" class="device_but">beacon</button><button
+                        onclick="change_devbutton_color(this)" id="bulb" class="device_but">bulb</button><button
+                        onclick="change_devbutton_color(this)" id="button" class="device_but">button</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="C" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">C</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="carbonDioxideMeasurement"
+                        class="device_but">carbonDioxideMeas</button>
+                    <button onclick="change_devbutton_color(this)" id="carbonMonoxideDetector"
+                        class="device_but">carbonMonoxideDet</button>
+                    <button onclick="change_devbutton_color(this)" id="colorControl"
+                        class="device_but">colorControl</button>
+                    <button onclick="change_devbutton_color(this)" id="colorMode" class="device_but">colorMode</button>
+                    <button onclick="change_devbutton_color(this)" id="colorTemperature"
+                        class="device_but">colorTemperature</button>
+                    <button onclick="change_devbutton_color(this)" id="consumable"
+                        class="device_but">consumable</button>
+                    <button onclick="change_devbutton_color(this)" id="contactSensor"
+                        class="device_but">contactSensor</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="D" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">D</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="dishwasherMode"
+                        class="device_but">dishwasherMode</button>
+                    <button onclick="change_devbutton_color(this)" id="dishwasherOperatingState"
+                        class="device_but">dishwasherOper</button>
+                    <button onclick="change_devbutton_color(this)" id="doorControl"
+                        class="device_but">doorControl</button>
+                    <button onclick="change_devbutton_color(this)" id="dryerMode" class="device_but">dryerMode</button>
+                    <button onclick="change_devbutton_color(this)" id="dryerOperatingState"
+                        class="device_but">dryerOperatingState</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="E" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">E</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="energyMeter"
+                        class="device_but">energyMeter</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="FG" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">FG</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="fanSpeed" class="device_but">fanSpeed</button>
+                    <button onclick="change_devbutton_color(this)" id="filterStatus"
+                        class="device_but">filterStatus</button>
+                    <button onclick="change_devbutton_color(this)" id="garageDoorControl"
+                        class="device_but">garageDoorControl</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="H" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">H</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                </div>
+            </div>
+
+            <div class="share-btn" id="IJ" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">IJ</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="illuminanceMeasurement"
+                        class="device_but">illuminanceMeas</button>
+                    <button onclick="change_devbutton_color(this)" id="imageCapture"
+                        class="device_but">imageCapture</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="KL" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">KL</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="light" class="device_but">light</button>
+                    <button onclick="change_devbutton_color(this)" id="lock" class="device_but">lock</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="M" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">M</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="mediaPlayback"
+                        class="device_but">mediaPlayback</button>
+                    <button onclick="change_devbutton_color(this)" id="momentary" class="device_but">momentary</button>
+                    <button onclick="change_devbutton_color(this)" id="motionSensor"
+                        class="device_but">motionSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="musicPlayer"
+                        class="device_but">musicPlayer</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="NO" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">NO</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="odorSensor"
+                        class="device_but">odorSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="outlet" class="device_but">outlet</button>
+                    <button onclick="change_devbutton_color(this)" id="ovenMode" class="device_but">ovenMode</button>
+                    <button onclick="change_devbutton_color(this)" id="ovenSetpoint"
+                        class="device_but">ovenSetpoint</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="P" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">P</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="polling" class="device_but">polling</button>
+                    <button onclick="change_devbutton_color(this)" id="powerMeter"
+                        class="device_but">powerMeter</button>
+                    <button onclick="change_devbutton_color(this)" id="powerSource"
+                        class="device_but">powerSource</button>
+                    <button onclick="change_devbutton_color(this)" id="presenceSensor"
+                        class="device_but">presenceSensor</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="QR" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">QR</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="rapidCooling"
+                        class="device_but">rapidCooling</button>
+                    <button onclick="change_devbutton_color(this)" id="refrigerationSetpoint"
+                        class="device_but">refrigerationSetpoint</button>
+                    <button onclick="change_devbutton_color(this)" id="relativeHumidityMeasurement"
+                        class="device_but">relativeHumidityMeas</button>
+                    <button onclick="change_devbutton_color(this)" id="robotCleanerCleaningMode"
+                        class="device_but">robotCleanerCleaningMode</button>
+                    <button onclick="change_devbutton_color(this)" id="robotCleanerMovement"
+                        class="device_but">robotCleanerMovement</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="S" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">S</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="smokeDetector"
+                        class="device_but">smokeDetector</button>
+                    <button onclick="change_devbutton_color(this)" id="soundPressureLevel"
+                        class="device_but">soundPressureLevel</button>
+                    <button onclick="change_devbutton_color(this)" id="soundSensor"
+                        class="device_but">soundSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="stepSensor"
+                        class="device_but">stepSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="switch" class="device_but">switch</button>
+                    <button onclick="change_devbutton_color(this)" id="switchLevel"
+                        class="device_but">switchLevel</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="T" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">T</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="temperatureMeasurement"
+                        class="device_but">temperature</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatCoolingSetpoint"
+                        class="device_but">thermostatCoolSet</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatFanMode"
+                        class="device_but">thermostatFanMode</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatHeatingSetpoint"
+                        class="device_but">thermostatHeatSet</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatMode"
+                        class="device_but">thermostatMode</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatOperatingState"
+                        class="device_but">thermostatOper</button>
+                    <button onclick="change_devbutton_color(this)" id="thermostatSetpoint"
+                        class="device_but">thermostatSetpoint</button>
+                    <button onclick="change_devbutton_color(this)" id="tone" class="device_but">tone</button>
+                    <button onclick="change_devbutton_color(this)" id="touchSensor"
+                        class="device_but">touchSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="tvChannel" class="device_but">tvChannel</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="UV" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">UV</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="ultravioletIndex"
+                        class="device_but">ultravioletIndex</button>
+                    <button onclick="change_devbutton_color(this)" id="valve" class="device_but">valve</button>
+                    <button onclick="change_devbutton_color(this)" id="videoStream"
+                        class="device_but">videoStream</button>
+                </div>
+            </div>
+
+            <div class="share-btn" id="WXYZ" onclick="share_btn(this)">
+                <strong>
+                    <p class="cta">WXYZ</p>
+                </strong>
+                <button class="close"></button>
+                <div class="social">
+                    <button onclick="change_devbutton_color(this)" id="washerMode"
+                        class="device_but">washerMode</button>
+                    <button onclick="change_devbutton_color(this)" id="washerOperatingState"
+                        class="device_but">washerOperatingState</button>
+                    <button onclick="change_devbutton_color(this)" id="waterSensor"
+                        class="device_but">waterSensor</button>
+                    <button onclick="change_devbutton_color(this)" id="windowShade"
+                        class="device_but">windowShade</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Things와 A-Z 장치 메뉴에서 각 목록 창을 보여주고 사라지는 기능 구현
           - help.js의 share_btn()함수로 share-btn clicked 클래스로 설정
           - close_btn() 함수로 clicked 클래스를 제거
           - main.css에서 clicked 클래스인 경우 적절하게 목록을 보여줌
             (Todo: main.css에서 clicked 클래스의 경우 장치 목록을 보여주는 과정 이해 필요!)
      -->
-    <script>
-      function close_btn(event){
-        var elems = document.getElementsByClassName("share-btn clicked");
-        for (let elem of elems) {
-          elem.classList.remove("clicked");
-        }
-        event.stopPropagation();
-      }
+        <script>
+            function close_btn(event) {
+                var elems = document.getElementsByClassName("share-btn clicked");
+                for (let elem of elems) {
+                    elem.classList.remove("clicked");
+                }
+                event.stopPropagation();
+            }
 
-      let thingsArray = 
-        [ "Things", "A", "B", "C", "D", "E", "FG", "H", "IJ",
-          "KL", "M", "NO", "P", "QR", "S", "T", "UV", "WXYZ" ];
+            let thingsArray =
+                ["Things", "A", "B", "C", "D", "E", "FG", "H", "IJ",
+                    "KL", "M", "NO", "P", "QR", "S", "T", "UV", "WXYZ"];
 
-      for (thing of thingsArray) {
-        var elem = document.getElementById(thing)
-        var buttons = elem.getElementsByClassName("close");
-        for (let button of buttons) {
-          button.addEventListener('click', close_btn);
-        }  
-      }
-    </script>
+            for (thing of thingsArray) {
+                var elem = document.getElementById(thing)
+                var buttons = elem.getElementsByClassName("close");
+                for (let button of buttons) {
+                    button.addEventListener('click', close_btn);
+                }
+            }
+        </script>
 
-    <!-- **** 탭        ************************************************************** -->
+        <!-- **** 탭        ************************************************************** -->
 
-		<div id="box" >
-			<!-- Rule 탭 화면 -->
-      <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
-			<div id="in_box_rule"> 
-			  <div id="blocklyDivForRule" style="height: 701px; width: 1200px;">
-                          </div>
+        <div id="box">
+            <!-- Rule 탭 화면 -->
+            <!-- Todo: in_box1 ==> in_box_rule, blocklyDiv ==> blocklyDivForRule -->
+            <div id="in_box_rule">
+                <div id="blocklyDivForRule" style="height: 701px; width: 1200px;">
+                </div>
 
-			</div>
+            </div>
 
-			<!-- Preferences 탭 화면 -->
-      <!-- Todo: in_box2 ==> in_box_preference, blocklyDiv2 ==> blocklyDivForPreference -->
-			<div id="in_box_preference"> 
-				<div id="blocklyDivForPreference" style="height: 701px; width: 1200px;"></div>
-			</div>
+            <!-- Preferences 탭 화면 -->
+            <!-- Todo: in_box2 ==> in_box_preference, blocklyDiv2 ==> blocklyDivForPreference -->
+            <div id="in_box_preference">
+                <div id="blocklyDivForPreference" style="height: 701px; width: 1200px;"></div>
+            </div>
 
-			<!-- Code 탭 화면 -->
-      <!-- Todo: in_box3 ==> in_box_code, blocklyDiv3 ==> blocklyDivForCode -->
-			<div id="in_box_code" style="height: 701px; width: 1200px; background: #f4f4f4;">
-		
-				<pre style="margin:0px;">
+            <!-- Code 탭 화면 -->
+            <!-- Todo: in_box3 ==> in_box_code, blocklyDiv3 ==> blocklyDivForCode -->
+            <div id="in_box_code" style="height: 701px; width: 1200px; background: #f4f4f4;">
+
+                <pre style="margin:0px;">
 					<code style="padding: 0px 8px 8px 8px;" id="smartApp_code" >
 					</code>
 				</pre>
 
-				<button id="save_but" onClick="saveCode()">SaveCode</button>
-			</div>
-		</div>
+                <!-- <button id="save_but" onClick="saveCode()">SaveCode</button> -->
+            </div>
+        </div>
 
-		<!-- Rule, Preferences, Code 탭 버튼 -->
-		<div id="tab">
-       <!-- Todo: click1 ==> rule_tab, click1() ==> click_rule_tab() -->
-		  <button id="rule_tab" onClick="click_rule_tab()">
-        <div class="tab_but">Rule<div></button>
+        <!-- Rule, Preferences, Code 탭 버튼 -->
+        <div id="tab">
+            <!-- Todo: click1 ==> rule_tab, click1() ==> click_rule_tab() -->
+            <button id="rule_tab" onClick="click_rule_tab()">
+                <div class="tab_but">Rule<div>
+            </button>
 
-		  <button id="preference_tab" onClick="click_preference_tab()">
-        <div class="tab_but">Preferences<div></button>
+            <button id="preference_tab" onClick="click_preference_tab()">
+                <div class="tab_but">Preferences<div>
+            </button>
 
-		  <button id="code_tab" onClick="click_code_tab()">
-        <div class="tab_but">Code<div></button>
-		</div>
+            <button id="code_tab" onClick="click_code_tab()">
+                <div class="tab_but">Code<div>
+            </button>
+        </div>
 
-	</div>
+    </div>
 
-	<div id="bottom">
-    <p><a href="https://kwanghoon.github.io">Software Languages and Systems Lab</a> 
-      at Chonnam National University</p>
-		<p><a href="http://cs.sookmyung.ac.kr/~chang">Software Language Lab</a> at Sookmyung Women's University</p>
-	</div>
+    <!-- SmartBlock 하단 링크 margin inline 요소로 수정 -->
+    <!-- 원래는 하단 링크에 있는 stylesheet에 의해서 CSS가 적용되는것으로 보임 -->
+    <!-- https://github.com/google/material-design-lite -->
+    <div id="bottom">
+        <p style="margin: 5px 20px 0px 0px"><a href="https://kwanghoon.github.io">Software Languages and Systems Lab</a>
+            at Chonnam National University</p>
+        <p style="margin: 0px 20px 5px 0px"><a href="http://cs.sookmyung.ac.kr/~chang">Software Language Lab</a> at Sookmyung Women's University
+        </p>
+    </div>
 
-	<input type="text" id = "author"  hidden></input>
-	<input type="text" id = "namespace" hidden></input>
-	<input type="textarea" id = "description" hidden></input>
-	<input type="text" id = "iconUrl" hidden></input>
+    <input type="text" id="author" hidden></input>
+    <input type="text" id="namespace" hidden></input>
+    <input type="textarea" id="description" hidden></input>
+    <input type="text" id="iconUrl" hidden></input>
 
-  <script src="https://unpkg.com/blockly"></script>
+    <script src="https://unpkg.com/blockly"></script>
 
-  <!-- Common attributes among 
+    <!-- Common attributes among 
          blocks: eca, event, condtion, action,
          preference: page, section, option
 
        Todo: refactor this out into a javascript??  
   -->
-  <script>
-    	var Block_colour_eca = "#"+"304777"
+    <script>
+        var Block_colour_eca = "#" + "304777"
 
-      var Block_colour_event = "#"+"5eb7b5"
-      var Block_colour_event_disconnted = "#"+"a5efee"
+        var Block_colour_event = "#" + "5eb7b5"
+        var Block_colour_event_disconnted = "#" + "a5efee"
 
-      var Block_colour_condition = "#"+"A2CC0D"
-      var Block_colour_condition_disconnted = "#"+"ddf48b"
+        var Block_colour_condition = "#" + "A2CC0D"
+        var Block_colour_condition_disconnted = "#" + "ddf48b"
 
-      var Block_colour_action = "#"+"efcd3f"
-      var Block_colour_action_disconnted = "#"+"ffea93"
+        var Block_colour_action = "#" + "efcd3f"
+        var Block_colour_action_disconnted = "#" + "ffea93"
 
-      // Todo: remove the following duplicate codes??
-      // var Block_colour_action = "#"+"efcd3f"
-      // var Block_colour_action_disconnted = "#"+"ffea93"
+        // Todo: remove the following duplicate codes??
+        // var Block_colour_action = "#"+"efcd3f"
+        // var Block_colour_action_disconnted = "#"+"ffea93"
 
-      var Block_colour_page = "#"+"304777"
+        var Block_colour_page = "#" + "304777"
 
-      var Block_colour_section = "#"+"3273a0"
-      var Block_colour_section_disconnted = "#"+"b0d7f2"
+        var Block_colour_section = "#" + "3273a0"
+        var Block_colour_section_disconnted = "#" + "b0d7f2"
 
-      var Block_colour_option = "#"+"8cd4db"
-      var Block_colour_option_disconnted = "#"+"cceef2"
-  </script>
+        var Block_colour_option = "#" + "8cd4db"
+        var Block_colour_option_disconnted = "#" + "cceef2"
+    </script>
 
-  <!-- Things (cap or capability) 
+    <!-- Things (cap or capability) 
         CountMap이 cap_helper.js에서 정의됨
         var deviceCount = new CountMap()을 이 스크립트 선언 다음에 작성
   -->
-  <script src="app/src/cap/cap.js"></script>
-  <script src="app/src/cap/cap_helper.js"></script>
-  <script src="app/src/cap/cap_helper_attrMap.js"></script>
-  <script src="app/src/cap/cap_helper_commMap.js"></script>
+    <script src="app/src/cap/cap.js"></script>
+    <script src="app/src/cap/cap_helper.js"></script>
+    <script src="app/src/cap/cap_helper_attrMap.js"></script>
+    <script src="app/src/cap/cap_helper_commMap.js"></script>
 
-  <script>
-    var	deviceCount = new CountMap();
-    var deviceSet = new Set();
+    <script>
+        var deviceCount = new CountMap();
+        var deviceSet = new Set();
 
-    var attrMap = new AttributeMap(); 	
-    var commMap = new CommandMap();
+        var attrMap = new AttributeMap();
+        var commMap = new CommandMap();
 
-    // cap.js에 정의된 함수 mapInit
-	  //   이 함수에서 모든 장치들을 목록에 등록한다.
-	  mapInit();     
-  </script>
+        // cap.js에 정의된 함수 mapInit
+        //   이 함수에서 모든 장치들을 목록에 등록한다.
+        mapInit();     
+    </script>
 
-  <!-- Things (cap or capability) UI -->
-  <script>
-      var selected_dev = new Map();
-  </script>
+    <!-- Things (cap or capability) UI -->
+    <script>
+        var selected_dev = new Map();
+    </script>
 
-  <!-- Things 메뉴 생성하는 device_table() 함수를 주석 처리한 app/src/ui/help.js -->
-  <script src="scripts/ui/help.js"></script>
+    <!-- Things 메뉴 생성하는 device_table() 함수를 주석 처리한 app/src/ui/help.js -->
+    <script src="scripts/ui/help.js"></script>
 
-  <!-- json toolbox -->
+    <!-- json toolbox -->
 
-  <!-- Todo: Refactor the depence on codegenerators -->
-  <script>
-    Blockly.SmartThings = new Blockly.Generator("SmartThings");
-    Blockly.SmartThings.init();
+    <!-- Todo: Refactor the depence on codegenerators -->
+    <script>
+        Blockly.SmartThings = new Blockly.Generator("SmartThings");
+        Blockly.SmartThings.init();
 
-    const serializer = new Blockly.serialization.blocks.BlockSerializer();
+        const serializer = new Blockly.serialization.blocks.BlockSerializer();
 
-  </script>
-  <script src="app/smartthings_compressed.js"></script>
+    </script>
+    <script src="app/smartthings_compressed.js"></script>
 
-  <script src="scripts/codegenerate1(def+pref).js"></script> <!-- Changes demoworkspace2 into workspaceForPreference -->
-  <script src="app/src/codegenerate2(predefined).js"></script>
-  <script src="app/src/codegenerate3(handlers).js"></script>
+    <script src="scripts/codegenerate1(def+pref).js"></script>
+    <!-- Changes demoworkspace2 into workspaceForPreference -->
+    <script src="app/src/codegenerate2(predefined).js"></script>
+    <script src="app/src/codegenerate3(handlers).js"></script>
 
-  <script src="app/src/toolbox.js"></script>
-  <script src="app/src/verification.js"></script>
+    <script src="app/src/toolbox.js"></script>
+    <script src="app/src/verification.js"></script>
 
-  <!-- ECA, EA, CA blocks -->
-  <!--  - 의존: Block_clour_eca 속성 -->
-  <script src="app/src/block/rule_definer.js"></script>
+    <!-- ECA, EA, CA blocks -->
+    <!--  - 의존: Block_clour_eca 속성 -->
+    <script src="app/src/block/rule_definer.js"></script>
 
-  <script src="app/src/block/rule_generator.js"></script>
+    <script src="app/src/block/rule_generator.js"></script>
 
-  <script src="app/src/block/event.js"></script>
-  <script src="app/src/block/event_timer.js"></script>
+    <script src="app/src/block/event.js"></script>
+    <script src="app/src/block/event_timer.js"></script>
 
-  <script src="app/src/block/condition_generator.js"></script>
-  <script src="app/src/block/condition_device.js"></script>
-  <script src="app/src/block/condition_definer.js"></script>
+    <script src="app/src/block/condition_generator.js"></script>
+    <script src="app/src/block/condition_device.js"></script>
+    <script src="app/src/block/condition_definer.js"></script>
 
-  <script src="app/src/block/action_list.js"></script>
-  <script src="app/src/block/action_device.js"></script>
-  <script src="app/src/block/action_generator.js"></script>
-  <script src="app/src/block/action_definer.js"></script>
-  <script src="app/src/block/action_timer.js"></script>
+    <script src="app/src/block/action_list.js"></script>
+    <script src="app/src/block/action_device.js"></script>
+    <script src="app/src/block/action_generator.js"></script>
+    <script src="app/src/block/action_definer.js"></script>
+    <script src="app/src/block/action_timer.js"></script>
 
-  <script src="app/src/block/_definer_helper.js"></script>
+    <script src="app/src/block/_definer_helper.js"></script>
 
 
-  <script src="app/src/block/option.js"></script>
-  <script src="app/src/block/preference.js"></script>
-  <script src="app/src/block/grouping.js"></script>
+    <script src="app/src/block/option.js"></script>
+    <script src="app/src/block/preference.js"></script>
+    <script src="app/src/block/grouping.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="app/src/css/main.css">
-  <link rel="stylesheet" href="app/src/highlight/styles/default.css">
-  <script src="app/src/highlight/highlight.pack.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="app/src/css/main.css"> -->
+    <link rel="stylesheet" href="app/src/highlight/styles/default.css">
+    <script src="app/src/highlight/highlight.pack.js"></script>
+    <script src="app/src/support/FileSaver.js"></script>
 
-  <script src="app/src/support/FileSaver.js"></script>
+    <!-- **** Three workspaces ******************************************************** -->
 
-  <!-- **** Three workspaces ******************************************************** -->
+    <script>
+        // **** Rule tab and workspace  ****************************************
 
-  <script>
-    // **** Rule tab and workspace  ****************************************
-
-    const json_toolbox_for_rule_tab =
-      {
-        "kind": "categoryToolbox",
-        "contents": [
-          {
-            "kind": "category",
-            "name": "Rule",
+        const json_toolbox_for_rule_tab =
+        {
+            "kind": "categoryToolbox",
             "contents": [
-              {
-                "kind": "block",
-                "type": "eca"
-              },
-              {
-                "kind": "block",
-                "type": "ea"
-              },
-              {
-                "kind": "block",
-                "type": "ca"
-              }
+                {
+                    "kind": "category",
+                    "name": "Rule",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "eca"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "ea"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "ca"
+                        }
+                    ]
+
+                },
+
+                {
+                    "kind": "category",
+                    "name": "Event",
+                    "custom": "SMART_DEVICE_E",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "e_installed"
+                        }
+                    ]
+                },
+
+                {
+                    "kind": "category",
+                    "name": "Condition",
+                    "custom": "SMART_DEVICE_C"
+                },
+
+                {
+                    "kind": "category",
+                    "name": "Action",
+                    "custom": "SMART_DEVICE_A"
+                }
+
             ]
-            
-          },
-
-          {
-            "kind": "category",
-            "name": "Event",
-            "custom": "SMART_DEVICE_E",
-            "contents": [
-              {
-                "kind": "block",
-                "type": "e_installed"
-              }
-            ]
-          },
-
-          {
-            "kind": "category",
-            "name": "Condition",
-            "custom": "SMART_DEVICE_C"
-          },
-
-          {
-            "kind": "category",
-            "name": "Action",
-            "custom": "SMART_DEVICE_A"
-          }
-          
-        ]
-      }
-
-    // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
-    var workspaceForRule = 
-          Blockly.inject('blocklyDivForRule', 
-            { toolbox : json_toolbox_for_rule_tab, 
-                  collapse : false, 
-                  comments : false, 
-                  disable : false, 
-                  maxBlocks : Infinity, 
-                  trashcan : true, 
-                  horizontalLayout : false, 
-                  toolboxPosition : 'start', 
-                  css : true, 
-                  media : 'app/media/',
-                  rtl : false, 
-                  scrollbars : true, 
-                  sounds : true, 
-                  oneBasedIndex : true,
-                  zoom:
-                  {controls: true,
-                    wheel: true,
-                    startScale: 1.0,
-                    maxScale: 3,
-                    minScale: 0.3,
-                    scaleSpeed: 1.2},
-                  });
-
-    // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
-    // 도구 상자 - toolbox 카테고리 category 목록을 설정
-    //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
-    workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
-
-    var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
-
-    // Rule workspace 탭을 활성화하고
-    // Preference workspace와 Code workspace 탭을 비활성화
-    document.getElementById("in_box_rule").style.display = ""
-		document.getElementById("in_box_preference").style.display = "none"
-		document.getElementById("in_box_code").style.display = "none"
-
-		document.getElementById("rule_tab").style.background = "#f2fbfc"
-		document.getElementById("preference_tab").style.background = "#f8f8f8"
-		document.getElementById("code_tab").style.background = "#f8f8f8"
-
-    // Click tabs
-    function click_rule_tab(){
-      document.getElementById("in_box_rule").style.display = ""
-      document.getElementById("in_box_preference").style.display = "none"
-      document.getElementById("in_box_code").style.display = "none"
-      document.getElementById("save_but").style.visibility  = "hidden"
-//       document.getElementById("save_block_but").style.visibility  = "hidden"
-      
-      document.getElementById("rule_tab").style.background = "#f2fbfc"
-      document.getElementById("preference_tab").style.background = "#f8f8f8"
-      document.getElementById("code_tab").style.background = "#f8f8f8"
-
-      saveBlock();
-      
-	  }
-
-  // **** Preference tab and workspace  ****************************************
-
-  // Todo: json으로 statement 개념을 작성할 수 있다면 변경
-    // const json_toolbox_for_preference_tab = 
-    //   {
-    //     "kind": "categoryToolbox",
-    //     "contents": [
-    //       {
-    //           "kind": "category",
-    //           "name": "Sample",
-    //           "contents": [
-    //             // Todo: 블록에서 statement 개념 이해 필요!
-    //             // {
-    //             //   "kind": "block",
-    //             //   "type": "page",
-    //             //   "fields": {
-    //             //     "name": ""
-    //             //   },
-    //             //   "statement": {
-    //             //     "kind": "block",
-    //             //     "type": "section"
-    //             //   }
-    //             // }
-    //           ]
-    //       },
-
-    //       {
-    //           "kind": "category",
-    //           "name": "Preference",
-    //           "contents": [
-    //             {
-    //               "kind": "block",
-    //               "type": "page",
-    //               "fields": {
-    //                 "name": "",
-    //                 "nextPage": ""
-    //               }
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "section",
-    //               "fields": {
-    //                 "NAME": ""
-    //               }
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "dynamicpage",
-    //               "fields": {
-    //                 "name": "",
-    //                 "nextPage": ""
-    //               }
-    //             }
-    //           ]
-    //       },
-
-    //       {
-    //           "kind": "category",
-    //           "name": "option",
-    //           "contents": [
-    //             {
-    //               "kind": "block",
-    //               "type": "option_title"
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_nextpage",
-    //               "fields": {
-    //                 "nextPage": ""
-    //               }
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_install",
-    //               "fields": {
-    //                 "true": true // Todo: TRUE vs. true???
-    //               }
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_uninstall",
-    //               "fields": {
-    //                 "true": true // Todo: TRUE vs. true???
-    //               }
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_required"
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_multiple"
-    //             },
-    //             {
-    //               "kind": "block",
-    //               "type": "option_name"
-    //             },
-    //           ]
-    //       },
-
-    //       {
-    //           "kind": "category",
-    //           "name": "input",
-    //       }      
-    //     ]
-    //   }
-
-  // toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
-	// 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
-	// 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여
-  //  Sample, Preference, Option, Input 카테고리를 띄우는 것 같음!
-	function click_preference_tab() {
-      document.getElementById("in_box_rule").style.display = "none"
-      document.getElementById("in_box_preference").style.display = ""
-      document.getElementById("in_box_code").style.display = "none"
-      document.getElementById("save_but").style.visibility  = "hidden"
-      // _("save_block_but").style.visibility  = "hidden"
-
-      document.getElementById("rule_tab").style.background = "#f8f8f8"
-      document.getElementById("preference_tab").style.background = "#f2fbfc"
-      document.getElementById("code_tab").style.background = "#f8f8f8"
-
-      // Todo: 아래 코드가 동작하도록 toolbox_pre() 함수를 도입해야하고
-      //       그 외 이름 변경이 필요 (예: blocklyDiv2 ==> blocklyDivForPreference)
-      var toolbox_for_preference_tab = toolbox_pre();
-
-      if(workspaceForPreference){
-        workspaceForPreference.updateToolbox(toolbox_for_preference_tab);
-      }else{	
-         workspaceForPreference = 
-            Blockly.inject('blocklyDivForPreference', 
-              {media: 'app/media/', toolbox: toolbox_for_preference_tab});
-
-        Blockly.Xml.domToWorkspace(
-          document.getElementById('blocklyDivForPreference'), workspaceForPreference);
-      }	
-  }
-
-  function sample(){
-	    var sample = '  <category name="Sample">\n'
-
-		+ '		<block type="page">'
-		+ '		<field name="name"></field>'
-		+'			<statement name="section">'
-		+'				<block type="section"></block>'
-        +'          </statement>'
-        +'      </block>'
-
-    // Todo: nextStatement 필드 관련 TypeError가 발생하여
-    //       아래 두 가지 샘플 페이지는 주석 처리함
-
-		// +'      <block type="page">'
-		// +'        <field name="name"></field>'
-		// +'        <statement name="section">'
-		// +'          <block type="section">'
-		// +'            <value name="option">'
-		// +'              <block type="option_title">'
-		// +'                <field name="title">when..</field>'
-		// +'              </block>'
-		// +'            </value>'
-		// +'            <next>'
-		// +'              <block type="section">'
-		// +'                <value name="option">'
-		// +'                  <block type="option_title">'
-		// +'                    <field name="title">then..</field>'
-		// +'                  </block>'
-		// +'                </value>'
-		// +'              </block>'
-		// +'            </next>'
-		// +'            <next>'
-		// +'              <block type="section">'
-		// +'                <value name="option">'
-		// +'                  <block type="option_title">'
-		// +'                    <field name="title">if..</field>'
-		// +'                  </block>'
-		// +'                </value>'
-		// +'              </block>'
-		// +'            </next>'
-		// +'          </block>'
-		// +'        </statement>'
-		// +'      </block>'
-
-		// +'      <block type="page">'
-		// +'        <field name="name">when..</field>'
-		// +'        <statement name="section">'
-		// +'          <block type="section"></block>'
-		// +'        </statement>'
-		// +'        <next>'
-		// +'          <block type="page">'
-		// +'            <field name="name">then..</field>'
-		// +'            <statement name="section">'
-		// +'              <block type="section"></block>'
-		// +'            </statement>'
-		// +'          </block>'
-		// +'        </next>'
-		// +'        <next>'
-		// +'          <block type="page">'
-		// +'            <field name="name">if..</field>'
-		// +'            <statement name="section">'
-		// +'              <block type="section"></block>'
-		// +'            </statement>'
-		// +'          </block>'
-		// +'        </next>'
-		// +'      </block>'
-
-		+'</category>\n';
-		return sample
-	}
-
-	function preference(){
-		var pre = '  <category name="Preference">\n';
-		pre += '    <block type="page"> <field name="name"></field>\n  <field name="nextPage"></field>\n  </block>\n ';
-		pre += '    <block type="section">'+' <field name="NAME"></field>\n ' + ' </block>\n ';
-		pre += '    <block type="dynamicpage">'+' <field name="name"></field>\n ' + ' <field name="nextPage"></field>\n ' + ' </block>\n ';
-		pre += '  </category>\n';
-	
-		return pre
-	}
-
-	function preference_option(){
-		var preference_option = 
-		'  <category name="option">\n'
-		+'<block type="option_title"></block>\n'
-		+'<block type="option_nextpage"><field name="nextPage"></field></block>\n'
-		+'<block type="option_install"><field name="true">TRUE</field></block>\n'
-		+'<block type="option_uninstall"> <field name="true">TRUE</field></block>\n'
-		+'<block type="option_required"></block>\n'
-		+'<block type="option_multiple"></block>\n'
-		+'<block type="option_name"></block>\n'
-		+'  </category>\n';
-		return preference_option
-	}
-    
-	function toolbox_pre(){
-			
-		var toolbox_pre = '<xml>\n';
-		toolbox_pre += sample();
-		toolbox_pre += preference();
-		toolbox_pre += preference_option();
-
-		var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
-		var event_block ="";
-		var action_block ="";
-		var condition_block ="";
-		
-		toolbox_pre += '  <category name="input" >\n';
-		if(ecaList){
-			for(i in ecaList){
-				var event = ecaList[i].event;
-				var actionList = ecaList[i].actionList;
-				var coditionList = new Array();
-
-				var e_devname = event.devname;
-				
-				//eliminate dutulicate
-				var eSt_e = event_block.indexOf(e_devname);
-				var aSt_e = action_block.indexOf(e_devname);
-				var cSt_e = condition_block.indexOf(e_devname);
-
-				if(eSt_e == -1 && aSt_e == -1 && cSt_e == -1){
-					pre_block(e_devname, Block_colour_event)
-					event_block += '    <block type="input '+e_devname+'">'+ ' </block> \n';
-				}
-
-
-				condition_input(ecaList[i].condition, coditionList);
-
-				for(c in coditionList){
-					var c_devname = coditionList[c].devname
-					if(c_devname){
-						var eSt_a = event_block.indexOf(c_devname);
-						var aSt_a = action_block.indexOf(c_devname);
-						var cSt_e = condition_block.indexOf(c_devname);
-						if(eSt_a == -1 && aSt_a == -1 && cSt_e == -1){
-							pre_block(c_devname, Block_colour_condition)
-							condition_block += '    <block type="input '+c_devname+'">'+ ' </block> \n';
-						}
-					}
-				}
-
-				for(a in actionList){
-					var a_devname = actionList[a].devname
-					if(a_devname){
-						var eSt_a = event_block.indexOf(a_devname);
-						var aSt_a = action_block.indexOf(a_devname);
-						var cSt_e = condition_block.indexOf(a_devname);
-						if(eSt_a == -1 && aSt_a == -1 && cSt_e == -1){
-							pre_block(a_devname, Block_colour_action)
-							action_block += '    <block type="input '+a_devname+'">'+ ' </block> \n';
-						}
-					}
-				}
-			}
-		}
-
-		toolbox_pre += event_block + condition_block + action_block;
-		toolbox_pre += '  </category>\n';
-		toolbox_pre += '</xml>\n';
-
-		return toolbox_pre;
-
-	}
-
-  // **** Code tab and workspace  **************************************************
-
-  // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
-  // Rule 탭과 Preference 탭을 비활성화하기
-  function click_code_tab() {
-
-      // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
-      // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
-      var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
-      if(ecaList != null){
-      //   // ecaList를 출력
-        console.log("ECA list: " + JSON.stringify(ecaList));
-
-        var result_verification = verification(ecaList);
-        if(result_verification.isReliable()){
-        
-          var code = smartApp(ecaList);
-          document.getElementById("smartApp_code").textContent = code;
-          hljs.highlightBlock(document.getElementById("smartApp_code"));	
-        
-          document.getElementById("in_box_rule").style.display = "none"
-          document.getElementById("in_box_preference").style.display = "none"
-          document.getElementById("in_box_code").style.display = ""
-          document.getElementById("save_but").style.visibility  = "visible"
-          // document.getElementById("save_block_but").style.visibility  = "visible"
-
-        
-          document.getElementById("rule_tab").style.background = "#fff"
-          document.getElementById("preference_tab").style.background = "#fff"
-          document.getElementById("code_tab").style.background = "#f4f4f4"
-          //countLines()
-
-        }else{
-          result_verification.alert_()
         }
-      }else{
 
-        alert("please build SmartBlock");
-      }
-    
-  }
+        // Blockly 작업 공간을 만들어 'blocklyDivForRule' 위치에 주입시킴
+        var workspaceForRule =
+            Blockly.inject('blocklyDivForRule',
+                {
+                    toolbox: json_toolbox_for_rule_tab,
+                    collapse: false,
+                    comments: false,
+                    disable: false,
+                    maxBlocks: Infinity,
+                    trashcan: true,
+                    horizontalLayout: false,
+                    toolboxPosition: 'start',
+                    css: true,
+                    media: 'app/media/',
+                    rtl: false,
+                    scrollbars: true,
+                    sounds: true,
+                    oneBasedIndex: true,
+                    zoom:
+                    {
+                        controls: true,
+                        wheel: true,
+                        startScale: 1.0,
+                        maxScale: 3,
+                        minScale: 0.3,
+                        scaleSpeed: 1.2
+                    },
+                });
 
-	// 코드 세이브 함수
-	function saveCode() {
-		try{
-			var fileName = document.getElementById("name").value;
-			if(fileName){
-				var code = _("smartApp_code").textContent;
-				var blob = new Blob([code], {type: "text/plain;charset=utf-8"});
-				saveAs(blob, fileName+".groovy");
-			}else{
-				alert("plz write the App name");
-			}
-		}catch(e){
-			alert(e);
-		}
-	}
+        // devicesFlyoutCallback_event 콜백 함수에서 'blocklyDiv' 워크스페이스의
+        // 도구 상자 - toolbox 카테고리 category 목록을 설정
+        //   Blockly.devicesFlyoutCallback_event/condition/action  (toolbox.js에 정의됨)
+        workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_E', Blockly.devicesFlyoutCallback_event);
+        workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_C', Blockly.devicesFlyoutCallback_condition);
+        workspaceForRule.registerToolboxCategoryCallback('SMART_DEVICE_A', Blockly.devicesFlyoutCallback_action);
+
+        var workspaceForPreference; // Todo: click_preference_tab()에서 참조. 정말 필요한가?
+
+        // Rule workspace 탭을 활성화하고
+        // Preference workspace와 Code workspace 탭을 비활성화
+        document.getElementById("in_box_rule").style.display = ""
+        document.getElementById("in_box_preference").style.display = "none"
+        document.getElementById("in_box_code").style.display = "none"
+
+        document.getElementById("rule_tab").style.background = "#f2fbfc"
+        document.getElementById("preference_tab").style.background = "#f8f8f8"
+        document.getElementById("code_tab").style.background = "#f8f8f8"
+
+        // Click tabs
+        function click_rule_tab() {
+            document.getElementById("in_box_rule").style.display = ""
+            document.getElementById("in_box_preference").style.display = "none"
+            document.getElementById("in_box_code").style.display = "none"
+            // document.getElementById("save_but").style.visibility = "hidden"
+            //       document.getElementById("save_block_but").style.visibility  = "hidden"
+
+            document.getElementById("rule_tab").style.background = "#f2fbfc"
+            document.getElementById("preference_tab").style.background = "#f8f8f8"
+            document.getElementById("code_tab").style.background = "#f8f8f8"
+
+            // saveBlock();
+
+        }
+
+        // **** Preference tab and workspace  ****************************************
+
+        // Todo: json으로 statement 개념을 작성할 수 있다면 변경
+        // const json_toolbox_for_preference_tab = 
+        //   {
+        //     "kind": "categoryToolbox",
+        //     "contents": [
+        //       {
+        //           "kind": "category",
+        //           "name": "Sample",
+        //           "contents": [
+        //             // Todo: 블록에서 statement 개념 이해 필요!
+        //             // {
+        //             //   "kind": "block",
+        //             //   "type": "page",
+        //             //   "fields": {
+        //             //     "name": ""
+        //             //   },
+        //             //   "statement": {
+        //             //     "kind": "block",
+        //             //     "type": "section"
+        //             //   }
+        //             // }
+        //           ]
+        //       },
+
+        //       {
+        //           "kind": "category",
+        //           "name": "Preference",
+        //           "contents": [
+        //             {
+        //               "kind": "block",
+        //               "type": "page",
+        //               "fields": {
+        //                 "name": "",
+        //                 "nextPage": ""
+        //               }
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "section",
+        //               "fields": {
+        //                 "NAME": ""
+        //               }
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "dynamicpage",
+        //               "fields": {
+        //                 "name": "",
+        //                 "nextPage": ""
+        //               }
+        //             }
+        //           ]
+        //       },
+
+        //       {
+        //           "kind": "category",
+        //           "name": "option",
+        //           "contents": [
+        //             {
+        //               "kind": "block",
+        //               "type": "option_title"
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_nextpage",
+        //               "fields": {
+        //                 "nextPage": ""
+        //               }
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_install",
+        //               "fields": {
+        //                 "true": true // Todo: TRUE vs. true???
+        //               }
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_uninstall",
+        //               "fields": {
+        //                 "true": true // Todo: TRUE vs. true???
+        //               }
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_required"
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_multiple"
+        //             },
+        //             {
+        //               "kind": "block",
+        //               "type": "option_name"
+        //             },
+        //           ]
+        //       },
+
+        //       {
+        //           "kind": "category",
+        //           "name": "input",
+        //       }      
+        //     ]
+        //   }
+
+        // toolbox_pre()는 click2(), 즉 Preferences 탭을 위한 toolbox에 대한 함수.
+        // 공식문서에 따르면, updateToolbox를 통해 사용가능한 블록을 변경할 수 있다고 한다.
+        // 그래서 기본값이었던 Rule 탭의 toolbox에서 일부 요소를 변경하여
+        //  Sample, Preference, Option, Input 카테고리를 띄우는 것 같음!
+        function click_preference_tab() {
+            document.getElementById("in_box_rule").style.display = "none"
+            document.getElementById("in_box_preference").style.display = ""
+            document.getElementById("in_box_code").style.display = "none"
+            // document.getElementById("save_but").style.visibility = "hidden"
+            // _("save_block_but").style.visibility  = "hidden"
+
+            document.getElementById("rule_tab").style.background = "#f8f8f8"
+            document.getElementById("preference_tab").style.background = "#f2fbfc"
+            document.getElementById("code_tab").style.background = "#f8f8f8"
+
+            // Todo: 아래 코드가 동작하도록 toolbox_pre() 함수를 도입해야하고
+            //       그 외 이름 변경이 필요 (예: blocklyDiv2 ==> blocklyDivForPreference)
+            var toolbox_for_preference_tab = toolbox_pre();
+
+            if (workspaceForPreference) {
+                workspaceForPreference.updateToolbox(toolbox_for_preference_tab);
+            } else {
+                workspaceForPreference =
+                    Blockly.inject('blocklyDivForPreference',
+                        { media: 'app/media/', toolbox: toolbox_for_preference_tab });
+
+                Blockly.Xml.domToWorkspace(
+                    document.getElementById('blocklyDivForPreference'), workspaceForPreference);
+            }
+        }
+
+        function sample() {
+            var sample = '  <category name="Sample">\n'
+
+                + '		<block type="page">'
+                + '		<field name="name"></field>'
+                + '			<statement name="section">'
+                + '				<block type="section"></block>'
+                + '          </statement>'
+                + '      </block>'
+
+                // Todo: nextStatement 필드 관련 TypeError가 발생하여
+                //       아래 두 가지 샘플 페이지는 주석 처리함
+
+                // +'      <block type="page">'
+                // +'        <field name="name"></field>'
+                // +'        <statement name="section">'
+                // +'          <block type="section">'
+                // +'            <value name="option">'
+                // +'              <block type="option_title">'
+                // +'                <field name="title">when..</field>'
+                // +'              </block>'
+                // +'            </value>'
+                // +'            <next>'
+                // +'              <block type="section">'
+                // +'                <value name="option">'
+                // +'                  <block type="option_title">'
+                // +'                    <field name="title">then..</field>'
+                // +'                  </block>'
+                // +'                </value>'
+                // +'              </block>'
+                // +'            </next>'
+                // +'            <next>'
+                // +'              <block type="section">'
+                // +'                <value name="option">'
+                // +'                  <block type="option_title">'
+                // +'                    <field name="title">if..</field>'
+                // +'                  </block>'
+                // +'                </value>'
+                // +'              </block>'
+                // +'            </next>'
+                // +'          </block>'
+                // +'        </statement>'
+                // +'      </block>'
+
+                // +'      <block type="page">'
+                // +'        <field name="name">when..</field>'
+                // +'        <statement name="section">'
+                // +'          <block type="section"></block>'
+                // +'        </statement>'
+                // +'        <next>'
+                // +'          <block type="page">'
+                // +'            <field name="name">then..</field>'
+                // +'            <statement name="section">'
+                // +'              <block type="section"></block>'
+                // +'            </statement>'
+                // +'          </block>'
+                // +'        </next>'
+                // +'        <next>'
+                // +'          <block type="page">'
+                // +'            <field name="name">if..</field>'
+                // +'            <statement name="section">'
+                // +'              <block type="section"></block>'
+                // +'            </statement>'
+                // +'          </block>'
+                // +'        </next>'
+                // +'      </block>'
+
+                + '</category>\n';
+            return sample
+        }
+
+        function preference() {
+            var pre = '  <category name="Preference">\n';
+            pre += '    <block type="page"> <field name="name"></field>\n  <field name="nextPage"></field>\n  </block>\n ';
+            pre += '    <block type="section">' + ' <field name="NAME"></field>\n ' + ' </block>\n ';
+            pre += '    <block type="dynamicpage">' + ' <field name="name"></field>\n ' + ' <field name="nextPage"></field>\n ' + ' </block>\n ';
+            pre += '  </category>\n';
+
+            return pre
+        }
+
+        function preference_option() {
+            var preference_option =
+                '  <category name="option">\n'
+                + '<block type="option_title"></block>\n'
+                + '<block type="option_nextpage"><field name="nextPage"></field></block>\n'
+                + '<block type="option_install"><field name="true">TRUE</field></block>\n'
+                + '<block type="option_uninstall"> <field name="true">TRUE</field></block>\n'
+                + '<block type="option_required"></block>\n'
+                + '<block type="option_multiple"></block>\n'
+                + '<block type="option_name"></block>\n'
+                + '  </category>\n';
+            return preference_option
+        }
+
+        function toolbox_pre() {
+
+            var toolbox_pre = '<xml>\n';
+            toolbox_pre += sample();
+            toolbox_pre += preference();
+            toolbox_pre += preference_option();
+
+            var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
+            var event_block = "";
+            var action_block = "";
+            var condition_block = "";
+
+            toolbox_pre += '  <category name="input" >\n';
+            if (ecaList) {
+                for (i in ecaList) {
+                    var event = ecaList[i].event;
+                    var actionList = ecaList[i].actionList;
+                    var coditionList = new Array();
+
+                    var e_devname = event.devname;
+
+                    //eliminate dutulicate
+                    var eSt_e = event_block.indexOf(e_devname);
+                    var aSt_e = action_block.indexOf(e_devname);
+                    var cSt_e = condition_block.indexOf(e_devname);
+
+                    if (eSt_e == -1 && aSt_e == -1 && cSt_e == -1) {
+                        pre_block(e_devname, Block_colour_event)
+                        event_block += '    <block type="input ' + e_devname + '">' + ' </block> \n';
+                    }
+
+
+                    condition_input(ecaList[i].condition, coditionList);
+
+                    for (c in coditionList) {
+                        var c_devname = coditionList[c].devname
+                        if (c_devname) {
+                            var eSt_a = event_block.indexOf(c_devname);
+                            var aSt_a = action_block.indexOf(c_devname);
+                            var cSt_e = condition_block.indexOf(c_devname);
+                            if (eSt_a == -1 && aSt_a == -1 && cSt_e == -1) {
+                                pre_block(c_devname, Block_colour_condition)
+                                condition_block += '    <block type="input ' + c_devname + '">' + ' </block> \n';
+                            }
+                        }
+                    }
+
+                    for (a in actionList) {
+                        var a_devname = actionList[a].devname
+                        if (a_devname) {
+                            var eSt_a = event_block.indexOf(a_devname);
+                            var aSt_a = action_block.indexOf(a_devname);
+                            var cSt_e = condition_block.indexOf(a_devname);
+                            if (eSt_a == -1 && aSt_a == -1 && cSt_e == -1) {
+                                pre_block(a_devname, Block_colour_action)
+                                action_block += '    <block type="input ' + a_devname + '">' + ' </block> \n';
+                            }
+                        }
+                    }
+                }
+            }
+
+            toolbox_pre += event_block + condition_block + action_block;
+            toolbox_pre += '  </category>\n';
+            toolbox_pre += '</xml>\n';
+
+            return toolbox_pre;
+
+        }
+
+        // **** Code tab and workspace  **************************************************
+
+        // 블록을 Groovy 코드로 컴파일하고 Code 탭에 그 결과를 보여주기
+        // Rule 탭과 Preference 탭을 비활성화하기
+        function click_code_tab() {
+
+            // // Blockly.SmartThings[ ... ]에 정의한 SmartThings 코드 생성 방법으로
+            // // 워크스페이스에 배치된 모든 블록들을 SmartThings 코드로 변환
+            var ecaList = Blockly.SmartThings.workspaceToCode(workspaceForRule);
+            if (ecaList != null) {
+                //   // ecaList를 출력
+                console.log("ECA list: " + JSON.stringify(ecaList));
+
+                var result_verification = verification(ecaList);
+                if (result_verification.isReliable()) {
+
+                    var code = smartApp(ecaList);
+                    document.getElementById("smartApp_code").textContent = code;
+                    hljs.highlightBlock(document.getElementById("smartApp_code"));
+
+                    document.getElementById("in_box_rule").style.display = "none"
+                    document.getElementById("in_box_preference").style.display = "none"
+                    document.getElementById("in_box_code").style.display = ""
+                    // document.getElementById("save_but").style.visibility = "visible"
+                    // document.getElementById("save_block_but").style.visibility  = "visible"
+
+
+                    document.getElementById("rule_tab").style.background = "#fff"
+                    document.getElementById("preference_tab").style.background = "#fff"
+                    document.getElementById("code_tab").style.background = "#f4f4f4"
+                    //countLines()
+
+                } else {
+                    result_verification.alert_()
+                }
+            } else {
+
+                alert("please build SmartBlock");
+            }
+
+        }
+
+        // 코드 세이브 함수
+        function saveCode() {
+            try {
+                var fileName = document.getElementById("name").value;
+                if (fileName) {
+                    var code = _("smartApp_code").textContent;
+                    var blob = new Blob([code], { type: "text/plain;charset=utf-8" });
+                    saveAs(blob, fileName + ".groovy");
+                } else {
+                    alert("plz write the App name");
+                }
+            } catch (e) {
+                alert(e);
+            }
+        }
 
         // [블록 저장과 불러오기]
         // 파일명을 입력하고 Rule 블록을 만든 다음 Rule 탭을 누르면 파일명.smartblock 파일에
@@ -996,78 +1034,77 @@
         // 파일명이 비어있는 상태에서 Rule 탭을 누르면 미리 준비된 sampleJsonBlocks의 json을
         // Rule 워크스페이스로 불러옴
         function saveBlock() {
-                var json = serializer.save(workspaceForRule)
-                if (json) {
-                        console.log(json);
-        
-                        try{
-                                var fileName = document.getElementById("name").value;
-                                if(fileName){
-                                        // var code = document.getElementsByClassName("smartApp_code").textContent;
-                                        var blob = new Blob([JSON.stringify(json)], {type: "text/plain;charset=utf-8"});
-                                        saveAs(blob, fileName+".smartblock");
-                                }else{
-                                        // alert("plz write the App name");
-                                        
-                                }
-                        }catch(e){
-                                alert(e);
-                        }
-                }
-                else
-                        loadBlock(sampleJsonBlocks);
+            var json = serializer.save(workspaceForRule)
+            if (json) {
+                console.log(json);
 
+                try {
+                    var fileName = document.getElementById("name").value;
+                    if (fileName) {
+                        // var code = document.getElementsByClassName("smartApp_code").textContent;
+                        var blob = new Blob([JSON.stringify(json)], { type: "text/plain;charset=utf-8" });
+                        saveAs(blob, fileName + ".smartblock");
+                    } else {
+                        alert("plz write the App name");
+                    }
+                } catch (e) {
+                    alert(e);
+                }
+            }
+            // else
+            //     loadBlock(sampleJsonBlocks);
         }
 
-        var sampleJsonBlocks = 
+        var sampleJsonBlocks =
         {
-                "languageVersion": 0,
-                "blocks": [
+            "languageVersion": 0,
+            "blocks": [
                 {
-                "type": "eca",
-                "id": "Q!E*y7elD7d5%lE[u:S6",
-                "x": 204,
-                "y": 53,
-                "inputs": {
+                    "type": "eca",
+                    "id": "Q!E*y7elD7d5%lE[u:S6",
+                    "x": 204,
+                    "y": 53,
+                    "inputs": {
                         "Event": {
-                        "block": {
-                        "type": "e_installed",
-                        "id": "ta,g,EB1F_-TMTNND^ge",
-                        "fields": {
-                        "name": {
-                                "id": "q@w3aYmHsa;}QuDKo(7#"
-                        }
-                        }
-                        }
+                            "block": {
+                                "type": "e_installed",
+                                "id": "ta,g,EB1F_-TMTNND^ge",
+                                "fields": {
+                                    "name": {
+                                        "id": "q@w3aYmHsa;}QuDKo(7#"
+                                    }
+                                }
+                            }
                         },
                         "Condition": {
-                        "block": {
-                        "type": "boolean",
-                        "id": "rD845p:D=Ir`Y(YyqL=:",
-                        "fields": {
-                        "BOOL": "TRUE"
-                        }
-                        }
+                            "block": {
+                                "type": "boolean",
+                                "id": "rD845p:D=Ir`Y(YyqL=:",
+                                "fields": {
+                                    "BOOL": "TRUE"
+                                }
+                            }
                         },
                         "Action": {
-                        "block": {
-                        "type": "sendnotification",
-                        "id": "wk@z}44D9-CCV8z0XOG%",
-                        "fields": {
-                        "text": "Hello!!"
+                            "block": {
+                                "type": "sendnotification",
+                                "id": "wk@z}44D9-CCV8z0XOG%",
+                                "fields": {
+                                    "text": "Hello!!"
+                                }
+                            }
                         }
-                        }
-                        }
+                    }
                 }
-                }
-                ]
+            ]
         }
 
         function loadBlock(json) {
-                serializer.load(json, workspaceForRule)
+            serializer.load(json, workspaceForRule)
         }
 
-  </script>
+    </script>
 
 </body>
+
 </html>
