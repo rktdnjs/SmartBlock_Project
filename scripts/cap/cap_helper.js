@@ -49,11 +49,6 @@ function setDevice(device){
 		deviceSet.add(device)
 }
 
-function isNumeric(str) {
-	if (typeof str != "string") return false // we only process strings!  
-	return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-		   !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-  }
 		
 CountMap = function(){   
     this.dev = new Array(); 
@@ -62,11 +57,7 @@ CountMap.prototype = {
 	get : function(key){   
 
         var value = this.dev[key]; 
-		// Todo: goog is not imported.
-		// if(goog.isNumber(value)){
-		// 	value = value.toString();
-		// }
-		if(isNumeric(value)){
+		if(goog.isNumber(value)){
 			value = value.toString();
 		}
 		return value
